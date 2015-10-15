@@ -1,0 +1,21 @@
+# Skill Searcher
+Es una aplicacion que permite buscar y armar equipos dependiendo de sus habilidades.
+  - Busca colaboradores y arma equipos
+  - Permite evaluar las habilidades de los colaboradores de manera social.
+### Version
+0.1
+### Equipo
+
+El equipo esta integrado por:
+
+* [Alfredo Rosales] - HTML enhanced for web apps!
+* [Erick Aguayo] - awesome web-based text editor
+* [Rafael Rios] - a super fast port of Markdown to JavaScript
+* [Zaira Velasquez] - great UI boilerplate for modern web apps
+
+License
+----
+Pending
+**Free Software, Hell Yeah!**
+
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %} {% endblock %} - Skill Searcher</title>
+        {% block stylesheets %}{% endblock %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="Skill Seacher con Windows Metro Style.">
+        <meta name="keywords" content="HTML, such a framework">
+        <meta name="author" content="Solar Team">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('css/metro.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/metro-icons.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/metro-responsive.css') }}" />
+        <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/metro.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/user-search.js') }}"></script>
+    </head>
+    <body>
+    <div class="container">
+            <div class="app-bar fixed-top darcula" data-role="appbar">
+            <a class="app-bar-element branding" href="/">Skill Searcher</a>
+            <span class="app-bar-divider"></span>
+            <ul class="app-bar-menu">
+                <li> 
+                    &nbsp;
+                    Buscar por:
+                    <div class="input-control select">
+                        <select id="search-selector">
+                            <option value="skill/busqueda">Skills</option>
+                            <option value="user/busqueda" selected>Usuarios</option>
+                            <option value="cuenta/busqueda">Cuentas</option>
+                        </select>
+                    </div>
+                    &nbsp;
+                </li>
+                <li>
+                    <!-- search/{tipobusqueda}/{cadenadebusqueda} -->
+                    <form id="search-form" action="user/busqueda" action="get">
+                        <div class="input-control text full-size" data-role="input">
+                            <input type="text" placeholder="Buscar..">
+                            <button id="search-button"class="button"><span class="mif-search"></span></button>
+                        </div>
+                    </form>
+                </li> 
+                <li>
+                    <a href="" class="dropdown-toggle">Administracion</a>
+                    <ul class="d-menu" data-role="dropdown">
+                        <li><a href="">Skills</a></li>
+                        <li><a href="">Usuarios</a></li>
+                        <!-- <li class="divider"></li> -->
+                        <li><a href="">Cuentas</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="app-bar-element place-right">
+                <span class="dropdown-toggle"><span class="mif-cog"></span> Juanito Banana</span>
+                <div class="app-bar-drop-container padding10 place-right no-margin-top block-shadow fg-dark" data-role="dropdown" data-no-close="true" style="width: 220px">
+                    <h2 class="text-light">Panel</h2>
+                    <ul class="unstyled-list fg-dark">
+                        <li><a href="" class="fg-white1 fg-hover-yellow">Perfil</a></li>
+                        <li><a href="" class="fg-white3 fg-hover-yellow">Salir</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</div>
+        <div class="container page-content">
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %} 
+        <!-- Usar este bloque para javascripts -->
+        {% endblock %}
+    </body>
+</html>
