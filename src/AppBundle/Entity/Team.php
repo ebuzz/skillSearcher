@@ -33,5 +33,5 @@ class Team
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="team")
      **/
-    private $user;
+    private $users;
 }
