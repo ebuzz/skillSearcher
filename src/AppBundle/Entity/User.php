@@ -90,4 +90,13 @@ class User
      * )
      */
     private $skills;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Account", inversedBy="user")
+     * @ORM\JoinTable(name="user_account",
+     *      joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="userId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="accountId", referencedColumnName="accountId")}
+     * )
+     */
+    private $account;
 }
