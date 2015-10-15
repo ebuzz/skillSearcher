@@ -30,13 +30,13 @@ class Skill
 
 
     /**
-     * Get id
+     * Get skillId
      *
      * @return integer
      */
     public function getId()
     {
-        return $this->id;
+        return $this->skillId;
     }
 
     /**
