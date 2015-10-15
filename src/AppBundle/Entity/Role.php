@@ -5,21 +5,21 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Skill
+ * Role
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Skill
+class Role
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="skillId", type="integer")
+     * @ORM\Column(name="roleId", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $skillId;
+    private $roleId;
 
     /**
      * @var string
@@ -27,5 +27,11 @@ class Skill
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
-}
 
+    /** === FOREIGN KEYS === **/
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="role")
+     **/
+    private $user;
+}
