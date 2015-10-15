@@ -77,4 +77,19 @@ class User
      * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
      */
     private $role;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Team", inversedBy="user")
+     * @ORM\JoinTable(name="user_team",
+     *      joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="userId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="teamId", referencedColumnName="teamId")}
+     * )
+     */
+    private $team;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Position")
+     * @ORM\JoinColumn(name="positionId", referencedColumnName="positionId")
+     **/
+    private $position;
 }
