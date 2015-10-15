@@ -27,5 +27,11 @@ class Skill
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="skill")
+     */
+    protected $users;
+
 }
 

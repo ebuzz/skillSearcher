@@ -56,15 +56,16 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="image", type="string", length="50")
+     * @ORM\Column(name="image", type="string", length=50)
      */
     private $image;
+    
     /** === FOREIGN KEYS === **/
     /**
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="user")
      * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
      */
-    private $role;
+    private $roles;
 
     /**
      * @ORM\ManyToMany(targetEntity="Team", inversedBy="user")
@@ -73,11 +74,20 @@ class User
      *      inverseJoinColumns={@ORM\JoinColumn(name="teamId", referencedColumnName="teamId")}
      * )
      */
-    private $team;
+    private $teams;
 
     /**
      * @ORM\ManyToOne(targetEntity="Position")
      * @ORM\JoinColumn(name="positionId", referencedColumnName="positionId")
      **/
-    private $position;
+    private $positions;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Skill", inversedBy="user")
+     * @ORM\JoinTable(name="user_skill",
+     *      joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="userId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="skillId", referencedColumnName="skillId")}
+     * )
+     */
+    private $skills;
 }

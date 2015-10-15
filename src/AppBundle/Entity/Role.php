@@ -27,11 +27,4 @@ class Role
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
-
-    /** === FOREIGN KEYS === **/
-
-    /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="role")
-     **/
-    private $user;
 }
