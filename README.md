@@ -7,7 +7,7 @@ Es una aplicacion que permite buscar y armar equipos dependiendo de sus habilida
 ### Equipo
 
 Comandos a ejecutar:
-$ composer require friendsofsymfony/jsrouting-bundle
+FOSJsRoutingBundle - Publish Assets: $ php app/console assets:install --symlink web
 
 El equipo esta integrado por:
 
