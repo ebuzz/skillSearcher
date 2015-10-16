@@ -30,8 +30,6 @@ class Team
 
     /** === FOREIGN KEYS === **/
 
-    /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="team")
-     **/
-    private $users;
+    /** @ORM\OneToMany(targetEntity="UserTeam", mappedBy="team") */
+    protected $users;
 }
