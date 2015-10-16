@@ -6,6 +6,9 @@ Es una aplicacion que permite buscar y armar equipos dependiendo de sus habilida
 0.1
 ### Equipo
 
+Comandos a ejecutar:
+FOSJsRoutingBundle
+
 El equipo esta integrado por:
 
 * [Alfredo Rosales] - HTML enhanced for web apps!
