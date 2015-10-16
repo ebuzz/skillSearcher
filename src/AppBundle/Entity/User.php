@@ -65,7 +65,7 @@ class User
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="user")
      * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
      */
-    private $roles;
+    private $rol;
 
     /** @ORM\OneToMany(targetEntity="UserTeam", mappedBy="user") */
     private $teams;
@@ -74,7 +74,7 @@ class User
      * @ORM\ManyToOne(targetEntity="Position")
      * @ORM\JoinColumn(name="positionId", referencedColumnName="positionId")
      **/
-    private $positions;
+    private $position;
 
     /**
     * @ORM\OneToMany(targetEntity="UserSkill", mappedBy="user")
@@ -88,7 +88,7 @@ class User
      *      inverseJoinColumns={@ORM\JoinColumn(name="accountId", referencedColumnName="accountId")}
      * )
      */
-    private $account;
+    private $accounts;
     /**
      * Constructor
      */
@@ -96,7 +96,7 @@ class User
     {
         $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
         $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->account = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -278,27 +278,27 @@ class User
     }
 
     /**
-     * Set roles
+     * Set rol
      *
-     * @param \AppBundle\Entity\Role $roles
+     * @param \AppBundle\Entity\Role $rol
      *
      * @return User
      */
-    public function setRoles(\AppBundle\Entity\Role $roles = null)
+    public function setRol(\AppBundle\Entity\Role $rol = null)
     {
-        $this->roles = $roles;
+        $this->rol = $rol;
 
         return $this;
     }
 
     /**
-     * Get roles
+     * Get rol
      *
      * @return \AppBundle\Entity\Role
      */
-    public function getRoles()
+    public function getRol()
     {
-        return $this->roles;
+        return $this->rol;
     }
 
     /**
@@ -336,27 +336,27 @@ class User
     }
 
     /**
-     * Set positions
+     * Set position
      *
-     * @param \AppBundle\Entity\Position $positions
+     * @param \AppBundle\Entity\Position $position
      *
      * @return User
      */
-    public function setPositions(\AppBundle\Entity\Position $positions = null)
+    public function setPosition(\AppBundle\Entity\Position $position = null)
     {
-        $this->positions = $positions;
+        $this->position = $position;
 
         return $this;
     }
 
     /**
-     * Get positions
+     * Get position
      *
      * @return \AppBundle\Entity\Position
      */
-    public function getPositions()
+    public function getPosition()
     {
-        return $this->positions;
+        return $this->position;
     }
 
     /**
@@ -402,7 +402,7 @@ class User
      */
     public function addAccount(\AppBundle\Entity\Account $account)
     {
-        $this->account[] = $account;
+        $this->accounts[] = $account;
 
         return $this;
     }
@@ -414,16 +414,16 @@ class User
      */
     public function removeAccount(\AppBundle\Entity\Account $account)
     {
-        $this->account->removeElement($account);
+        $this->accounts->removeElement($account);
     }
 
     /**
-     * Get account
+     * Get accounts
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAccount()
+    public function getAccounts()
     {
-        return $this->account;
+        return $this->accounts;
     }
 }
