@@ -83,12 +83,8 @@ class User
     private $positions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Skill", inversedBy="user")
-     * @ORM\JoinTable(name="user_skill",
-     *      joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="userId")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="skillId", referencedColumnName="skillId")}
-     * )
-     */
+    * @ORM\OneToMany(targetEntity="UserSkill", mappedBy="user")
+    **/
     private $skills;
 
     /**

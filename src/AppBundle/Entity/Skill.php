@@ -29,7 +29,7 @@ class Skill
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="skill")
+     * @ORM\OneToMany(targetEntity="UserSkill", mappedBy="skill")
      */
     protected $users;
 
