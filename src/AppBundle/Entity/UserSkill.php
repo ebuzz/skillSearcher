@@ -43,40 +43,5 @@ class UserSkill
      * @ORM\ManyToOne(targetEntity="User", inversedBy="userskill")
      * @ORM\JoinColumn(name="userId", referencedColumnName="userId")
      */
-    private $user;
-
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return UserSkill
-     */
-    public function setDescripcion($description)
-    {
-        $this->description = $description;
-    
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescripcion()
-    {
-        return $this->description;
-    }    
+    private $user;  
 }
