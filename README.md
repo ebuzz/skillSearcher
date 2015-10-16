@@ -6,8 +6,21 @@ Es una aplicacion que permite buscar y armar equipos dependiendo de sus habilida
 0.1
 ### Equipo
 
-Comandos a ejecutar:
-FOSJsRoutingBundle - Publish Assets: $ php app/console assets:install --symlink web
+Actualizar dependencias de Composer:
+
+'composer update'
+
+Y si no agarra bajar en carpeta raiz de proyecto:
+
+'curl -sS https://getcomposer.org/installer | php'
+
+Y ejecutar:
+
+'php composer.phar update'
+
+Comandos a ejecutar con proyecto desde cero:
+FOSJsRoutingBundle - Publish Assets: $ 
+'php app/console assets:install --symlink web'
 
 El equipo esta integrado por:
 
