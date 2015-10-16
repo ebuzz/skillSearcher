@@ -20,7 +20,7 @@ Y ejecutar:
 
 Comandos a ejecutar con proyecto desde cero:
 FOSJsRoutingBundle - Publish Assets: $ 
-'php app/console assets:install --symlink web'
+```php app/console assets:install --symlink web```
 
 El equipo esta integrado por:
 
