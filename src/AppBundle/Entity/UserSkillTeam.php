@@ -15,11 +15,11 @@ class UserSkillTeam
     /**
      * @var integer
      *
-     * @ORM\Column(name="UserSkillTeamId", type="integer")
+     * @ORM\Column(name="userSkillTeamId", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $UserSkillTeamId;
+    private $userSkillTeamId;
     
     /** === FOREIGN KEYS === **/
 
