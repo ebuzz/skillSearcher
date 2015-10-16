@@ -8,15 +8,15 @@ Es una aplicacion que permite buscar y armar equipos dependiendo de sus habilida
 
 Actualizar dependencias de Composer:
 
-'composer update'
+```composer update```
 
 Y si no agarra bajar en carpeta raiz de proyecto:
 
-'curl -sS https://getcomposer.org/installer | php'
+```curl -sS https://getcomposer.org/installer | php```
 
 Y ejecutar:
 
-'php composer.phar update'
+```php composer.phar update```
 
 Comandos a ejecutar con proyecto desde cero:
 FOSJsRoutingBundle - Publish Assets: $ 
