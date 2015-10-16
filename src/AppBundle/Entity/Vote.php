@@ -35,5 +35,62 @@ class Vote
     */
     private $user;
 
-}
 
+    /**
+     * Get voteId
+     *
+     * @return integer
+     */
+    public function getVoteId()
+    {
+        return $this->voteId;
+    }
+
+    /**
+     * Set userkill
+     *
+     * @param \AppBundle\Entity\UserSkill $userkill
+     *
+     * @return Vote
+     */
+    public function setUserkill(\AppBundle\Entity\UserSkill $userkill = null)
+    {
+        $this->userkill = $userkill;
+
+        return $this;
+    }
+
+    /**
+     * Get userkill
+     *
+     * @return \AppBundle\Entity\UserSkill
+     */
+    public function getUserkill()
+    {
+        return $this->userkill;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Vote
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

@@ -23,14 +23,6 @@ class UserSkill
      */
     private $userSkillId;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=140)
-     */
-    private $description;
-
-
     /** === FOREIGN KEYS === **/
     
     /**
@@ -44,4 +36,62 @@ class UserSkill
      * @ORM\JoinColumn(name="userId", referencedColumnName="userId")
      */
     private $user;  
+
+    /**
+     * Get userSkillId
+     *
+     * @return integer
+     */
+    public function getUserSkillId()
+    {
+        return $this->userSkillId;
+    }
+
+    /**
+     * Set skill
+     *
+     * @param \AppBundle\Entity\Skill $skill
+     *
+     * @return UserSkill
+     */
+    public function setSkill(\AppBundle\Entity\Skill $skill = null)
+    {
+        $this->skill = $skill;
+
+        return $this;
+    }
+
+    /**
+     * Get skill
+     *
+     * @return \AppBundle\Entity\Skill
+     */
+    public function getSkill()
+    {
+        return $this->skill;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return UserSkill
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

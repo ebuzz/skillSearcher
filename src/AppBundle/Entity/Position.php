@@ -27,4 +27,38 @@ class Position
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
+
+    /**
+     * Get positionId
+     *
+     * @return integer
+     */
+    public function getPositionId()
+    {
+        return $this->positionId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Position
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }
