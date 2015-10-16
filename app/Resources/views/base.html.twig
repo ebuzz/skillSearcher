@@ -17,6 +17,8 @@
         <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/metro.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/user-search.js') }}"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     </head>
     <body>
     <div class="container">
