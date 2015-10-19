@@ -23,6 +23,10 @@ FOSJsRoutingBundle - Publish Assets:
  
 $ ```php app/console assets:install --symlink web```
 
+LLenar base de datos con datos predeterminados de Fixtures:
+
+$ ```php app/console doctrine:fixtures:load```
+
 El equipo esta integrado por:
 
 * [Alfredo Rosales] - HTML enhanced for web apps!
