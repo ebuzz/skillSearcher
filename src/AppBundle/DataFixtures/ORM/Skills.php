@@ -1,14 +1,21 @@
 <?php 
 
-// src/AppBundle/DataFixtures/ORM/Skill.php
+// src/AppBundle/DataFixtures/ORM/Skills.php
 namespace AppBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Skill;
 
-class Skills implements FixtureInterface
+class Skills extends AbstractFixture implements OrderedFixtureInterface
 {
+	public function getOrder()
+	{
+		return 6;
+	}
+
 	public function load(ObjectManager $manager)
 	{
 		$skills = array(

@@ -1,34 +1,33 @@
 <?php 
 
-// src/AppBundle/DataFixtures/ORM/Roles.php
+// src/AppBundle/DataFixtures/ORM/Teams.php
 namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Role;
+use AppBundle\Entity\Team;
 
-class Roles extends AbstractFixture implements OrderedFixtureInterface
+class Teams extends AbstractFixture implements OrderedFixtureInterface
 {
 	public function getOrder()
 	{
-		return 1;
+		return 4;
 	}
 
 	public function load(ObjectManager $manager)
 	{
-		$roles = array(
-			array('name' => 'Colaborador'),
-			array('name' => 'Administrador'),
-			array('name' => 'RH'),
+		$teams = array(
+			array('name' => 'Equipo Temporal 1'),
+			array('name' => 'Equipo de nuevos'),
+			array('name' => 'Ayudantes para web'),
 		);
 
-		foreach ($roles as $role) 
+		foreach ($teams as $team) 
 		{
-			$entity = new Role();
-			$entity->setName($role['name']);
-			
+			$entity = new Team();
+			$entity->setName($team['name']);
 			$manager->persist($entity);
 
 		}

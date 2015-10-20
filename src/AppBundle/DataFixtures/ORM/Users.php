@@ -3,13 +3,21 @@
 // src/AppBundle/DataFixtures/ORM/Users.php
 namespace AppBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Position;
 use AppBundle\Entity\Role;
 
-class Users implements FixtureInterface
+class Users extends AbstractFixture implements OrderedFixtureInterface
 {
+	public function getOrder()
+	{
+		return 5;
+	}
+
 	public function load(ObjectManager $manager)
 	{
 		$users = array(
@@ -20,6 +28,27 @@ class Users implements FixtureInterface
 		array('name' => 'Cristina', 'lastName' => 'Lara', 'surName' => 'Sanchez', 'email' => 'jvalenzuela@arkusnexus.com', 'password' => '1234', 'position' => 'Sr Software Developer', 'admissionDate' => '12-12-12', 'roleId' => 1, 'positionId' => 1 ),
 		// ...
 		);
+		
+		// Cuando se haga el 'seed' de Usuarios se pondran Roles por default
+
+		// Role : Colaborador
+		$repository = $manager
+        ->getRepository('AppBundle:Role');
+        $roleEntity = $repository->find(1);
+
+        // Position : Software Developer
+		$repository = $manager
+        ->getRepository('AppBundle:Position');
+        $positionEntity = $repository->find(1);
+
+        // dump($roleentity);
+
+        // $roleentity = new Role();
+        // $roleentity->setName("ROL NO REAL");
+
+        // $positionentity = new Position();
+        // $positionentity->setName("POSICION NO REAL");
+
 		foreach ($users as $user) 
 		{
 			$entity = new User();
@@ -28,18 +57,10 @@ class Users implements FixtureInterface
 			$entity->setSurName($user['surName']);
 			$entity->setEmail($user['email']);
 			$entity->setPassword($user['password']);
-			// $entity->setPosition($user['position']);
 			$entity->setAdmissionDate(new \DateTime("now"));
 			$entity->setImage('imagen.jotapege');
-			// We need to find a way to insert the Object itself with some Id, maybe a query?
-
-			// $role = $manager
-   //      	->getRepository('AppBundle:Role')
-   //      	->find(1);
-
-			// $entity->setRole($role);
-
-			// $manager->persist($role);
+			$entity->setRol($roleEntity);
+			$entity->setPosition($positionEntity);
 			$manager->persist($entity);
 
 		}
