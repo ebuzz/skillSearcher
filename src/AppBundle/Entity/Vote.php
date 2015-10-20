@@ -53,7 +53,7 @@ class Vote
      *
      * @return Vote
      */
-    public function setUserkill(\AppBundle\Entity\UserSkill $userkill = null)
+    public function setUserSkill(\AppBundle\Entity\UserSkill $userkill = null)
     {
         $this->userkill = $userkill;
 
@@ -65,7 +65,7 @@ class Vote
      *
      * @return \AppBundle\Entity\UserSkill
      */
-    public function getUserkill()
+    public function getUserSkill()
     {
         return $this->userkill;
     }

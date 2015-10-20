@@ -44,5 +44,62 @@ class UserSkillTeam
     {
         return $this->id;
     }
-}
 
+    /**
+     * Get userSkillTeamId
+     *
+     * @return integer
+     */
+    public function getUserSkillTeamId()
+    {
+        return $this->userSkillTeamId;
+    }
+
+    /**
+     * Set userskill
+     *
+     * @param \AppBundle\Entity\UserSkill $userskill
+     *
+     * @return UserSkillTeam
+     */
+    public function setUserSkill(\AppBundle\Entity\UserSkill $userskill = null)
+    {
+        $this->userskill = $userskill;
+
+        return $this;
+    }
+
+    /**
+     * Get userskill
+     *
+     * @return \AppBundle\Entity\UserSkill
+     */
+    public function getUserSkill()
+    {
+        return $this->userskill;
+    }
+
+    /**
+     * Set userteam
+     *
+     * @param \AppBundle\Entity\UserTeam $userteam
+     *
+     * @return UserSkillTeam
+     */
+    public function setUserTeam(\AppBundle\Entity\UserTeam $userteam = null)
+    {
+        $this->userteam = $userteam;
+
+        return $this;
+    }
+
+    /**
+     * Get userteam
+     *
+     * @return \AppBundle\Entity\UserTeam
+     */
+    public function getUserTeam()
+    {
+        return $this->userteam;
+    }
+}
