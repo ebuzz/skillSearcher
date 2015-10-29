@@ -5087,9 +5087,9 @@ a.tag {
   vertical-align: middle;
   height: 3.125rem;
 }
-.app-bar .app-bar-menu > li:hover,
+/*.app-bar .app-bar-menu > li:hover,*/
 .app-bar .app-bar-menu > li > a:hover,
-.app-bar .app-bar-menu > li:active,
+/*.app-bar .app-bar-menu > li:active,*/
 .app-bar .app-bar-menu > li > a:active {
   background-color: #005696;
 }
