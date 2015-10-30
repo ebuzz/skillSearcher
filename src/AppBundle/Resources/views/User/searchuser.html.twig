@@ -1,0 +1,80 @@
+{% extends '::base.html.twig' %}
+{% block title %} Busqueda de usuarios {% endblock %}
+{% block body -%}
+
+<h1>Funciona</h1>
+
+<div data-role="charm" data-position="right" id="right-charm">
+<h3>Selecciona Skills</h3>
+{% for user in allUsers %}
+            <ul>
+            <div class="user-skills" id="user-{{ user.userId }}">
+    {% for skill in user.skills %}
+                <li>
+                    <button class="button cycle-square">
+                    <span class="mif-thumbs-up"></span>
+
+                    </button> 
+                    <button class="button cycle-square"><span class="mif-user-plus"></span>
+                    Selecciona
+                    </button>
+                    <button class="button cycle-square">
+                    {{ skill.skill.name }}
+                    </button>
+                    
+                </li>   
+    {% endfor %}
+            </div>
+            </ul>
+{% endfor %}
+</div>
+<div data-role="charm" data-position="left" id="left-charm">
+    <h3>Selecciona equipo</h3>
+    <ul>
+    {% for account in allAccounts %}
+        <li>
+        <button class="button cycle-square">
+        {{ account.name }}
+        </button>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<table class="table border bordered">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Cuenta(s)</th>
+        <th>Skill(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in allUsers %}
+    <tr>
+        <td><button class="button square-button" onclick="showCharm('left')">
+        <span class="mif-user-plus"></span>
+        </button>&nbsp;{{ user.name }} {{ user.lastName}} {{ user.surName }}</td>
+        <td>
+        {% for account in user.accounts %}
+            <span class="tag">{{ account.name }}</span>
+        {% endfor %}
+        </td>
+        <td>
+        {% for skill in user.skills %}
+            {% if loop.index0 <= 4 %}
+            <span class="tag success">{{ skill.skill.name }}</span>
+            {% endif %}
+        {% endfor %}
+        {#
+        <button class="button" onclick="showCharm('right',{{ user.userId}})">Mas Skills</button>
+        #}
+        <span onclick="showCharm('right',{{ user.userId}})" class="tag info">Ver mas</span>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
