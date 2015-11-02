@@ -26,13 +26,13 @@ class UserSkill
     /** === FOREIGN KEYS === **/
     
     /**
-     * @ORM\ManyToOne(targetEntity="Skill", inversedBy="userskill")
+     * @ORM\ManyToOne(targetEntity="Skill", inversedBy="userskill", cascade={"persist"})
      * @ORM\JoinColumn(name="skillId", referencedColumnName="skillId")
      **/
     private $skill;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="userskill")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="userskill", cascade={"persist"})
      * @ORM\JoinColumn(name="userId", referencedColumnName="userId")
      */
     private $user;  

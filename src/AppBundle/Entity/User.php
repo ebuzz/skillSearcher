@@ -1,11 +1,15 @@
 <?php
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * User
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class User
 {
@@ -47,22 +51,30 @@ class User
      * @ORM\Column(name="password", type="text")
      */
     private $password;
+    
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="admissionDate", type="date")
+     * @ORM\Column(name="admissionDate", type="date", nullable=true)
      */
     private $admissionDate;
+
     /**
      * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=50)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
-    private $image;
+    public $image;
+
+    /**
+     * @Assert\File(maxSize="6000000",mimeTypes = {"image/jpeg", "image/jpg", "image/png"},mimeTypesMessage = "Solo se acepta jpg, jpeg, png")
+     */
+    private $file;
+
+    private $temp;
     
     /** === FOREIGN KEYS === **/
     /**
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="user")
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="user", cascade={"persist"})
      * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
      */
     private $rol;
@@ -71,7 +83,7 @@ class User
     private $teams;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Position")
+     * @ORM\ManyToOne(targetEntity="Position", cascade={"persist"})
      * @ORM\JoinColumn(name="positionId", referencedColumnName="positionId")
      **/
     private $position;
@@ -254,30 +266,6 @@ class User
     }
 
     /**
-     * Set image
-     *
-     * @param string $image
-     *
-     * @return User
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
      * Set rol
      *
      * @param \AppBundle\Entity\Role $rol
@@ -425,5 +413,121 @@ class User
     public function getAccounts()
     {
         return $this->accounts;
+    }
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->image)) {
+            // store the old name to delete after the update
+            $this->temp = $this->image;
+            $this->image = null;
+        } else {
+            $this->image = 'initial';
+        }
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->image = $filename.'.'.$this->getFile()->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+        $this->getFile()->move($this->getUploadRootDir(), $this->image);
+
+        if (isset($this->temp)) {
+            unlink($this->getUploadRootDir().'/'.$this->temp);
+            $this->temp = null;
+        }
+        $this->file = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->image
+            ? null
+            : $this->getUploadRootDir().'/'.$this->image;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->image
+            ? null
+            : $this->getUploadDir().'/'.$this->image;
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads/profilePhotos';
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return User
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }
