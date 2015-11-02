@@ -1,0 +1,116 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+	<script type="text/javascript" src="{{ asset('js/editSkills.js') }}"></script>
+    <h1 class="Title"> Editar usuario</h1>
+    <div class="grid">
+		<form method="PUT" action="{{ path('user_update', {'id': user.userId}) }}" id="register">
+	                <div class="row cells3">
+	                    <div class="cell">
+	                        <label>Nombre</label>
+	                        <div class="input-control text full-size">
+	                            <input type="text" value="{{user.name}}" name="name" />
+	                        </div>
+	                    </div>
+	                    <div class="cell">
+	                        <label>Apellido Paterno</label>
+	                        <div class="input-control password full-size">
+	                            <input type="text" value="{{user.lastName}}" name="lastname">
+	                        </div>
+	                    </div>
+	                    <div class="cell">
+	                        <label>Apellido Materno</label>
+	                        <div class="input-control password full-size">
+	                            <input type="text" value="{{user.surName}}" name="surname">
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="row cells3">
+	                    <div class="cell">
+	                        <label>Correo</label>
+	                        <div class="input-control text full-size">
+	                            <input type="text" value="{{user.email}}" name="email">
+	                        </div>
+	                    </div>
+	                    <div class="cell">
+	                        <label>Contraseña</label>
+	                        <div class="input-control text full-size">
+	                            <input type="text" value="{{user.password}}" name="password">
+	                        </div>
+	                    </div>
+	                    <div class="cell">
+	                    	<label>Fecha de ingreso</label>
+                            <div class="input-control text full-size" id="datepicker" >
+                                <input type="text" name="admissionDate" placeholder="Fecha de ingreso" id="datepicker" value="{{ user.admissionDate|date("Y-m-d") }}">
+                                <button class="button"><span class="mif-calendar"></span></button>
+                            </div>
+                        </div>
+	                </div>
+	                <div class="row cells2">
+	                     <div class="cell"> 
+	                        <label>Imagen</label>
+	                        <div class="input-control text full-size">
+	                            <input type="text" value="{{user.image}}" name="image">
+	                        </div>
+	                    </div>
+	                </div>
+			<h3>Habilidades</h3>
+			<div class="user-skills">
+				<input type="text" class="inputSkill input-control" placeholder="Ingresa una skill a la vez" />
+				<input type="button" value="+" class="addSkill" />
+		    </div>
+		
+			<div class="row cells1">
+	            <div class="cell">
+					{% set count = 0 %}
+					<table class="skillsTable table striped border bordered">
+						<thead>
+							<tr>
+								<th>Habilidad</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for userSkill in userSkills %}
+								<tr class="skills">
+									<td>	
+										<input type="hidden" value="{{userSkill.skill.name}}" name="skills[{{ count }}][name]" class="skillName" />
+										{{userSkill.skill.name}}
+									</td>
+									<td>
+										<input type="hidden" value="{{userSkill.skill.skillId}}" name="skills[{{ count }}][id]" class="skillId" />
+									 	<button class="remove button"> X </button>
+									</td>
+								</tr>
+								{% set count = count + 1 %}
+							{% endfor %}
+						</tbody>	
+					</table>
+				</div>
+				<div class="row cells3">
+					<div class="cell">
+						
+					</div>
+					<div class="cell ">
+						<input type="submit" class="full-size" value="Submit">
+					</div>
+					<div class="cell">
+
+					</div>
+				</div>
+		</form>
+	</div>
+	<div class="row cells3">
+		<div  class="cell">
+			<a href="{{ path('user') }}">
+	        	Regresar a la lista
+	        </a>
+		</div>
+		<div class="cell">
+			{{ form(delete_form) }}
+		</div>
+	</div> 
+	<script>
+		var count = {{ count }};
+	</script>
+{% endblock %}

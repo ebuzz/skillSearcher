@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Entity\UserSkill;
+use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Skill;
 
 /**
  * User controller.
@@ -124,24 +127,26 @@ class UserController extends Controller
     /**
      * Finds and displays a User entity.
      *
-     * @Route("/{id}", name="user_show")
+     * @Route("/{id}/show", name="user_show")
      * @Method("GET")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:User')->find($id);
+        $userSkills = $entity->getSkills();
+
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+            throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
+            'userSkills' => $userSkills,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -157,72 +162,68 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:User')->find($id);
+        $user = $em->getRepository('AppBundle:User')->find($id);
+        $userSkills = $user->getSkills(); 
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+        if (!$user) {
+            throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
 
-        $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'user'      => $user,
+            'userSkills' => $userSkills,
             'delete_form' => $deleteForm->createView(),
         );
-    }
-
-    /**
-    * Creates a form to edit a User entity.
-    *
-    * @param User $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(User $entity)
-    {
-        $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('user_update', array('id' => $entity->getUserId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
+    }    
     /**
      * Edits an existing User entity.
      *
-     * @Route("/{id}", name="user_update")
-     * @Method("PUT")
+     * @Route("/{id}", name="user_update", options={"expose"=true})
+     * @Method("GET")
      * @Template("AppBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:User')->find($id);
+        $user = $em->getRepository('AppBundle:User')->find($id);
+        
+        $skills = $request->get('skills');
+        $date = date_create_from_format('Y-m-d', $request->get('admissionDate'));
+  
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+        foreach ($skills as $userSkill) {
+            if ($userSkill["id"] == "")
+            {
+                $skill = new Skill();
+                $skill->setName($userSkill["name"]);
+                $em->persist($skill);
+                $em->flush();
+
+                $skill->getSkillId();
+                $userSkills = new userSkill();
+                $userSkills->setSkill($skill);
+                $userSkills->setUser($user);
+                $em->persist($userSkills);
+                $em->flush();
+            }
         }
+      
+        $user->setName($request->get('name'));
+        $user->setLastName($request->get('lastname'));
+        $user->setSurName($request->get('surname'));
+        $user->setEmail($request->get('email'));
+        $user->setPassword($request->get('password'));
+        $user->setImage($request->get('image'));
+        $user->setAdmissionDate($date);
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->flush();
+        $em->persist($user);
+        $em->flush();
 
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
     }
     /**
      * Deletes a User entity.
