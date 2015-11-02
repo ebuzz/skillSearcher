@@ -72,7 +72,7 @@
                                 {% set count = 0 %}
                                 {% for account in accounts %}
                                 <label class="input-control checkbox small-check">
-                                <input type="checkbox"  name="account[{{ count }}]" value="{{ account.id}}"><span class="check"></span><span class="caption">{{ account.name}}</span>
+                                <input type="checkbox"  name="account[{{ count }}]" value="{{ account.accountId}}"><span class="check"></span><span class="caption">{{ account.name}}</span>
                                 </label><br>
                                 {% set count = count + 1 %}
                                 {% endfor %}
