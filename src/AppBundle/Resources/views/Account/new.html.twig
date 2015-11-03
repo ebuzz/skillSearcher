@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Account creation</h1>
+    <form method="POST" action="{{ path('account_create')}}">
+    <div>
+    	<label>Nombre de cuenta </label>
+    	<div class="input-control text">
+    	<input type="text" name="name" />
+    	</div>
+    </div>
+    <div>
+    	<label>Descripcion de la tecnologia </label>
+    	<div class="input-control text">
+    	<input type="text" name="technologyDescription" />
+    	</div>
+    </div>
+    <div>
+    	<div class="input-control select">
+    	<select type="text" name="leaderName">
+    		{% for user in users %}
+        		<option value="{{ user.name }} {{ user.lastName }} {{ user.surName }}">{{ user.name }} {{ user.lastName }} {{ user.surName }}</option>
+    		{% endfor %}
+    	</select>
+    	</div>
+    <div>
+    	<input type="submit" value="Send" href="{{ path('account') }}"/>
+    </form>		
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('account') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

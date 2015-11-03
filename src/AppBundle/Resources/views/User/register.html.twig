@@ -32,6 +32,20 @@
                                     <button class="button"><span class="mif-calendar"></span></button>
                                 </div>
 
+                                <div>
+                                    <label>Rol</label>
+                                </div>
+                                <div class="input-control select full-size">
+                                    <select name="role" title="Role" placeholder="Rol">
+                                            <option value="ROLE_USER">Colaborador</option>
+                                            <option value="ROLE_RH">Recursos Humanos</option>
+                                            <option value="ROLE_ADMIN">Administrador</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label>Puesto</label>
+                                </div>
                                 <div class="input-control select full-size">
                                     <select name="position" title="Puesto" placeholder="Puesto">
                                         {% for position in positions %}

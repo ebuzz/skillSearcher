@@ -214,7 +214,7 @@ class UserController extends Controller
         $user->setName($request->get('name'));
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
-        $user->setEmail($request->get('email'));
+        $user->setUsername($request->get('email'));
         $user->setPassword($request->get('password'));
         $user->setImage($request->get('image'));
         $user->setAdmissionDate($date);

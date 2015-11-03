@@ -19,7 +19,7 @@ class Account
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $accountId;
 
     /**
      * @var string
@@ -31,37 +31,39 @@ class Account
     /**
      * @var string
      *
-     * @ORM\Column(name="leaderName", type="string", length=50)
-     */
-    private $leaderName;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="technologyDescription", type="string", length=140)
      */
     private $technologyDescription;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="account")
-     */
-    protected $users;
+    * @var string
+    *
+    * @ORM\Column(name="leaderName", type="string", length=140)
+    */
+    private $leaderName;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="accounts")
+     **/
+    
+    protected $user;
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        // $this->leaderName = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Get id
+     * Get accountId
      *
      * @return integer
      */
-    public function getId()
+    public function getAccountId()
     {
-        return $this->id;
+        return $this->accountId;
     }
 
     /**
@@ -86,30 +88,6 @@ class Account
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set leaderName
-     *
-     * @param string $leaderName
-     *
-     * @return Account
-     */
-    public function setLeaderName($leaderName)
-    {
-        $this->leaderName = $leaderName;
-
-        return $this;
-    }
-
-    /**
-     * Get leaderName
-     *
-     * @return string
-     */
-    public function getLeaderName()
-    {
-        return $this->leaderName;
     }
 
     /**
@@ -145,7 +123,7 @@ class Account
      */
     public function addUser(\AppBundle\Entity\User $user)
     {
-        $this->users[] = $user;
+        $this->user[] = $user;
 
         return $this;
     }
@@ -157,16 +135,40 @@ class Account
      */
     public function removeUser(\AppBundle\Entity\User $user)
     {
-        $this->users->removeElement($user);
+        $this->user->removeElement($user);
     }
 
     /**
-     * Get users
+     * Get user
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUsers()
+    public function getUser()
     {
-        return $this->users;
+        return $this->user;
+    }
+
+    /**
+     * Set leaderName
+     *
+     * @param string $leaderName
+     *
+     * @return Account
+     */
+    public function setLeaderName($leaderName)
+    {
+        $this->leaderName = $leaderName;
+
+        return $this;
+    }
+
+    /**
+     * Get leaderName
+     *
+     * @return string
+     */
+    public function getLeaderName()
+    {
+        return $this->leaderName;
     }
 }

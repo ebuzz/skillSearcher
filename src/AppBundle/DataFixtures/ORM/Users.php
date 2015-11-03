@@ -21,20 +21,20 @@ class Users extends AbstractFixture implements OrderedFixtureInterface
 	public function load(ObjectManager $manager)
 	{
 		$users = array(
-		array('name' => 'Juan', 'lastName' => 'Aguayo', 'surName' => 'Sanchez', 'email' => 'jvalenzuela@arkusnexus.com', 'password' => '1234', 'position' => 'Sr Software Developer', 'admissionDate' => '12-12-12', 'roleId' => 1, 'positionId' => 1 ),
-		array('name' => 'Mariana', 'lastName' => 'Valenzuela', 'surName' => 'Marquez', 'email' => 'jvalenzuela@arkusnexus.com', 'password' => '1234', 'position' => 'Sr Software Developer', 'admissionDate' => '12-12-12', 'roleId' => 1, 'positionId' => 1 ),
-		array('name' => 'Alberto', 'lastName' => 'Gonzalez', 'surName' => 'Lara', 'email' => 'jvalenzuela@arkusnexus.com', 'password' => '1234', 'position' => 'Sr Software Developer', 'admissionDate' => '12-12-12', 'roleId' => 1, 'positionId' => 1 ),
-		array('name' => 'Araceli', 'lastName' => 'Martinez', 'surName' => 'Rojas', 'email' => 'jvalenzuela@arkusnexus.com', 'password' => '1234', 'position' => 'Sr Software Developer', 'admissionDate' => '12-12-12', 'roleId' => 1, 'positionId' => 1 ),
-		array('name' => 'Cristina', 'lastName' => 'Lara', 'surName' => 'Sanchez', 'email' => 'jvalenzuela@arkusnexus.com', 'password' => '1234', 'position' => 'Sr Software Developer', 'admissionDate' => '12-12-12', 'roleId' => 1, 'positionId' => 1 ),
+		array('name' => 'Juan', 'lastName' => 'Aguayo', 'surName' => 'Sanchez', 'email' => 'jvalenzuela1@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
+		array('name' => 'Mariana', 'lastName' => 'Valenzuela', 'surName' => 'Marquez', 'email' => 'jvalenzuela2@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
+		array('name' => 'Alberto', 'lastName' => 'Gonzalez', 'surName' => 'Lara', 'email' => 'jvalenzuela3@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
+		array('name' => 'Araceli', 'lastName' => 'Martinez', 'surName' => 'Rojas', 'email' => 'jvalenzuela4@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
+		array('name' => 'Cristina', 'lastName' => 'Lara', 'surName' => 'Sanchez', 'email' => 'jvalenzuela5@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
 		// ...
 		);
 		
 		// Cuando se haga el 'seed' de Usuarios se pondran Roles por default
 
 		// Role : Colaborador
-		$repository = $manager
-        ->getRepository('AppBundle:Role');
-        $roleEntity = $repository->find(1);
+		// $repository = $manager
+  		// ->getRepository('AppBundle:Role');
+  		// $roleEntity = $repository->find(1);
 
         // Position : Software Developer
 		$repository = $manager
@@ -55,14 +55,13 @@ class Users extends AbstractFixture implements OrderedFixtureInterface
 			$entity->setName($user['name']);
 			$entity->setLastName($user['lastName']);
 			$entity->setSurName($user['surName']);
-			$entity->setEmail($user['email']);
+			$entity->setUsername($user['email']);
 			$entity->setPassword($user['password']);
 			$entity->setAdmissionDate(new \DateTime("now"));
 			$entity->setImage('imagen.jotapege');
-			$entity->setRol($roleEntity);
+			$entity->setRoles($user['roles']);
 			$entity->setPosition($positionEntity);
 			$manager->persist($entity);
-
 		}
 
 		$manager->flush();

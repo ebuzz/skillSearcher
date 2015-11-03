@@ -3,6 +3,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -21,30 +22,33 @@ class User
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $userId;
+
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    private $username;
+    
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
+    
     /**
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=50)
      */
     private $lastName;
+    
     /**
      * @var string
      *
      * @ORM\Column(name="surName", type="string", length=50)
      */
     private $surName;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=50)
-     */
-    private $email;
+    
     /**
      * @var string
      *
@@ -61,9 +65,17 @@ class User
 
     /**
      * @var string
+     *
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     public $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="role", type="string", length=255, nullable=true)
+     */
+    private $roles;
 
     /**
      * @Assert\File(maxSize="6000000",mimeTypes = {"image/jpeg", "image/jpg", "image/png"},mimeTypesMessage = "Solo se acepta jpg, jpeg, png")
@@ -73,11 +85,6 @@ class User
     private $temp;
     
     /** === FOREIGN KEYS === **/
-    /**
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
-     */
-    private $rol;
 
     /** @ORM\OneToMany(targetEntity="UserTeam", mappedBy="user") */
     private $teams;
@@ -95,12 +102,13 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity="Account", inversedBy="user")
-     * @ORM\JoinTable(name="user_account",
+     * @ORM\JoinTable(name="users_accounts",
      *      joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="userId")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="accountId", referencedColumnName="accountId")}
-     * )
-     */
+     *      )
+     **/
     private $accounts;
+
     /**
      * Constructor
      */
@@ -111,6 +119,43 @@ class User
         $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->userId,
+            $this->username,
+            $this->password,
+            $this->roles,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->userId,
+            $this->username,
+            $this->password,
+            $this->roles,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
+    }
+
     /**
      * Get userId
      *
@@ -119,6 +164,30 @@ class User
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
@@ -194,30 +263,6 @@ class User
     }
 
     /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
      * Set password
      *
      * @param string $password
@@ -226,7 +271,7 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = password_hash ($password, PASSWORD_BCRYPT);
 
         return $this;
     }
@@ -239,6 +284,33 @@ class User
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+
+        // return array('ROLE_USER');
+    }
+
+    /**
+     * Get roles
+     *
+     * @return string
+     */
+    public function getRoles()
+    {
+        // return $this->roles;
+        return array($this->roles);
     }
 
     /**
@@ -263,30 +335,6 @@ class User
     public function getAdmissionDate()
     {
         return $this->admissionDate;
-    }
-
-    /**
-     * Set rol
-     *
-     * @param \AppBundle\Entity\Role $rol
-     *
-     * @return User
-     */
-    public function setRol(\AppBundle\Entity\Role $rol = null)
-    {
-        $this->rol = $rol;
-
-        return $this;
-    }
-
-    /**
-     * Get rol
-     *
-     * @return \AppBundle\Entity\Role
-     */
-    public function getRol()
-    {
-        return $this->rol;
     }
 
     /**
