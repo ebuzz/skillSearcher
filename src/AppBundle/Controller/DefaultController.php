@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class DefaultController extends Controller
 {
@@ -117,6 +118,8 @@ class DefaultController extends Controller
             $em->flush();
             $user->getUserId();
 
+            $token = new UsernamePasswordToken($user, null, 'default', $user->getRoles());
+            $this->get('security.token_storage')->setToken($token);
 
             if (!empty($skills)) {
                 $this->AddSkills($skills,$user);
@@ -141,5 +144,10 @@ class DefaultController extends Controller
                 $em->flush();
             }
         }
+    }
+
+    private function AutoLoginAction()
+    {
+
     }
 }
