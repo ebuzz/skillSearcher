@@ -17,7 +17,7 @@
         {% block stylesheets %}{% endblock %}
 </head>
 
-<body>  
+<body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -34,7 +34,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -56,32 +56,32 @@
                             </div>
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{{ path('homepage') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Gestion<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="flot.html">Equipos</a>
+                                    <a href="#">Equipos</a>
                                 </li>
                                 <li>
-                                    <a href="flot.html">Habilidades</a>
+                                    <a href="#">Habilidades</a>
                                 </li>
                                 <li>
-                                    <a href="flot.html">Usuarios</a>
+                                    <a href="{{ path('user') }}">Usuarios</a>
                                 </li>
                                 <li>
-                                    <a href="flot.html">Posiciones</a>
+                                    <a href="#">Posiciones</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Cuentas</a>
+                                    <a href="{{ path('account') }}">Cuentas</a>
                                 </li>
                             </ul>           
                         </li>
                     </ul> 
                 </div>
             </div>
-        </nav>   
+        </nav>
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row">
