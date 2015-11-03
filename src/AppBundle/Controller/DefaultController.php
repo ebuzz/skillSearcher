@@ -69,7 +69,6 @@ class DefaultController extends Controller
 
         $accounts = $em->getRepository('AppBundle:Account')->findAll();
         $positions = $em->getRepository('AppBundle:Position')->findAll();
-
         return array(
             'accounts' => $accounts,
             'positions' => $positions,
@@ -125,7 +124,7 @@ class DefaultController extends Controller
                 $this->AddSkills($skills,$user);
             }
         }
-        return new Response();
+        return $this->redirect($this->generateUrl('homepage'));
     }
 
     private function AddSkills($skills,$user){
@@ -144,10 +143,5 @@ class DefaultController extends Controller
                 $em->flush();
             }
         }
-    }
-
-    private function AutoLoginAction()
-    {
-
     }
 }

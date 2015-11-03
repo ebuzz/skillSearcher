@@ -1,105 +1,119 @@
 {% extends '::base_register.html.twig' %}
 {% block title %} Registro {% endblock %}
 {% block body %}
-<div class="grid">
-    <div class="row cells11">
-        <div class="cell colspan3"></div>
-        <div class="cell colspan5">
-            <div class="grid login">
-                <div id="wizard" class="wizard" >
-                    <div class="steps">
-                        <form id='register' method='post' accept-charset='UTF-8' enctype="multipart/form-data">
-                            <div class="step">
-                                <div><img id="output" class="register" style="background-color: #333333" ></div>
-                                <div class="input-control text full-size">
-                                    <input type="text" name="name" placeholder="Nombre" required>
-                                </div>
-                                <div class="input-control text full-size">
-                                    <input type="text" name="lastName" placeholder="Apellido paterno" required>
-                                </div>
-                                <div class="input-control text full-size">
-                                    <input type="text" name="surName" placeholder="Apellido materno">
-                                </div>
-                                <div class="input-control text full-size">
-                                    <input type="email" name="email" placeholder="Correo electronico" required>
-                                </div>
-                                <div class="input-control password full-size" data-role="input">
-                                    <input type="password" name="password" placeholder="Contraseña" required>
-                                    <button class="button helper-button reveal"><span class="mif-looks"></span></button>
-                                </div>
-                                <div class="input-control text full-size" id="datepicker">
-                                    <input type="text" name="admissionDate" placeholder="Fecha de ingreso (YYYY-MM-DD)" required>
-                                    <button class="button"><span class="mif-calendar"></span></button>
-                                </div>
+    <div class="grid">
+        <div class="row cells11">
+            <div class="cell colspan3"></div>
+            <div class="cell colspan5">
+                <div class="grid login">
+                    <div id="wizard" class="wizard">
+                        <div class="steps">
+                            <form id='register' method='post' action="{{ path('registered') }}" accept-charset='UTF-8'
+                                  enctype="multipart/form-data">
+                                <div class="step">
+                                    <div><img id="output" class="register" style="background-color: #333333"></div>
+                                    <div class="input-control text full-size">
+                                        <input type="text" name="name" placeholder="Nombre" required>
+                                    </div>
+                                    <div class="input-control text full-size">
+                                        <input type="text" name="lastName" placeholder="Apellido paterno" required>
+                                    </div>
+                                    <div class="input-control text full-size">
+                                        <input type="text" name="surName" placeholder="Apellido materno">
+                                    </div>
+                                    <div class="input-control text full-size">
+                                        <input type="email" name="email" placeholder="Correo electronico" required>
+                                    </div>
+                                    <div class="input-control password full-size" data-role="input">
+                                        <input type="password" name="password" placeholder="Contraseña" required>
+                                        <button class="button helper-button reveal"><span class="mif-looks"></span>
+                                        </button>
+                                    </div>
+                                    <div class="input-control text full-size" id="datepicker">
+                                        <input type="text" name="admissionDate"
+                                               placeholder="Fecha de ingreso (YYYY-MM-DD)" required>
+                                        <button class="button"><span class="mif-calendar"></span></button>
+                                    </div>
 
-                                <div>
-                                    <label>Rol</label>
-                                </div>
-                                <div class="input-control select full-size">
-                                    <select name="role" title="Role" placeholder="Rol">
+                                    <div>
+                                        <label>Rol</label>
+                                    </div>
+                                    <div class="input-control select full-size">
+                                        <select name="role" title="Role" placeholder="Rol">
                                             <option value="ROLE_USER">Colaborador</option>
                                             <option value="ROLE_RH">Recursos Humanos</option>
                                             <option value="ROLE_ADMIN">Administrador</option>
-                                    </select>
-                                </div>
+                                        </select>
+                                    </div>
 
-                                <div>
-                                    <label>Puesto</label>
-                                </div>
-                                <div class="input-control select full-size">
-                                    <select name="position" title="Puesto" placeholder="Puesto">
-                                        {% for position in positions %}
-                                            <option value="{{ position.positionId}}">{{ position.name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+                                    <div>
+                                        <label>Puesto</label>
+                                    </div>
+                                    <div class="input-control select full-size">
+                                        <select name="position" title="Puesto" placeholder="Puesto">
+                                            {% for position in positions %}
+                                                <option value="{{ position.positionId }}">{{ position.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
 
-                                <div class="input-control file full-size" data-role="input" >
-                                    <input type="file" name="image" placeholder="Foto perfil" accept="image/*" onchange="loadFile(event)">
-                                    <button class="button"><span class="mif-folder"></span></button>
-                                </div>
-                                <br>
-                                <div><a href="{{ path('homepage') }}"><span class=" icon mif-keyboard-return"></span><span class="title">Cancelar</span></a>
-                                </div>
-                            </div>
-                            <div class="step">
+                                    <div class="input-control file full-size" data-role="input">
+                                        <input type="file" name="image" placeholder="Foto perfil" accept="image/*"
+                                               onchange="loadFile(event)">
+                                        <button class="button"><span class="mif-folder"></span></button>
+                                    </div>
+                                    <br>
 
-                                <div class="user-skills">
-                                <div class="input-control file full-size" data-role="input">
-                                    <input type="text" class="inputSkill" placeholder="Ingresa una habilidad" maxlength="40"/>
-                                    <button class="button addSkill" ><span class="mif-chevron-right"></span></button>
+                                    <div><a href="{{ path('homepage') }}"><span
+                                                    class=" icon mif-keyboard-return"></span><span class="title">Cancelar</span></a>
+                                    </div>
                                 </div>
+                                <div class="step">
+
+                                    <div class="user-skills">
+                                        <div class="input-control file full-size" data-role="input">
+                                            <input type="text" class="inputSkill" placeholder="Ingresa una habilidad"
+                                                   maxlength="40"/>
+                                            <button class="button addSkill"><span class="mif-chevron-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <table class="skillsTable table">
+                                        <thead>
+                                        <tr>
+                                            <th>Habilidades</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
+                                <div class="step">
+                                    <h5>Cuentas en las que participa:</h5>
+                                    <hr>
+                                    {% set count = 0 %}
+                                    {% for account in accounts %}
+                                        <label class="input-control checkbox small-check">
+                                            <input type="checkbox" name="account[{{ count }}]"
+                                                   value="{{ account.accountId }}"><span class="check"></span><span
+                                                    class="caption">{{ account.name }}</span>
+                                        </label><br>
+                                        {% set count = count + 1 %}
+                                    {% endfor %}
 
-                                <table class="skillsTable table">
-                                <thead>
-                                    <tr>
-                                        <th>Habilidades</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                </table>
-                            </div>
-                            <div class="step">
-                                <h5>Cuentas en las que participa:</h5>
-                                <hr>
-                                {% set count = 0 %}
-                                {% for account in accounts %}
-                                <label class="input-control checkbox small-check">
-                                <input type="checkbox"  name="account[{{ count }}]" value="{{ account.accountId}}"><span class="check"></span><span class="caption">{{ account.name}}</span>
-                                </label><br>
-                                {% set count = count + 1 %}
-                                {% endfor %}
-
-                                <div><button type="submit" value="Submit" class="button primary place-right" autofocus>Registrar</button></div>
-                            </div>
-                        </form>
+                                    <div>
+                                        <button type="submit" value="Submit" class="button primary place-right"
+                                                autofocus>Registrar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 
