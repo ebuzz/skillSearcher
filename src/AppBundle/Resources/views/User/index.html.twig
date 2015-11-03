@@ -3,31 +3,21 @@
 {% block body -%}
     <h1>User list</h1>
 
-    <table class="records_list table striped border bordered">
+    <table class="">
         <thead>
             <tr>
-                <th>Userid</th>
                 <th>Name</th>
-                <th>Lastname</th>
-                <th>Surname</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Admissiondate</th>
-                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('user_show', { 'id': entity.userId }) }}">{{ entity.userId }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.lastName }}</td>
-                <td>{{ entity.surName }}</td>
+                <td>{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</td>
                 <td>{{ entity.username }}</td>
-                <td>{{ entity.password }}</td>
                 <td>{% if entity.admissionDate %}{{ entity.admissionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.image }}</td>
                 <td>
                 <ul>
                     <li>

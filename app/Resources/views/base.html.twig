@@ -1,80 +1,105 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %} {% endblock %} - Skill Searcher</title>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>
+        {% block title %}   {% endblock %} - Skill Searcher
+    </title>
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{  asset('css/metisMenu.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         {% block stylesheets %}{% endblock %}
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="description" content="Skill Seacher con Windows Metro Style.">
-        <meta name="keywords" content="HTML, such a framework">
-        <meta name="author" content="Solar Team">
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('css/metro.css') }}" />
-        <link rel="stylesheet" href="{{ asset('css/metro-icons.css') }}" />
-        <link rel="stylesheet" href="{{ asset('css/metro-responsive.css') }}" />
-        <script type="text/javascript" src="{{ asset('js/jquery-2.1.4.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/metro.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/user-search.js') }}"></script>
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-    </head>
-    <body>
-    <div class="container">
-            <div class="app-bar fixed-top darcula" data-role="appbar">
-            <a class="app-bar-element branding" href="/">Skill Searcher</a>
-            <span class="app-bar-divider"></span>
-            <ul class="app-bar-menu">
-                <li> 
-                    &nbsp;
-                    Buscar por:
-                    <div class="input-control select">
-                        <select id="search-selector">
-                            <option value="skill/busqueda">Skills</option>
-                            <option value="user/busqueda" selected>Usuarios</option>
-                            <option value="cuenta/busqueda">Cuentas</option>
-                        </select>
-                    </div>
-                    &nbsp;
-                </li>
-                <li>
-                    <!-- search/{tipobusqueda}/{cadenadebusqueda} -->
-                    <form id="search-form" action="user/busqueda" action="get">
-                        <div class="input-control text full-size" data-role="input">
-                            <input type="text" placeholder="Buscar..">
-                            <button id="search-button"class="button"><span class="mif-search"></span></button>
-                        </div>
-                    </form>
-                </li> 
-                <li>
-                    <a href="" class="dropdown-toggle">Administracion</a>
-                    <ul class="d-menu" data-role="dropdown">
-                        <li><a href="">Skills</a></li>
-                        <li><a href="">Usuarios</a></li>
-                        <!-- <li class="divider"></li> -->
-                        <li><a href="">Cuentas</a></li>
-                    </ul>
-                </li>
-            </ul>
+</head>
 
-            <div class="app-bar-element place-right">
-                <span class="dropdown-toggle"><span class="mif-cog"></span> Juanito Banana</span>
-                <div class="app-bar-drop-container padding10 place-right no-margin-top block-shadow fg-dark" data-role="dropdown" data-no-close="true" style="width: 220px">
-                    <h2 class="text-light">Panel</h2>
-                    <ul class="unstyled-list fg-dark">
-                        <li><a href="" class="fg-white1 fg-hover-yellow">Perfil</a></li>
-                        <li><a href="" class="fg-white3 fg-hover-yellow">Salir</a></li>
+<body>  
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                </button>
+                <a class="navbar-brand" href="{{ path('homepage') }}">Skill Searcher</a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
                     </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Gestion<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="flot.html">Equipos</a>
+                                </li>
+                                <li>
+                                    <a href="flot.html">Habilidades</a>
+                                </li>
+                                <li>
+                                    <a href="flot.html">Usuarios</a>
+                                </li>
+                                <li>
+                                    <a href="flot.html">Posiciones</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Cuentas</a>
+                                </li>
+                            </ul>           
+                        </li>
+                    </ul> 
+                </div>
+            </div>
+        </nav>   
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12"> 
+                    {% block body %} {% endblock %}
                 </div>
             </div>
         </div>
-</div>
-        <div class="container page-content">
-            {% block body %}{% endblock %}
-        </div>
-        {% block javascripts %} 
-        <!-- Usar este bloque para javascripts -->
-        {% endblock %}
-    </body>
+    </div>
+    <script type="text/javascript" src="{{ asset('js/libs/jquery-2.1.4.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/sb-admin-2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/search/user-search.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    {% block javascripts %}{% endblock %}
+
+</body>
 </html>

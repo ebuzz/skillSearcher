@@ -1,7 +1,6 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-	<script type="text/javascript" src="{{ asset('js/editSkills.js') }}"></script>
     <h1 class="Title"> Editar usuario</h1>
     <div class="grid">
 		<form method="PUT" action="{{ path('user_update', {'id': user.userId}) }}" id="register">
@@ -113,4 +112,7 @@
 	<script>
 		var count = {{ count }};
 	</script>
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('js/user/editSkills.js') }}"></script>
 {% endblock %}

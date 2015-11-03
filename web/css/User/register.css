@@ -1,4 +1,4 @@
-P.blocktext {
+p.blocktext {
     margin-left: auto;
     margin-right: auto;
     width: 6em
@@ -12,7 +12,7 @@ P.blocktext {
     background-color: #ECEEF1;
 }
 
-IMG.register {
+img.register {
     display: block;
     margin-left: auto;
     margin-right: auto;

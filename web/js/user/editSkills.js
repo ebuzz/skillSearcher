@@ -5,8 +5,6 @@ $(document).ready(function() {
         allSkills[index].id = $(this).find(".skillId").val();
         allSkills[index].name = $(this).find(".skillName").val();    
     });
-
-	
     /* Definir en un archivo aparte */
     $('.addSkill').click(function(){   
             var skill = {
@@ -19,7 +17,6 @@ $(document).ready(function() {
             count = count + 1;
             console.log(allSkills);
     });
-
 	$("tbody").on('click', ".remove", function(){
         var index = $(this).closest("tr").index()
         /* Eliminamos los valores dentro del array mediante el index y el */
@@ -27,8 +24,7 @@ $(document).ready(function() {
         $(this).closest('tr').remove();        
         console.log(allSkills);
 	});
-
-    $(function(){
+    /* $(function(){
        $("#datepicker").datepicker({
            minDate:"1980-01-01",
            format: "yyyy-mm-dd",
@@ -36,5 +32,5 @@ $(document).ready(function() {
            maxDate: new Date()
        });
     });
-    /* FIN */
+    FIN */
 });
