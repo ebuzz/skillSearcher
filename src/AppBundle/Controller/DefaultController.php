@@ -25,6 +25,12 @@ class DefaultController extends Controller
         return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));
+        // $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        // return $this->render(
+        //     'base.html.twig',
+        //     array('user' => $user)
+        //     );
     }
 
     /**
@@ -143,5 +149,14 @@ class DefaultController extends Controller
                 $em->flush();
             }
         }
+    }
+
+    private function UserLoggedAction(){
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        return $this->render(
+            'base.html.twig',
+            array('user' => $user)
+            );
     }
 }

@@ -102,7 +102,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\ManyToMany(targetEntity="Account", inversedBy="user")
-     * @ORM\JoinTable(name="users_accounts",
+     * @ORM\JoinTable(name="user_account",
      *      joinColumns={@ORM\JoinColumn(name="userId", referencedColumnName="userId")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="accountId", referencedColumnName="accountId")}
      *      )
@@ -138,8 +138,8 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             $this->roles,
-            // see section on salt below
-            // $this->salt,
+            $this->name,
+            $this->lastName,
         ));
     }
 
@@ -151,8 +151,6 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             $this->roles,
-            // see section on salt below
-            // $this->salt
         ) = unserialize($serialized);
     }
 
