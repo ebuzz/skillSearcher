@@ -3,9 +3,10 @@
 {% block body -%}
     <h1>User list</h1>
 
-    <table class="">
+    <table class="table table-striped">
         <thead>
             <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Admissiondate</th>
@@ -15,8 +16,10 @@
         <tbody>
         {% for entity in entities %}
             <tr>
+<!--                 <td><img src="{{ asset('uploads/profilePhotos/' ~ entity.image) }}"></td> -->
+                <td>{{ entity.image }}</td>
                 <td>{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</td>
-                <td>{{ entity.username }}</td>
+                <td>{{ entity.email }}</td>
                 <td>{% if entity.admissionDate %}{{ entity.admissionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                 <ul>
@@ -32,12 +35,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('user_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}
