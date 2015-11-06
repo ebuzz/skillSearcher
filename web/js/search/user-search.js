@@ -1,5 +1,6 @@
-$(document).ready(function(){
-    
+$(document).ready(function(e){
+    // this won't work alone because it' will show skills on loading!
+    //skillHidder();
 });
 
 function showCharm(idUser){
