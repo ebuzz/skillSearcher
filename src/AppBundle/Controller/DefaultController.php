@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\User;
 use AppBundle\Entity\Skill;
 use AppBundle\Entity\UserSkill;
@@ -141,5 +140,28 @@ class DefaultController extends Controller
                 $em->flush();
             }
         }
+    }
+
+    /**
+     * Gets all users with its skills.
+     *
+     * @Route("/busqueda",name="search_user")
+     * @Method("GET")
+     * @Template("AppBundle:Search:searchuser.html.twig")
+     */
+    public function getUsersWithSkillsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $userRepository = $em->getRepository('AppBundle:User');
+        $accountRepository = $em->getRepository('AppBundle:Account');
+
+        $allUsers = $userRepository->findAll();
+        $allAccounts = $accountRepository->findAll();
+
+        return array(
+            'allUsers' => $allUsers,
+            'allAccounts' => $allAccounts,
+        );
     }
 }

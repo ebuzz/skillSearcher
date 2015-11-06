@@ -40,6 +40,7 @@ security:
         # - { path: ^/skills, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_RH }
         - { path: ^/logout, roles: ROLE_USER }
+        - { path: ^/busqueda, roles: ROLE_USER }
         # - { path: ^/edit_profile, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_USER }
 

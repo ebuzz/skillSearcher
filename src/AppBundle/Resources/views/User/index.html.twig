@@ -19,7 +19,7 @@
 <!--                 <td><img src="{{ asset('uploads/profilePhotos/' ~ entity.image) }}"></td> -->
                 <td>{{ entity.image }}</td>
                 <td>{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</td>
-                <td>{{ entity.email }}</td>
+                <td>{{ entity.username }}</td>
                 <td>{% if entity.admissionDate %}{{ entity.admissionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                 <ul>
