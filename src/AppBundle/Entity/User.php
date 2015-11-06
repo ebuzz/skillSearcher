@@ -24,7 +24,7 @@ class User implements UserInterface, \Serializable
     private $userId;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=70, unique=true)
      */
     private $username;
     
@@ -52,7 +52,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="text")
+     * @ORM\Column(name="password", type="string", length=140)
      */
     private $password;
     
@@ -73,7 +73,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=255, nullable=true)
+     * @ORM\Column(name="role", type="string", length=30, nullable=false)
      */
     private $roles;
 
