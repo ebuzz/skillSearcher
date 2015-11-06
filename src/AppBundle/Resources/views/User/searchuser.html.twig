@@ -2,79 +2,98 @@
 {% block title %} Busqueda de usuarios {% endblock %}
 {% block body -%}
 
-<h1>Funciona</h1>
-
-<div data-role="charm" data-position="right" id="right-charm">
-<h3>Selecciona Skills</h3>
-{% for user in allUsers %}
-            <ul>
-            <div class="user-skills" id="user-{{ user.userId }}">
-    {% for skill in user.skills %}
-                <li>
-                    <button class="button cycle-square">
-                    <span class="mif-thumbs-up"></span>
-
-                    </button> 
-                    <button class="button cycle-square"><span class="mif-user-plus"></span>
-                    Selecciona
-                    </button>
-                    <button class="button cycle-square">
-                    {{ skill.skill.name }}
-                    </button>
-                    
-                </li>   
-    {% endfor %}
-            </div>
-            </ul>
-{% endfor %}
-</div>
-<div data-role="charm" data-position="left" id="left-charm">
-    <h3>Selecciona equipo</h3>
-    <ul>
-    {% for account in allAccounts %}
-        <li>
-        <button class="button cycle-square">
-        {{ account.name }}
-        </button>
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-
+<h2>Resultados</h2>
+<div class="row">
+<div class="col-md-9">
 <table class="table border bordered">
     <thead>
     <tr>
         <th>Nombre</th>
         <th>Cuenta(s)</th>
         <th>Skill(s)</th>
+        <th>Ops</th>
     </tr>
     </thead>
     <tbody>
     {% for user in allUsers %}
     <tr>
-        <td><button class="button square-button" onclick="showCharm('left')">
-        <span class="mif-user-plus"></span>
-        </button>&nbsp;{{ user.name }} {{ user.lastName}} {{ user.surName }}</td>
+        <td>
+        <a class="btn btn-link" data-toggle="modal" data-target="#myModalAccount">
+        <i class="fa fa-heart"></i>
+        </a>
+        &nbsp;{{ user.name }} {{ user.lastName}} {{ user.surName }}</td>
         <td>
         {% for account in user.accounts %}
-            <span class="tag">{{ account.name }}</span>
+            <button class="btn btn-link">{{ account.name }}</button>
         {% endfor %}
         </td>
         <td>
         {% for skill in user.skills %}
             {% if loop.index0 <= 4 %}
-            <span class="tag success">{{ skill.skill.name }}</span>
+            <button type="button" class="btn btn-success">{{ skill.skill.name }}</button>
             {% endif %}
         {% endfor %}
-        {#
-        <button class="button" onclick="showCharm('right',{{ user.userId}})">Mas Skills</button>
-        #}
-        <span onclick="showCharm('right',{{ user.userId}})" class="tag info">Ver mas</span>
+        </td>
+        <td>
+            <a href="#" onclick="showCharm({{ user.userId}})" class="btn btn-link" data-toggle="modal" data-target="#myModal">Ver mas</a>
         </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+</div>
+    <div class="col-md-3">
+    
+    {% for user in allUsers %}
+                <ul style="text-decoration:none;list-style-type:none;">
+                <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
+                <h3>Selecciona Skills</h3>
+                {% for skill in user.skills %}
+                    <li>
+                    <button type="button" class="btn btn-info btn-circle">
+                    <i class="fa fa-plus"></i>
+                    </button>
+                        <button class="btn btn-info ">
+                        {{ skill.skill.name }}
+                        </button>  
+                    </li>   
+                {% endfor %}
+                </div>
+                </ul>
+    {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                <h4 class="modal-title" id="myModalLabel">Armar equipo</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Selecciona equipo</h3>
+                    <ul>
+                    {% for account in allAccounts %}
+                        <li>
+                        <button class="button cycle-square">
+                        {{ account.name }}
+                        </button>
+                        </li>
+                    {% endfor %}
+                    </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 {% endblock %}
 
