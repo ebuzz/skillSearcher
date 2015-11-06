@@ -462,6 +462,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function setRolesValue()
+    {
+        $this->roles = 'ROLE_USER';
+    }
+
+    /**
      * Sets file.
      *
      * @param UploadedFile $file

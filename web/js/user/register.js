@@ -9,69 +9,20 @@ $(document).ready(function() {
         };
         allSkills.push(skill);
         $(".inputSkill").val("");
-        $(".skillsTable tbody").append("<tr class='skills'><td><input type='hidden' value='"+ skill.name +"' name='skills["+ count +"][name]' class='skillName' />"+ skill.name +"</td><td><input type='hidden' value='"+ skill.id +"' name='skills["+ count +"][id]' class='skillId' /><button class='remove square-button mini-button'><span class='icon mif-minus'></span></button></td></tr>");
+        $(".skillsTable tbody").append("<tr class='skills'><td><input type='hidden' value='"+ skill.name +"' name='skills["+ count +"][name]' class='skillName' />"+ skill.name +"</td><td><input type='hidden' value='"+ skill.id +"' name='skills["+ count +"][id]' class='skillId' /><button type='button' class='remove btn btn-default btn-xs'><i class='fa fa-minus'></i></button></td></tr>");
         count = count + 1;
-        console.log(allSkills);
     });
 
     $("tbody").on('click', ".remove", function(){
         var index = $(this).closest("tr").index()
         allSkills.splice(index, 1);
         $(this).closest('tr').remove();
-        console.log(allSkills);
     });
 
-    $(function(){
-        $("#datepicker").datepicker({
-            minDate:"1980-01-01",
-            position: "top",
-            locale: 'es',
-            format: "yyyy-mm-dd", // set output format
-            maxDate: new Date()
-        });
+    $('.btn-file :file').on('change', function(event) {
+        var input = $(this).parents('.input-group').find(':text');
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
     });
 
-    $(function(){
-        $('#wizard').wizard({
-            stepperClickable: true,
-            buttons: {
-                cancel: false,
-                help: false,
-                prior: false,
-                next: false,
-                finish: false
-            }
-        });
-    });
-
-    $(function() {
-        $("#register").on("submit", function(event) {
-            event.preventDefault();
-
-            var formData = new FormData(this);
-            $.ajax({
-                url: Routing.generate('registered'),
-                type: 'POST',
-                data:  formData,
-                mimeType:"multipart/form-data",
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function(data) {
-                    alert('success')
-                },
-                error: function(){
-                    alert('error');
-                }
-            });
-        });
-    });
 });
-
-var loadFile = function(event) {
-    var output = document.getElementById('output');
-    output.src = URL.createObjectURL(event.target.files[0]);
-};
-
-
-
