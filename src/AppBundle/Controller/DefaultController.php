@@ -147,21 +147,55 @@ class DefaultController extends Controller
      *
      * @Route("/busqueda",name="search_user")
      * @Method("GET")
-     * @Template("AppBundle:Search:searchuser.html.twig")
+     * @Template("AppBundle:Search:search.html.twig")
      */
     public function getUsersWithSkillsAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
+        // Get values
+        $searchText = $request->get('search-box');
+        $searchType = $request->get('search-type');
+        // Instatiate em
+        $em = $this->getDoctrine()->getManager();
+        // This will be used no matter what ?
         $userRepository = $em->getRepository('AppBundle:User');
         $accountRepository = $em->getRepository('AppBundle:Account');
+        $skillRepository = $em->getRepository('AppBundle:Skill');
+        // Cases
+        if($searchType == "user"){
+            $results = $userRepository->findBySearch($searchText);
+            if(empty($searchText)){
+                $results = $userRepository->findAll();
+            }
+            $allAccounts = null;
+            $allSkills = null;
+        }
 
-        $allUsers = $userRepository->findAll();
-        $allAccounts = $accountRepository->findAll();
+        if($searchType == "skill"){
+            $allSkills = $skillRepository->findByName($searchText);
+            if(empty($searchText)){
+                $allSkills = $skillRepository->findAll();
+            }
+            $allAccounts = null;
+            $results = null;
+        }
+
+        if($searchType == "account"){
+            $allAccounts = $accountRepository->findByName($searchText);
+            if(empty($searchText)){
+                $allAccounts = $accountRepository->findAll();
+            }
+            $results = null;
+            $allSkills = null;
+        }
+        
+        $listAccounts = $accountRepository->findAll();
 
         return array(
-            'allUsers' => $allUsers,
             'allAccounts' => $allAccounts,
+            'listAccounts' => $listAccounts,
+            'allSkills' => $allSkills,
+            'results' => $results
         );
     }
+
 }
