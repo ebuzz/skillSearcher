@@ -28,6 +28,13 @@ security:
                 login_path: /login
                 check_path: /login_check
 
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
+                domain:   ~
+                httponly: true
+
             logout:
                 path: /logout
                 target: /
