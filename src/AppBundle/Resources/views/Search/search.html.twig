@@ -2,11 +2,12 @@
 {% block title %} Busqueda de usuarios {% endblock %}
 {% block body -%}
 
-<h2>Resultados</h2>
+<h2>Resultados de : <u> {{ searchText }} </u> en  <u> {{ searchType }} </u> </h2>
 
 {# ------------ if search in Account box field -------------- #}
+
 {% if allAccounts %}
-    {% for account in allAccounts %}
+    
         <div class="row">
         <div class="col-md-9">
             <table class="table border bordered">
@@ -19,6 +20,7 @@
                 </tr>
                 </thead>
                 <tbody>
+        {% for account in allAccounts %}
             {% for user in account.user %}
                 <tr>
                     <td>
@@ -43,32 +45,33 @@
                     </td>
                 </tr>
             {% endfor %}
-        
+        {% endfor %}
         </tbody>
     </table>
-    {% endfor %}
 </div>
 {# Division #}
     <div class="col-md-3">
-    {% for account in allAccounts %}
-    {% for user in account.user %}
-                <ul style="text-decoration:none;list-style-type:none;">
-                <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
-                <h3>Selecciona Skills</h3>
-                {% for skill in user.skills %}
-                    <li>
-                    <button type="button" class="btn btn-info btn-circle">
-                    <i class="fa fa-plus"></i>
-                    </button>
-                        <button class="btn btn-info ">
-                        {{ skill.skill.name }}
-                        </button>  
-                    </li>   
-                {% endfor %}
-                </div>
-                </ul>
-    {% endfor %}
-    {% endfor %}
+    {# concatenar account a user #}
+        <ul style="text-decoration:none;list-style-type:none;">
+        
+        {% for account in allAccounts %}
+        {% for user in account.user %}
+        <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
+        <h3>Selecciona Skills</h3>
+        {% for skill in user.skills %}
+            <li>
+            <button type="button" class="btn btn-info btn-circle">
+            <i class="fa fa-plus"></i>
+            </button>
+                <button class="btn btn-info ">
+                {{ skill.skill.name }}
+                </button>  
+            </li>   
+        {% endfor %}
+        </div>
+        {% endfor %}
+        {% endfor %}
+        </ul>
     </div>
 </div>
 {% endif %}
@@ -146,7 +149,8 @@
 {# ---------------------- if search in Skill box field --------------------------- #}
 
 {% if allSkills %}
-    {% for skill in allSkills %}
+    {{ dump(allSkills) }}
+    
         <div class="row">
         <div class="col-md-9">
             <table class="table border bordered">
@@ -159,35 +163,34 @@
                 </tr>
                 </thead>
                 <tbody>
-            {% for users in skill.users %}
-                
-                <tr>
-            <td>
-            <a class="btn btn-link" data-toggle="modal" data-target="#myModalAccount">
-            <i class="fa fa-heart"></i>
-            </a>
-            &nbsp;{{ users.user.name }} {{ users.user.lastName}} {{ users.user.surName }}</td>
-            <td>
-            {% for account in users.user.accounts %}
-                <button class="btn btn-link">{{ account.name }}</button>
-            {% endfor %}
-            </td>
-            <td>
-            {% for skill in users.user.skills %}
-                {% if loop.index0 <= 4 %}
-                <button type="button" class="btn btn-success">{{ skill.skill.name }}</button>
-                {% endif %}
-            {% endfor %}
-            </td>
-            <td>
-                <a href="#" onclick="showCharm({{ users.user.userId}})" class="btn btn-link" data-toggle="modal" data-target="#myModal">Ver mas</a>
-            </td>
-        </tr>
-            {% endfor %}
-            
+            {% for skill in allSkills %}
+                {% for users in skill.users %}
+                    <tr>
+                        <td>
+                        <a class="btn btn-link" data-toggle="modal" data-target="#myModalAccount">
+                        <i class="fa fa-heart"></i>
+                        </a>
+                        &nbsp;{{ users.user.name }} {{ users.user.lastName}} {{ users.user.surName }}</td>
+                        <td>
+                        {% for account in users.user.accounts %}
+                            <button class="btn btn-link">{{ account.name }}</button>
+                        {% endfor %}
+                        </td>
+                        <td>
+                        {% for skill in users.user.skills %}
+                            {% if loop.index0 <= 4 %}
+                            <button type="button" class="btn btn-success">{{ skill.skill.name }}</button>
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td>
+                            <a href="#" onclick="showCharm({{ users.user.userId}})" class="btn btn-link" data-toggle="modal" data-target="#myModal">Ver mas</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% endfor %}
         </tbody>
     </table>
-    {% endfor %}
 </div>
 {# Division #}
     <div class="col-md-3">
