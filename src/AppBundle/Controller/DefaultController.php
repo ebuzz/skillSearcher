@@ -128,15 +128,25 @@ class DefaultController extends Controller
 
     private function AddSkills($skills,$user){
         foreach ($skills as $userSkill) {
+
+            $userSkillEntity = new UserSkill();
             $em = $this->getDoctrine()->getManager();
+            
             if ($userSkill["id"] == "") {
                 $skillEntity = new Skill();
                 $skillEntity->setName($userSkill["name"]);
                 $em->persist($skillEntity);
                 $skillEntity->getSkillId();
 
-                $userSkillEntity = new UserSkill();
                 $userSkillEntity->setSkill($skillEntity);
+                $userSkillEntity->setUser($user);
+                $em->persist($userSkillEntity);
+                $em->flush();
+            }
+            elseif($userSkill["id"] != ""){
+                $skill = $em->getRepository('AppBundle:Skill')->find($userSkill["id"]);
+                $skill->getSkillId();
+                $userSkillEntity->setSkill($skill);
                 $userSkillEntity->setUser($user);
                 $em->persist($userSkillEntity);
                 $em->flush();
@@ -266,5 +276,28 @@ class DefaultController extends Controller
     public function PasswordPetitionAction()
     {
         return $this->render('AppBundle:Security:retrieve_password.html.twig');
+    }
+
+    /**
+     * @Route("/ajax_skill", name="ajax_skill", options={"expose"=true})
+     */
+    public function ajaxSkills(Request $request)
+    {
+        $value = $request->get('term');
+        $em = $this->getDoctrine()->getEntityManager();
+        $skills = $em->getRepository('AppBundle:Skill')->findByComplete($value);
+
+        $json = array();
+        foreach ($skills as $skill) {
+            $json[] = array(
+                'label' => $skill->getName(),
+                'value' => $skill->getSkillId()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
     }
 }

@@ -26,4 +26,19 @@ class SkillRepository extends EntityRepository
     	        return null;
     	    }
 	    }
+      
+  public function findByComplete($name)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                "SELECT s FROM AppBundle:Skill s
+              WHERE s.name LIKE :name"
+            )->setParameter('name', '%' . $name . '%');
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

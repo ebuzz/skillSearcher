@@ -12,12 +12,13 @@
     <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/user/register.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="col-lg-12">
-    <center><img src="{{ asset('mindBlack.png') }}" class="img-responsive img-center"></center>
+    <img src="{{ asset('mindBlack.png') }}" class="img-responsive img-center">
 </div>
-
 <div id="wrapper">
     <div class="container">
         <form id='register' method='post' action="{{ path('registered') }}"
@@ -79,11 +80,11 @@
                                     <div class="col-lg-6">
                                         <label for="admissionDate">Fecha de admisión</label>
 
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="admissionDate"
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control date" name="admissionDate"
                                                    placeholder="(YYYY-MM-DD)" required>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button"><i
+                                        <span class="input-group-btn" >
+                                            <button class="btn btn-default date" type="button"><i
                                                         class="fa fa-calendar-o"></i></button>
                                         </span>
                                         </div>
@@ -103,7 +104,7 @@
                         <div class="panel-body">
                             <div class="col-lg-10 col-lg-push-1">
                                 <div class="input-group user-skills">
-                                    <input type="text" class="form-control inputSkill"
+                                    <input id="autocompleteSkill" type="text" class="form-control inputSkill"
                                            placeholder="Ingresa una habilidad">
                                 <span class="input-group-btn">
                                     <button class="addSkill btn btn-default" type="button"><i class="fa fa-plus"></i>
@@ -162,15 +163,14 @@
         </form>
     </div>
     <script type="text/javascript" src="{{ asset('js/libs/jquery-2.1.4.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/metisMenu.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/sb-admin-2.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/user/register.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker.js') }}"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 </div>
 </body>
 </html>
-
-
