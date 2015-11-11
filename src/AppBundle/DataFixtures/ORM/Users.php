@@ -26,6 +26,7 @@ class Users extends AbstractFixture implements OrderedFixtureInterface
 		array('name' => 'Alberto', 'lastName' => 'Gonzalez', 'surName' => 'Lara', 'email' => 'jvalenzuela3@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
 		array('name' => 'Araceli', 'lastName' => 'Martinez', 'surName' => 'Rojas', 'email' => 'jvalenzuela4@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
 		array('name' => 'Cristina', 'lastName' => 'Lara', 'surName' => 'Sanchez', 'email' => 'jvalenzuela5@arkusnexus.com', 'password' => '1234', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_USER', 'positionId' => 1 ),
+		array('name' => 'Administrador', 'lastName' => 'Site', 'surName' => ' ', 'email' => 'admin@arkusnexus.com', 'password' => 'admin', 'admissionDate' => '12-12-12', 'roles' => 'ROLE_ADMIN', 'positionId' => 1 ),
 		// ...
 		);
 		

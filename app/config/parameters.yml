@@ -2,11 +2,11 @@
 parameters:
     database_host: 127.0.0.1
     database_port: null
-    database_name: symfony
+    database_name: skills
     database_user: root
-    database_password: 1234
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
+    database_password: root
+    mailer_transport: gmail
+    mailer_host: smtp.gmail.com
+    mailer_user: arkusnexus2015@gmail.com
+    mailer_password: Mind@2015
     secret: 406897ae0f77f20cb0471044856e6be69eebfefc

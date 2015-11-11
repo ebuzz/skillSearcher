@@ -462,13 +462,12 @@ class User implements UserInterface, \Serializable
         return $this->accounts;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function setRolesValue()
-    {
-        $this->roles = 'ROLE_USER';
-    }
+
+    //  * @ORM\PrePersist
+    // public function setRolesValue()
+    // {
+    //     $this->roles = 'ROLE_USER';
+    // }
 
     /**
      * Sets file.
