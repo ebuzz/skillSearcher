@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Skill;
 use AppBundle\Entity\UserSkill;
+use AppBundle\Entity\Vote;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -194,8 +195,47 @@ class DefaultController extends Controller
             'allAccounts' => $allAccounts,
             'listAccounts' => $listAccounts,
             'allSkills' => $allSkills,
-            'results' => $results
+            'results' => $results,
+            'searchType' => $searchType,
+            'searchText' => $searchText
         );
+    }
+
+    /**
+     * Rate User Skill 
+     *
+     * @Route("/busqueda/califica/userskill/{id}",name="rate_user")
+     * @Method("GET")
+     * @Template()
+     */
+    public function rateUserSkillAction(Request $request,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // Get UserSkill
+        $userSkillRepository = $em->getRepository('AppBundle:UserSkill');   
+        $userSkill = $userSkillRepository->find($id);
+
+        // Instantiate Repo and gettin' user from session
+        $userRepository = $em->getRepository('AppBundle:User');
+        $user = $this->get('security.token_storage')->getToken()->getUser(); 
+        $userId = $user->getUserId();
+
+        $userVoting = $userRepository->find($userId);
+
+        // Verify if the logged user hasn't already voted for the same skill
+        $voteRepository = $em->getRepository('AppBundle:Vote');
+
+        // $voteExist = $voteRepository->findBy(array('name' => 'your_name'));
+
+        // Instantiate Vote entity 
+        // $voteEntity = new Vote();
+        // $voteEntity->setUserSkill($userSkill);
+        // $voteEntity->setUser($userVoting);
+        // $em->persist($voteEntity);
+        // $em->flush();
+
+        return new Response("Este Skill" . dump($userSkill) ."fue votado por". dump($userVoting) . dump($userSkillVote));
     }
 
 }

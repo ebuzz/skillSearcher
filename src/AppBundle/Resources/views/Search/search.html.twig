@@ -4,6 +4,7 @@
 
 <h2>Resultados de : <u> {{ searchText }} </u> en  <u> {{ searchType }} </u> </h2>
 
+{% block search %} {% endblock %}
 {# ------------ if search in Account box field -------------- #}
 
 {% if allAccounts %}
@@ -59,11 +60,12 @@
         <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
         <h3>Selecciona Skills</h3>
         {% for skill in user.skills %}
+        
             <li>
             <button type="button" class="btn btn-info btn-circle">
             <i class="fa fa-plus"></i>
             </button>
-                <button class="btn btn-info ">
+                <button class="btn btn-info " onclick="rateUserSkill({{ skill.userSkillId }})" >
                 {{ skill.skill.name }}
                 </button>  
             </li>   
