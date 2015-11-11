@@ -111,6 +111,7 @@ class DefaultController extends Controller
             $user->setUsername($request->get('email'));
             $user->setFile($request->files->get('image'));
             $user->setPosition($position);
+            $user->setRoles('ROLE_USER');
             $em->persist($user);
             $em->flush();
             $user->getUserId();
@@ -238,4 +239,32 @@ class DefaultController extends Controller
         return new Response("Este Skill" . dump($userSkill) ."fue votado por". dump($userVoting) . dump($userSkillVote));
     }
 
+    /**
+     * @Route("/send_email", name="send_email")
+     * @Method("POST")
+     */
+    public function SendEmailAction(Request $request)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Mensaje de confirmación')
+            ->setFrom('arkusnexus2015@gmail.com')
+            ->setTo($request->get('email'))
+            ->setBody($this->renderView(
+                    'AppBundle:Security:message.html.twig',
+                    array('token' => $request->get('token'))
+                ),
+                'text/html'
+                );
+        $this->get('mailer')->send($message);
+
+        return $this->redirect($this->generateUrl('login_route'));
+    }
+
+    /**
+     * @Route("/retrieve_password", name="retrieve_password")
+     */
+    public function PasswordPetitionAction()
+    {
+        return $this->render('AppBundle:Security:retrieve_password.html.twig');
+    }
 }
