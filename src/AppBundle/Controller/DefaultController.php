@@ -21,9 +21,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
+        return $this->render('AppBundle:Dashboard:dashboard.html.twig');
     }
 
     /**
@@ -279,9 +277,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/ajax_skill", name="ajax_skill", options={"expose"=true})
+     * @Route("/verify_skill", name="verify_skill", options={"expose"=true})
      */
-    public function ajaxSkills(Request $request)
+    public function verifySkills(Request $request)
     {
         $value = $request->get('term');
         $em = $this->getDoctrine()->getEntityManager();
@@ -300,4 +298,25 @@ class DefaultController extends Controller
 
         return $response;
     }
+
+    /**
+     * @Route("/verify_mail", name="verify_mail", options={"expose"=true})
+     */
+    public function verifyMail(Request $request)
+    {
+        $value = $request->get('term');
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $em->getRepository('AppBundle:User')->findByusername($value);
+
+        $result = 'false';
+        if(!empty($username)){
+            $result = 'true';
+        }
+
+        $response = new Response();
+        $response->setContent($result);
+
+        return $response;
+    }
+
 }

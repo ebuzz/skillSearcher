@@ -1,6 +1,62 @@
 $(document).ready(function () {
+    
     var allSkills = [];
     var count = 0;
+
+    function remove(array, property, value){
+        var i, j, cur;
+        for(i= array.length - 1; i >= 0; i--){
+            cur = array[i];
+            if (cur[property] === value){
+                array.splice(i,1);
+            }
+        }
+    }
+
+    function validateEmail(email) {
+        var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,4})(\]?)$/;
+        if (filter.test(email)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $('.btn-file :file').on('change', function (event) {
+        var input = $(this).parents('.input-group').find(':text');
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    });
+
+    $("#verifyMail").on('select keyup change select',function(){
+        $.ajax({
+                url: Routing.generate('verify_mail'),
+                data: {term: $(this).val()},
+                success: function(data) {
+                    if(validateEmail($('#verifyMail').val()) == true)
+                    {
+                        if (data != 'true'){
+                            $('#mailIcon').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+                        }
+                        
+                        else{   
+                            $('#mailIcon').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+                        }
+                    }
+                    else
+                    {
+                        $('#mailIcon').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+                    }
+                }
+            });
+    });
+
+    $('.date').datepicker({
+        format: "yyyy-mm-dd",
+        startView: 2,
+        autoclose: true
+    });
 
     $('.addSkill').click(function () {
         var skill = {
@@ -19,20 +75,17 @@ $(document).ready(function () {
         $(this).closest('tr').remove();
     });
 
-    $('.btn-file :file').on('change', function (event) {
-        var input = $(this).parents('.input-group').find(':text');
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-    });
-
     $(".inputSkill").autocomplete({
         source: function( request, response ) {
             $.ajax({
-                url: Routing.generate('ajax_skill'),
+                url: Routing.generate('verify_skill'),
                 dataType: "json",
                 data: {term: request.term},
                 success: function(data) {
-                    response(data)
+                    $.each((allSkills), function() {
+                        remove(data, "value", this.id);
+                    });
+                    response(data);
                 }
             });
         },
@@ -50,11 +103,4 @@ $(document).ready(function () {
             $(this).val(ui.item.label);
         }
     });
-
-    $('.date').datepicker({
-        format: "yyyy-mm-dd",
-        startView: 2,
-        autoclose: true
-    });
-
 });

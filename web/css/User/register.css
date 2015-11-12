@@ -40,3 +40,8 @@ input[readonly] {
     background-color: white !important;
     cursor: text !important;
 }
+
+.reg {
+    top: 25px;
+    padding-right: 15px;
+}
