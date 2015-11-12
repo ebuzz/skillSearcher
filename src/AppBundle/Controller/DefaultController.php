@@ -21,39 +21,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
-    }
-
-    /**
-     * @Route("/login", name="login_route")
-     * @Template("AppBundle:Security:login.html.twig")
-     */
-    public function loginAction(Request $request)
-    {
-        $authenticationUtils = $this->get('security.authentication_utils');
-
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return array(
-            // last username entered by the user
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        );
-    }
-
-    /**
-     * @Route("/login_check", name="login_check")
-     */
-    public function loginCheckAction()
-    {
-        // this controller will not be executed,
-        // as the route is handled by the Security system
+        return $this->render('AppBundle:Dashboard:dashboard.html.twig');
     }
 
     /**
@@ -272,38 +240,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/send_email", name="send_email")
-     * @Method("POST")
+     * @Route("/verify_skill", name="verify_skill", options={"expose"=true})
      */
-    public function SendEmailAction(Request $request)
-    {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Mensaje de confirmación')
-            ->setFrom('arkusnexus2015@gmail.com')
-            ->setTo($request->get('email'))
-            ->setBody($this->renderView(
-                    'AppBundle:Security:message.html.twig',
-                    array('token' => $request->get('token'))
-                ),
-                'text/html'
-                );
-        $this->get('mailer')->send($message);
-
-        return $this->redirect($this->generateUrl('login_route'));
-    }
-
-    /**
-     * @Route("/retrieve_password", name="retrieve_password")
-     */
-    public function PasswordPetitionAction()
-    {
-        return $this->render('AppBundle:Security:retrieve_password.html.twig');
-    }
-
-    /**
-     * @Route("/ajax_skill", name="ajax_skill", options={"expose"=true})
-     */
-    public function ajaxSkills(Request $request)
+    public function verifySkills(Request $request)
     {
         $value = $request->get('term');
         $em = $this->getDoctrine()->getEntityManager();
@@ -322,4 +261,25 @@ class DefaultController extends Controller
 
         return $response;
     }
+
+    /**
+     * @Route("/verify_mail", name="verify_mail", options={"expose"=true})
+     */
+    public function verifyMail(Request $request)
+    {
+        $value = $request->get('term');
+        $em = $this->getDoctrine()->getEntityManager();
+        $username = $em->getRepository('AppBundle:User')->findByusername($value);
+
+        $result = 'false';
+        if(!empty($username)){
+            $result = 'true';
+        }
+
+        $response = new Response();
+        $response->setContent($result);
+
+        return $response;
+    }
+
 }

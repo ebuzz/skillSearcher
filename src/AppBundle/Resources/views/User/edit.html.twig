@@ -1,6 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block stylesheets %}
     <link href="{{ asset('css/user/userEdit.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body -%}
     <h1> Editar usuario</h1>
@@ -10,8 +11,14 @@
 				<div class="panel-heading"><h4> Usuario </h4></div>
 				<div class="panel-body" >
 					<div class="col-lg-3">
-						<input type="hidden" value="imagen.jpg" name="image" />
-						<img src="{{ asset('uploads/profilePhotos/' ~ user.image) }}" class="imageProfile" />
+						<div class="col-lg-12">
+						    <img src="{{ asset('user.jpg') }}" id="output" class="register">
+						</div>
+						<div class="col-lg-2 col-lg-push-2">
+						    <span class="file-input btn btn-outline btn-default btn-sm btn-file">Agregar foto de perfil
+						        <input name="image" type="file" />
+						    </span>
+						</div>
 					</div>
 					<div class="col-lg-3">
 			        	<label>Nombre</label>
@@ -34,17 +41,20 @@
 			            <input type="password" value="{{user.password}}" name="password" class="form-control" />
 					</div>
 					<div class="col-lg-9">
-		          		<label>Fecha de ingreso</label>
-			            <div class="" id="datepicker" >
-			                <!-- <input type="text" name="admissionDate" placeholder="Fecha de ingreso" id="datepicker" value="{{ user.admissionDate|date("Y-m-d") }}"> 
-			                <button class="button"><span class="mif-calendar"></span></button>-->
-			                <input type="text" class="form-control" placeholder="YYY-MM-DD" value="{{ user.admissionDate|date("Y-m-d") }}">
-			            </div>
+					    <label for="admissionDate">Fecha de admisión</label>
+					    <div class="input-group ">
+					        <input type="text" class="form-control date" name="admissionDate"
+					                                                   placeholder="(YYYY-MM-DD)" required>
+					        <span class="input-group-btn" >
+					            <button class="btn btn-default date" type="button">
+					            <i class="fa fa-calendar-o"></i></button>
+					        </span>
+					    </div>
 		            </div>
 		        </div>
 	        </div>
 	        <div class="col-lg-6">
-				<div class=" skills panel panel-default">
+				<div class=" allSkills panel panel-default">
 					<div class="panel-heading"><h4> Habilidades </h4></div>
 					<div class="panel-body" >
 						<div class="col-lg-12">
@@ -71,7 +81,6 @@
 										<td>	
 											<input type="hidden" value="{{userSkill.skill.name}}" name="skills[{{ count }}][name]" class="skillName" />
 											{{userSkill.skill.name}}
-											{{ count }}
 											{# loop.index #}
 										</td>
 										<td>
@@ -90,7 +99,37 @@
 				<div class="accounts panel panel-default">
 					<div class="panel-heading"><h4> Cuentas </h4></div>
 					<div class="panel-body" >
-						CUERPO
+						<div class="col-lg-12">
+                            {% set countAccount = 0 %}
+                            <ul class="accountsUl">
+								{% for userAccount in accountList %}
+									{% for account in accountsEntity %}
+										{% if account.accountid == userAccount %}
+											<li>
+												<div class="checkbox">
+													<input type="checkbox" value="{{ account.accountid }}" checked="checked"  name="account[{{ countAccount }}]"/>
+													{{ account.name }}
+												</div>
+											</li>
+										{% endif %}	
+									{% endfor %}
+									{% set countAccount = countAccount + 1 %}		
+								{% endfor %}
+								{% for resultado in resultados %}
+									{% for account in accountsEntity %}
+										{% if account.accountid == resultado %}
+											<li>
+												<div class="checkbox">
+													<input type="checkbox" value="{{ account.accountid }}"  name="account[{{ countAccount }}]"/>
+													{{ account.name }}
+												</div>
+											</li>
+													{% endif %}
+									{% endfor %}
+									{% set countAccount = countAccount + 1 %}
+								{% endfor %}	
+                            </ul>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -108,11 +147,12 @@
 			</div>
 		</form>
 	</div>
-	{# form(delete_form) #}
 	<script>
 		var count = {{ count }};
 	</script>
 {% endblock %}
 {% block javascripts %}
 	<script type="text/javascript" src="{{ asset('js/user/editSkills.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker.js') }}"></script>
 {% endblock %}

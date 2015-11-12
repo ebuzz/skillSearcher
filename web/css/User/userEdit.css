@@ -2,8 +2,7 @@ img.register {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 160px;
-    height: 160px;
+    width:100%;
     border-radius: 2%;
 }
 
@@ -36,12 +35,30 @@ img.register {
     cursor: inherit;
     display: block;
 }
+
 input[readonly] {
     background-color: white !important;
     cursor: text !important;
 }
 
-.reg {
-    top: 25px;
-    padding-right: 15px;
+.user input, .btn-success {
+	margin-bottom: 10px;
+}
+
+.accountsUl li {
+	width:25%;
+	display: inline;
+	float: left;
+}
+
+@media screen and (max-width: 1335px){
+	.accountsUl li {
+		width:33.3%;
+	}	
+}
+@media screen and (max-width: 650px){
+	.accountsUl li {
+		width:100%;
+		float: none;
+	}
 }

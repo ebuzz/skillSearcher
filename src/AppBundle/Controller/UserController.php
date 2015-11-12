@@ -140,18 +140,32 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('AppBundle:User')->find($id);
-        $userSkills = $user->getSkills(); 
+        $userSkills = $user->getSkills();
+        $accountsEntity = $em->getRepository('AppBundle:Account')->findAll();
+        $accounts = [];
+        foreach ($accountsEntity as $accountEntity) {
+            $accountId = $accountEntity->getAccountId();
+            array_push($accounts, $accountId);
+        }
+  
+        $accountList = [];
+        $userAccounts = $user->getAccounts(); 
+        foreach ($userAccounts as $userAccount) {
+            $userAccount = $userAccount->getAccountId();
+            array_push($accountList, $userAccount);
+        }
+        $resultados = array_diff($accounts, $accountList);
 
         if (!$user) {
             throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'user'      => $user,
             'userSkills' => $userSkills,
-            'delete_form' => $deleteForm->createView(),
+            'accountsEntity' => $accountsEntity,
+            'resultados' => $resultados,
+            'accountList' => $accountList,
         );
     }    
     /**
@@ -163,44 +177,84 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $em->getRepository('AppBundle:User')->find($id);
+$em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);  
+        $skillsRequest = $request->get('skills');
+        $accounts = $request->get('account');
+        // $date = date_create_from_format('Y-m-d', $request->get('admissionDate'));
         
-        $skills = $request->get('skills');
-        $date = date_create_from_format('Y-m-d', $request->get('admissionDate'));
-  
+        /**************** INICIO PROCESOS CON SKILLS ************************************/
+        if (!empty($skillsRequest)) {       
+            $skillsRequestId = [];
+            foreach ($skillsRequest as $skillRequest) {
+                $skillRequestId = $skillRequest['id'];
+                array_push($skillsRequestId, $skillRequestId);
+            }
 
-        foreach ($skills as $userSkill) {
-            if ($userSkill["id"] == "")
-            {
-                $skill = new Skill();
-                $skill->setName($userSkill["name"]);
-                $em->persist($skill);
-                $em->flush();
+            $userSkills = $user->getSkills();
+            $allUserSkills = [];
+            foreach ($userSkills as $userSkill) {
+                $userSkillId = $userSkill->getSkill()->getSkillId();
+                array_push($allUserSkills, $userSkillId);
+            }
+            $skillsId = array_diff($allUserSkills, $skillsRequestId);
+            
+            foreach ($skillsId as $skillId) {
+                $userSkill_SkillsId = $em->getRepository('AppBundle:UserSkill')->findByskill($skillId);
+                foreach ($userSkill_SkillsId as $userSkill_SkillId) {
+                    $userSkill_UserId = $userSkill_SkillId->getUser()->getUserId();
+                    $userSkill_Skill = $userSkill_SkillId->getSkill()->getSkillId();
+                    
+                    if($userSkill_UserId == $id && $userSkill_Skill == $skillId) {
+                        $userSkill_UserSkillId = $em->getRepository('AppBundle:UserSkill')->findOneBy(array('user' => $userSkill_UserId, 'skill' => $userSkill_Skill));
+                        $asd = $userSkill_UserSkillId->getUserSkillId();
+                        $deleteUserSkill = $em->getRepository('AppBundle:UserSkill')->findOneByuserSkillId($asd);
+                        $em->remove($deleteUserSkill);
+                        $em->flush();
+                    }     
+                }     
+            }
 
-                $skill->getSkillId();
-                $userSkills = new userSkill();
-                $userSkills->setSkill($skill);
-                $userSkills->setUser($user);
-                $em->persist($userSkills);
-                $em->flush();
+            foreach ($skillsRequest as $skillRequest) {
+                $skillEntityByName = $em->getRepository('AppBundle:Skill')->findOneByName($skillRequest["name"]);
+                if ($skillRequest["id"] == "" && is_null($skillEntityByName)) {
+                    $skill = new Skill();
+                    $skill->setName($skillRequest["name"]);                       
+                    $em->persist($skill);
+                    $em->flush();
+                    $skill->getSkillId();
+                    $userSkill = new userSkill();
+                    $userSkill->setSkill($skill);
+                    $userSkill->setUser($user);                       
+                    $em->persist($userSkill);
+                    $em->flush();
+                } elseif ($skillEntityByName != "NULL") {
+                    $Skill_SkillId = $skillEntityByName->getSkillId();
+                    $userSkill_UserIdSkillId = $em->getRepository('AppBundle:UserSkill')->findOneBy(array('user' => $id, 'skill' => $Skill_SkillId));
+                    if(empty($userSkill_UserIdSkillId)){
+                        $userSkill = new userSkill();
+                        $userSkill->setSkill($skillEntityByName);
+                        $userSkill->setUser($user);                                   
+                        $em->persist($userSkill);
+                        $em->flush();
+                    }
+                }
             }
         }
-      
+        /****************FIN PROCESOS CON SKILLS ************************************/
+               
         $user->setName($request->get('name'));
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
-        $user->setUsername($request->get('email'));
+        $user->setUserName($request->get('email'));
         $user->setPassword($request->get('password'));
         $user->setImage($request->get('image'));
-        $user->setAdmissionDate($date);
-
+        // $user->setAdmissionDate($date);
 
         $em->persist($user);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
+        return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
     }
     /**
      * Deletes a User entity.
