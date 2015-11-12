@@ -1,0 +1,4 @@
+var rateUserSkill = function(userSkillId)
+{
+
+}

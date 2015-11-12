@@ -223,30 +223,52 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        // Get UserSkill
+        // Get UserSkill Entity
         $userSkillRepository = $em->getRepository('AppBundle:UserSkill');   
         $userSkill = $userSkillRepository->find($id);
+        // Get UserSkll Id
+        $userSkillId = $userSkill->getUserSkillId();
 
         // Instantiate Repo and gettin' user from session
         $userRepository = $em->getRepository('AppBundle:User');
         $user = $this->get('security.token_storage')->getToken()->getUser(); 
         $userId = $user->getUserId();
-
+        // Get entity from User who is voting
         $userVoting = $userRepository->find($userId);
 
         // Verify if the logged user hasn't already voted for the same skill
         $voteRepository = $em->getRepository('AppBundle:Vote');
 
-        // $voteExist = $voteRepository->findBy(array('name' => 'your_name'));
+        // $userInVoteExist = $voteRepository->findByUser($userId);
+        // $userSkillInVoteExist = $voteRepository->findByUserkill($userSkillId);
+        $message1 = "";
+        
+        $userInVoteExistObject = $voteRepository->findOneBy(
+                array('user' => $userId, 'userkill' => $userSkillId)
+            );
 
-        // Instantiate Vote entity 
-        // $voteEntity = new Vote();
-        // $voteEntity->setUserSkill($userSkill);
-        // $voteEntity->setUser($userVoting);
-        // $em->persist($voteEntity);
-        // $em->flush();
+        // if($userInVoteExist && $userSkillInVoteExist)
+        $voteEntity = new Vote();
 
-        return new Response("Este Skill" . dump($userSkill) ."fue votado por". dump($userVoting) . dump($userSkillVote));
+        if($userInVoteExistObject)
+        {
+            $message1 = "Voto quitado";
+            // $voteEntity = new Vote();
+            $em->remove($userInVoteExistObject);
+            $em->persist($voteEntity);
+            $em->flush();
+        }
+        else
+        {
+            $message1 = "Voto agregado";
+            // Instantiate Vote entity 
+            //$voteEntity = new Vote();
+            $voteEntity->setUserSkill($userSkill);
+            $voteEntity->setUser($userVoting);
+            $em->persist($voteEntity);
+            $em->flush();
+        }
+        return new Response("Este Skill" . dump($userSkill) ."fue votado por". "::" . $message1 . dump($userInVoteExistObject));
     }
 
     /**
