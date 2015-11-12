@@ -6,31 +6,32 @@ $(document).ready(function() {
         allSkills[index].name = $(this).find(".skillName").val();    
     });
     /* Definir en un archivo aparte */
-    $('.addSkill').click(function(){   
+    $('.addSkill').click(function(){       
             var skill = {
                 id: "",
                 name: $(".inputSkill").val()
             };
-        	allSkills.push(skill);
-        	$(".inputSkill").val("");	
-            $(".skillsTable tr:last").after("<tr class='skills'><td><input type='hidden' value='"+ skill.name +"' name='skills["+ count +"][name]' class='skillName' />"+ skill.name +"</td><td><input type='hidden' value='"+ skill.id +"' name='skills["+ count +"][id]' class='skillId' /><button class='remove button'> X </button></td></tr>");
+            allSkills.push(skill);
+            $(".inputSkill").val("");   
+            $(".skillsTable tr:last").after("<tr class='skills'><td><input type='hidden' value='"+ skill.name +"' name='skills["+ count +"][name]' class='skillName' />"+ skill.name +"</td><td><input type='hidden' value='"+ skill.id +"' name='skills["+ count +"][id]' class='skillId' /><button class='remove btn btn-danger'> X </button></td></tr>");
             count = count + 1;
             console.log(allSkills);
     });
-	$("tbody").on('click', ".remove", function(){
-        var index = $(this).closest("tr").index()
+    $("tbody").on('click', ".remove", function(){
+        var index = $(this).closest("tr").index();
         /* Eliminamos los valores dentro del array mediante el index y el */
         allSkills.splice(index, 1);
         $(this).closest('tr').remove();        
         console.log(allSkills);
-	});
-    /* $(function(){
-       $("#datepicker").datepicker({
-           minDate:"1980-01-01",
-           format: "yyyy-mm-dd",
-           locale: 'es',
-           maxDate: new Date()
-       });
     });
-    FIN */
+    $('.btn-file :file').on('change', function (event) {
+        var input = $(this).parents('.input-group').find(':text');
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    });
+    $('.date').datepicker({
+        format: "yyyy-mm-dd",
+        startView: 2,
+        autoclose: true
+    });
 });
