@@ -25,36 +25,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/login", name="login_route")
-     * @Template("AppBundle:Security:login.html.twig")
-     */
-    public function loginAction(Request $request)
-    {
-        $authenticationUtils = $this->get('security.authentication_utils');
-
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return array(
-            // last username entered by the user
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        );
-    }
-
-    /**
-     * @Route("/login_check", name="login_check")
-     */
-    public function loginCheckAction()
-    {
-        // this controller will not be executed,
-        // as the route is handled by the Security system
-    }
-
-    /**
      *
      * @Route("/register", name="register", options={"expose"=true})
      * @Method("GET")
@@ -245,35 +215,6 @@ class DefaultController extends Controller
         // $em->flush();
 
         return new Response("Este Skill" . dump($userSkill) ."fue votado por". dump($userVoting) . dump($userSkillVote));
-    }
-
-    /**
-     * @Route("/send_email", name="send_email")
-     * @Method("POST")
-     */
-    public function SendEmailAction(Request $request)
-    {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Mensaje de confirmación')
-            ->setFrom('arkusnexus2015@gmail.com')
-            ->setTo($request->get('email'))
-            ->setBody($this->renderView(
-                    'AppBundle:Security:message.html.twig',
-                    array('token' => $request->get('token'))
-                ),
-                'text/html'
-                );
-        $this->get('mailer')->send($message);
-
-        return $this->redirect($this->generateUrl('login_route'));
-    }
-
-    /**
-     * @Route("/retrieve_password", name="retrieve_password")
-     */
-    public function PasswordPetitionAction()
-    {
-        return $this->render('AppBundle:Security:retrieve_password.html.twig');
     }
 
     /**
