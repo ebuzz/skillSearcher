@@ -6,7 +6,7 @@ $(document).ready(function () {
 function voteAction(){
 	$("#vote-button").click(function(){
 		$(this).removeClass();
-		$(this).addClass('btn btn-danger');
+		$(this).addClass('btn btn-primary');
 		console.log("Sii");
 	});
 }

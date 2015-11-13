@@ -17,7 +17,7 @@
                     <th>Nombre</th>
                     <th>Cuenta(s)</th>
                     <th>Skill(s)</th>
-                    <th>Ops</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,7 +37,7 @@
                     <td>
                     {% for skill in user.skills %}
                         {% if loop.index0 <= 4 %}
-                        <button type="button" class="btn btn-success">{{ skill.skill.name }}</button>
+                        <span class="label label-success">{{ skill.skill.name }}</span>
                         {% endif %}
                     {% endfor %}
                     </td>
@@ -60,13 +60,12 @@
         <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
         <h3>Selecciona Skills</h3>
         {% for skill in user.skills %}
-        
             <li>
-            <button type="button" class="btn btn-info btn-circle">
+            <!-- <button type="button" class="btn btn-info btn-circle">
             <i class="fa fa-plus"></i>
-            </button>
-                <button id="vote-button" class="btn btn-info " value="{{ skill.userSkillId  }}">
-                {{ skill.skill.name }}
+            </button> -->
+                <button id="vote-button" class="btn btn-default " value="{{ skill.userSkillId  }}">
+                {{ skill.skill.name }} <span class="badge">4</span>
                 </button>  
             </li>   
         {% endfor %}
