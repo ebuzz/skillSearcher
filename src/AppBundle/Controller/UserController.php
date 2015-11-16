@@ -3,15 +3,16 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
 use AppBundle\Entity\UserSkill;
-use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Skill;
+use AppBundle\Entity\Account;
+use AppBundle\Form\UserType;
 
 /**
  * User controller.
@@ -240,9 +241,34 @@ $em = $this->getDoctrine()->getManager();
                     }
                 }
             }
+        } else {
+
         }
         /****************FIN PROCESOS CON SKILLS ************************************/
                
+        /*************** INICIO PROCESOS DE CUENTAS ******************************/
+        if (!empty($accounts)) {
+                $userAccounts = $user->getAccounts();
+                foreach ($userAccounts as $userAccount) {
+                    $user->removeAccount($userAccount);
+                    $em->persist($user);
+                    $em->flush();
+                }
+
+                foreach ($accounts as $requestAccount) {
+                    $account_AccountId = $em->getRepository('AppBundle:Account')->find($requestAccount);
+                    $user->addAccount($account_AccountId);
+                }
+            } else {
+                $userAccounts = $user->getAccounts();
+                foreach ($userAccounts as $userAccount) {
+                    $user->removeAccount($userAccount);
+                    $em->persist($user);
+                    $em->flush();
+                }
+            }
+        /*************** FIN PROCESOS CON CUENTAS ********************************/
+        
         $user->setName($request->get('name'));
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
