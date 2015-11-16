@@ -19,9 +19,13 @@ class Accounts extends AbstractFixture implements OrderedFixtureInterface
 	public function load(ObjectManager $manager)
 	{
 		$accounts = array(
-			array('name' => 'Playboy', 'leaderName' => 'Patricio Estrella', 'technologyDescription' => '.NET'),
-			array('name' => 'Nintendo', 'leaderName' => 'Bob Esponja', 'technologyDescription' => 'GNU/Linux'),
-			array('name' => 'Sony', 'leaderName' => 'Don Cangrejo', 'technologyDescription' => '.NET'),
+			array('name' => 'Playboy', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
+			array('name' => 'Tecate', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
+			array('name' => 'Sony', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
+			array('name' => 'Fandango', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
+			array('name' => 'Nintendo', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
+			array('name' => 'Insurance', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
+			array('name' => 'Coca-Cola', 'leaderName' => 'Joaquin Lopez', 'technologyDescription' => '.NET'),
 		);
 
 		foreach ($accounts as $account) 
