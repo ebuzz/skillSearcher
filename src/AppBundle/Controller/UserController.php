@@ -22,6 +22,22 @@ use AppBundle\Form\UserType;
 class UserController extends Controller
 {
     /**
+     *
+     * @Route("/{id}", name="user_profile")
+     * @Method("GET")
+     * @Template("AppBundle:User:view_profile.html.twig")
+     */
+    public function showProfileAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+
+        return array(
+            'user'      => $user,
+        );
+    }
+    
+    /**
      * Lists all User entities.
      *
      * @Route("/", name="user")

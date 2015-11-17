@@ -26,4 +26,17 @@ class UserRepository extends EntityRepository
     	        return null;
     	    }
 	    }
+
+    public function findAllLastUsers()
+    {
+      $query =  $this->getEntityManager()
+          ->createQuery(
+            "SELECT u, MAX(us.userSkillId) AS HIDDEN maxSkill FROM AppBundle:User u,AppBundle:UserSkill  us WHERE u.userId=us.user  GROUP BY u.userId ORDER BY  maxSkill DESC") 
+          ->setMaxResults(6);
+          try {
+              return $query->getResult();
+          } catch (\Doctrine\ORM\NoResultException $e) {
+              return null;
+          }
+    }
 }

@@ -77,7 +77,7 @@ class Users extends AbstractFixture implements OrderedFixtureInterface
 			$entity->setUsername($user['email']);
 			$entity->setPassword($user['password']);
 			$entity->setAdmissionDate(new \DateTime("now"));
-			$entity->setImage('imagen.jotapege');
+			$entity->setImage('test.jpeg');
 			$entity->setRoles($user['roles']);
 			$entity->setPosition($positionEntity);
 			$manager->persist($entity);

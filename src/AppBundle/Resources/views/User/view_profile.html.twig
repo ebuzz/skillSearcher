@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% block title %} {{ user.name }} {{ user.lastName }}  {% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('css/user/profile.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div style="padding-top: 50px">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-4">
+        <div class="row">
+            <div class="col-lg-12" style="text-align: center">
+                <div class="profile-userpic">
+                    <img class="img-responsive" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+                </div>
+                <h3>{{ user.name }} {{ user.lastName }} {{ user.surName }} </h3>
+                {{ user.position.name }}</br>
+                {{ user.username }}<br>
+                <b>Cuentas: </b>
+                    {% for account in user.accounts %}
+                        {{ account.name }} |
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+<div class="col-lg-1"></div>
+    <div class="col-lg-4" style="background-color: #f1f1f1">
+        <div class="row">
+            <h3>Habilidades</h3>
+            <ul>
+                {% for skill in user.skills %}
+                    <li>{{ skill.skill.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+{% endblock %}

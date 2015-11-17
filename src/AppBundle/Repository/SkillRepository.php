@@ -41,4 +41,18 @@ class SkillRepository extends EntityRepository
             return null;
         }
     }
+
+  public function findByCount($id)
+  {
+    $query = $this->getEntityManager()
+      ->createQuery(
+        "SELECT COUNT(v.userkill) as total FROM AppBundle:Vote v  where v.userkill = :id"
+      )->setParameter('id', $id);
+
+    try {
+      return $query->getResult();
+    } catch (\Doctrine\ORM\NoResultException $e) {
+      return null;
+    }
+  }
 }

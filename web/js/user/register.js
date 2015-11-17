@@ -46,7 +46,7 @@ $(document).ready(function () {
                     }
                     else
                     {
-                        $('#mailIcon').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+                        $('#mailIcon').removeClass('glyphicon-ok glyphicon-remove');
                     }
                 }
             });

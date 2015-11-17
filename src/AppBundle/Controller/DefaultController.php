@@ -18,10 +18,15 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Template("AppBundle:Dashboard:dashboard.html.twig")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        return $this->render('AppBundle:Dashboard:dashboard.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('AppBundle:User')->findAllLastUsers();
+        return array(
+            'users' => $users,
+        );
     }
 
     /**
@@ -180,6 +185,55 @@ class DefaultController extends Controller
         );
     }
 
+    /**
+     * @Route("/rating", name="rating", options={"expose"=true})
+     */
+    public function rateSkillAction(Request $request)
+    {
+        $result = 'false';
+        $id = $request->get('term');
+        $em = $this->getDoctrine()->getManager();
+
+        $userSkill = $em->getRepository('AppBundle:UserSkill')->find($id);
+        $userSkillId = $userSkill->getUserSkillId();
+
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $userId = $user->getUserId();
+        $userVoting = $em->getRepository('AppBundle:User')->find($userId);
+        $userInVoteExistObject = $em->getRepository('AppBundle:Vote')->findOneBy(
+            array('user' => $userId, 'userkill' => $userSkillId)
+        );
+
+        $voteEntity = new Vote();
+
+        if($userInVoteExistObject)
+        {
+            $em->remove($userInVoteExistObject);
+            $em->persist($voteEntity);
+            $em->flush();
+        }
+        else
+        {
+            $voteEntity->setUserSkill($userSkill);
+            $voteEntity->setUser($userVoting);
+            $em->persist($voteEntity);
+            $em->flush();
+            $result = 'true';
+        }
+
+        $counts = $em->getRepository('AppBundle:Skill')->findByCount($id);
+
+        foreach ($counts as $count) {
+                $total = ($count['total']);
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode(array('total' => $total, 'status' => $result)));
+        return $response;
+    }
+
+    
     /**
      * Rate User Skill 
      *

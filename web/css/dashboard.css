@@ -1,0 +1,203 @@
+.timeline {
+    margin: 0;
+    padding: 0px;
+    list-style: none;
+    position: relative;
+}
+
+/* The line */
+.timeline:before {
+    display: none;
+}
+
+.timeline > li {
+    position: relative;
+}
+
+/*Remove timeline line for last entry*/
+.timeline > li.timeline-noline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: #fff;
+    left: 20%;
+    margin-left: -10px;
+}
+
+/* The date/time */
+.timeline > li .timeline-time {
+    display: block;
+    text-align: right;
+
+    width: 100%;
+    position: relative;
+    padding: 0 0 17px 0;
+}
+
+.timeline > li .timeline-time span {
+    display: block;
+    text-align: left;
+}
+
+.timeline > li .timeline-time span.date {
+    font-size: 12px;
+    color: #aaa;
+    display: block;
+    font-weight: 300;
+}
+
+.timeline > li .timeline-time span.time {
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 38px;
+}
+
+/* Right content */
+.timeline > li .timeline-body {
+    color: #7395B6;
+    font-weight: 300;
+    position: relative;
+    margin: 0 0 10px 0;
+    padding: 10px;
+    padding-left: 10px;
+}
+
+.timeline > li .timeline-body h2 {
+    margin-top: 0px;
+    padding: 0 0 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 24px;
+}
+
+.timeline > li .timeline-content {
+    font-size: 14px;
+}
+
+.ie8 .timeline > li .timeline-body h2 {
+    border-bottom: 1px solid #eee;
+}
+
+.timeline > li .timeline-body img.timeline-img {
+    width: 75px;
+    height: 75px;
+    margin: 5px 10px 0 0px;
+}
+
+.timeline > li .timeline-body img.pull-right {
+    margin-left: 10px;
+}
+
+.timeline > li .timeline-body a.nav-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 14px;
+    padding: 0px;
+    text-align: left;
+    text-decoration: none;
+}
+
+.timeline > li .timeline-body a.nav-link:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.timeline > li .timeline-body .btn {
+    margin-top: 10px;
+}
+
+/* The triangle */
+.timeline > li .timeline-body:after {
+
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-right-color: #F8F8F8;
+    border-width: 10px;
+
+
+    right: auto;
+    left: 20px;
+    top: -20px;
+}
+
+.timeline > li .timeline-content:after,
+.timeline > li .timeline-content:before {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+.timeline > li .timeline-content:after {
+    clear: both;
+}
+
+.timeline > li .timeline-footer:after,
+.timeline > li .timeline-footer:before {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+
+.timeline > li .timeline-footer:after {
+    clear: both;
+}
+
+/* The icons */
+.timeline > li .timeline-icon {
+    width: 30px;
+    height: 30px;
+    speak: none;
+    font-size: 15px;
+    line-height: 30px;
+    -webkit-font-smoothing: antialiased;
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px #ccc;
+    text-align: center;
+    -webkit-border-radius: 30px !important;
+    -moz-border-radius: 30px !important;
+    border-radius: 30px !important;
+
+    position: relative;
+    float: right;
+    margin: -40px 5px 0 0px;
+
+}
+
+.unlike {
+    background: #aaa;
+}
+
+.like {
+    background: #4b8df8;
+}
+
+.timeline > li .timeline-icon > i {
+    font-size: 18px;
+}
+
+/* Blue */
+.timeline li.timeline-blue .timeline-body:after {
+    border-right-color: transparent;
+    border-bottom-color: #F8F8F8;
+}
+
+.timeline li.timeline-blue .timeline-body {
+    background: #F8F8F8;
+}
+
+.timeline li.timeline-blue .timeline-time span.time {
+    color: #F8F8F8;
+}
+
+@media (max-width: 767px) {
+    timeline > li .timeline-time span.time {
+        font-size: 18px;
+    }
+}
