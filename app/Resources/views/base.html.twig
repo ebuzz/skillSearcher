@@ -35,7 +35,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <label>{{ app.user.name }} {{ app.user.lastName }}</label>
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="glyphicon glyphicon-user"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Editar perfil</a>
@@ -54,46 +54,29 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <form action="/busqueda" method="GET">
-                            <div class="input-group custom-search-form">
-                                <input name="search-box" type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <p>Tipo de busqueda:</p>
-                            <select name="search-type" class="form-control">
-                                <option value="skill">Skills</option>
-                                <option value="user">Usuarios</option>
-                                <option value="account">Cuentas</option>
-                            </select>
+                                <h4>Tipo de busqueda:</h4>
+                                <select name="search-type" class="form-control">
+                                    <option value="skill">Skills</option>
+                                    <option value="user">Usuarios</option>
+                                    <option value="account">Cuentas</option>
+                                </select>
+                                </br>
+                                <div class="input-group custom-search-form">
+                                    <input name="search-box" type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </form>
-                        </li>
-                        
-                        <li>
-                            <a href="{{ path('homepage') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Gestion<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Equipos</a>
-                                </li>
-                                <li>
-                                    <a href="#">Habilidades</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('user') }}">Usuarios</a>
-                                </li>
-                                <li>
-                                    <a href="#">Posiciones</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('account') }}">Cuentas</a>
-                                </li>
-                            </ul>           
-                        </li>
+                        </li>             
+                        <li><a href="{{ path('homepage') }}"><i class="fa fa-home fa-fw"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fa fa-group fa-fw"></i> Equipos</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-check fa-fw"></i> Skills</a></li>
+                        <li><a href="{{ path('user') }}"><i class="fa fa-user fa-fw"></i> Usuarios </a></li>
+                        <li><a href="#"><i class="fa fa-sitemap fa-fw"></i> Posiciones</a></li>
+                        <li><a href="{{ path('account') }}"><i class="fa fa-suitcase fa-fw"></i> Cuentas</a></li>
                     </ul> 
                 </div>
             </div>
