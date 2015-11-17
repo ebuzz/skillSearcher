@@ -44,16 +44,13 @@ security:
         - { path: ^/register, allow_if: "!is_fully_authenticated()" }
         - { path: ^/verify_skill, allow_if: "!is_fully_authenticated()" }
         - { path: ^/verify_mail, allow_if: "!is_fully_authenticated()" }
-        - { path: ^/retrieve_password, allow_if: "!is_fully_authenticated()" }
-        - { path: ^/send_email, allow_if: "!is_fully_authenticated()" }
-        - { path: ^/change_password, allow_if: "!is_fully_authenticated()" }
         - { path: ^/account, roles: ROLE_ADMIN }
         # - { path: ^/position, roles: ROLE_ADMIN }
         # - { path: ^/skills, roles: ROLE_ADMIN }
+        - { path: ^/user/.*/edit, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_RH }
         - { path: ^/logout, roles: ROLE_USER }
         - { path: ^/busqueda, roles: ROLE_USER }
-        # - { path: ^/edit_profile, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_USER }
 
     access_denied_url: /

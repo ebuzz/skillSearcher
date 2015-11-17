@@ -1,9 +1,7 @@
 <h3>Hola, hemos recibido tu petición</h3>
-
-<h2>{{ token }}</h2>
-Para poder recuperar tu contraseña debemos confirmar tu autenticidad, para ello tienes que accesar el PIN que te hemos enviado a <a href="{{ url('login_route') }}">este enlace</a>.
+Para poder recuperar tu contraseña debemos confirmar tu autenticidad, para ello tienes que accesar a <a href="{{ url('change_password', {'id':id, 'nip':nip})  }}">este link</a> que te hemos enviado.
 <br>
-Y posteriormente se te redireccionará para que puedas completar el proceso. Este PIN es valido antes de (tiempo) minutos de haberlo recibido.
+Y posteriormente se te redireccionará para que puedas completar el proceso. Este enlace es valido antes de 15 minutos de haberlo recibido.
 <br>
 <br>
 Gracias por tu tiempo.
