@@ -93,6 +93,7 @@ class SecurityController extends Controller
      */
     public function PasswordPetitionAction(Request $request)
     {
+        $error = " ";
         if($request->get('error'))
         {
             $error = $request->get('error');
@@ -100,7 +101,9 @@ class SecurityController extends Controller
                 'error' => $error,
                 ));
         }
-        return $this->render('AppBundle:Security:retrieve_password.html.twig');
+        return $this->render('AppBundle:Security:retrieve_password.html.twig', array(
+                'error' => $error,
+                ));
     }
 
     /**
@@ -121,7 +124,7 @@ class SecurityController extends Controller
         $tokenArr = $qb->getResult();
         if($tokenArr == null)
         {
-            $error = 'warning';
+            $error = 'alert';
             return $this->redirectToRoute('retrieve_password', array(
                         'error' => $error,
                         ));
@@ -131,7 +134,7 @@ class SecurityController extends Controller
 
         if($tokenId != $request->get('nip'))
         {
-            $error = 'alert';
+            $error = 'warning';
             return $this->redirectToRoute('retrieve_password', array(
                     'error' => $error,
                     ));
