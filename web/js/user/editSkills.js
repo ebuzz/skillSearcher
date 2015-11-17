@@ -13,7 +13,7 @@ $(document).ready(function() {
             };
             allSkills.push(skill);
             $(".inputSkill").val("");   
-            $(".skillsTable tr:last").after("<tr class='skills'><td><input type='hidden' value='"+ skill.name +"' name='skills["+ count +"][name]' class='skillName' />"+ skill.name +"</td><td><input type='hidden' value='"+ skill.id +"' name='skills["+ count +"][id]' class='skillId' /><button class='remove btn btn-danger'> X </button></td></tr>");
+            $(".skillsTable tr:last").after("<tr class='skills'><td><input type='hidden' value='"+ skill.name +"' name='skills["+ count +"][name]' class='skillName' />"+ skill.name +"</td><td><input type='hidden' value='"+ skill.id +"' name='skills["+ count +"][id]' class='skillId' /><button class='remove btn btn-default btn-xs'> <i class='fa fa-minus'></i> </button></td></tr>");
             count = count + 1;
             console.log(allSkills);
     });
@@ -24,7 +24,7 @@ $(document).ready(function() {
         $(this).closest('tr').remove();        
         console.log(allSkills);
     });
-    $('.btn-file :file').on('change', function (event) {
+    $('.file-input :file').on('change', function (event) {
         var input = $(this).parents('.input-group').find(':text');
         var output = document.getElementById('output');
         output.src = URL.createObjectURL(event.target.files[0]);

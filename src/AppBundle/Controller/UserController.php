@@ -182,7 +182,7 @@ $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);  
         $skillsRequest = $request->get('skills');
         $accounts = $request->get('account');
-        // $date = date_create_from_format('Y-m-d', $request->get('admissionDate'));
+        $dateAdmission = $request->get('admissionDate');
         
         /**************** INICIO PROCESOS CON SKILLS ************************************/
         if (!empty($skillsRequest)) {       
@@ -241,8 +241,6 @@ $em = $this->getDoctrine()->getManager();
                     }
                 }
             }
-        } else {
-
         }
         /****************FIN PROCESOS CON SKILLS ************************************/
                
@@ -274,8 +272,13 @@ $em = $this->getDoctrine()->getManager();
         $user->setSurName($request->get('surname'));
         $user->setUserName($request->get('email'));
         $user->setPassword($request->get('password'));
-        $user->setImage($request->get('image'));
-        // $user->setAdmissionDate($date);
+        $user->setFile($request->files->get('image'));
+        
+        if(!empty($dateAdmission))
+            {
+                $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
+                $user->setAdmissionDate($dateAdmission);
+            }
 
         $em->persist($user);
         $em->flush();

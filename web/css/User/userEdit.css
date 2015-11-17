@@ -16,12 +16,12 @@ img.register {
     margin:0 auto;
 }
 
-.btn-file {
+.file-input {
     position: relative;
     overflow: hidden;
 }
 
-.btn-file input[type=file] {
+.file-input input[type=file] {
     position: absolute;
     top: 0;
     right: 0;
@@ -42,23 +42,44 @@ input[readonly] {
 }
 
 .user input, .btn-success {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .accountsUl li {
-	width:25%;
-	display: inline;
-	float: left;
+    width:25%;
+    display: inline;
+    float: left;
 }
 
+.profile-pic {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-pic:hover .file-input {
+    display: block;
+}
+
+.file-input {
+    padding-top: 2%;   
+    padding-right: 5%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+.file-input a {
+    color: #000;
+}
 @media screen and (max-width: 1335px){
-	.accountsUl li {
-		width:33.3%;
-	}	
+    .accountsUl li {
+        width:33.3%;
+    }   
 }
 @media screen and (max-width: 650px){
-	.accountsUl li {
-		width:100%;
-		float: none;
-	}
+    .accountsUl li {
+        width:100%;
+        float: none;
+    }
 }
