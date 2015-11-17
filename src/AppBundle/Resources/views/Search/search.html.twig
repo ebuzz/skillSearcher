@@ -132,12 +132,13 @@
                 <h3>Selecciona Skills</h3>
                 {% for skill in user.skills %}
                     <li>
+
                     <button type="button" class="btn btn-info btn-circle">
                     <i class="fa fa-plus"></i>
                     </button>
-                        <button class="btn btn-info ">
-                        {{ skill.skill.name }}
-                        </button>  
+                    <button class="btn btn-info rating unlike" type="button" value="{{ skill.skill.skillId }}">
+                      {{ skill.skill.name }} <span class="badge"></span>
+                    </button>  
                     </li>   
                 {% endfor %}
                 </div>
@@ -250,7 +251,7 @@
 <!-- /.modal -->
 
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('js/rating/rate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/rating/rate-skills.js') }}"></script>
 {% endblock %}
 {% endblock %}
 

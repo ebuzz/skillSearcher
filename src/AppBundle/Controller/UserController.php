@@ -23,7 +23,7 @@ class UserController extends Controller
 {
     /**
      *
-     * @Route("/{id}", name="user_profile")
+     * @Route("/profile/{id}", name="user_profile")
      * @Method("GET")
      * @Template("AppBundle:User:view_profile.html.twig")
      */
@@ -36,7 +36,7 @@ class UserController extends Controller
             'user'      => $user,
         );
     }
-    
+
     /**
      * Lists all User entities.
      *

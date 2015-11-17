@@ -1,4 +1,14 @@
 $(document).ready(function(e){
+
+
+$('.timeline-body').find('button').each(function(){
+       var buttonValue = $(this).val();
+       if (buttonValue >= 0){
+           $(this).removeClass('unlike').addClass('like');
+       }
+   });
+
+
     $(function() {
         $(".rating").on('click', function(event) {
             event.preventDefault();
@@ -11,11 +21,11 @@ $(document).ready(function(e){
                     data = $.parseJSON(data)
                     if (data.status != 'true'){
                         $(me).removeClass('like').addClass('unlike');
-                        $(me).text(data.total).append("<i class='fa fa-thumbs-o-up'></i>");
+                        $(me).find("span").html(data.total);
                     }
                     else{
                         $(me).removeClass('unlike').addClass('like');
-                        $(me).text(data.total).append("<i class='fa fa-thumbs-o-up'></i>");
+                        $(me).find("span").html(data.total);
                     }
                 },
                 error: function(){
