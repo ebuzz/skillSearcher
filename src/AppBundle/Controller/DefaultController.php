@@ -96,7 +96,9 @@ class DefaultController extends Controller
                 $this->AddSkills($skills,$user);
             }
         }
-        return $this->redirect($this->generateUrl('homepage'));
+        return $this->redirect($this->generateUrl('user_edit', array(
+            'id' => $user->getUserId()
+            )));
     }
 
     private function AddSkills($skills,$user){
