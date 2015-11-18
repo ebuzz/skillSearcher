@@ -57,25 +57,6 @@ class AccountController extends Controller
     }
 
     /**
-     * Creates a form to create a Account entity.
-     *
-     * @param Account $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Account $entity)
-    {
-        $form = $this->createForm(new AccountType(), $entity, array(
-            'action' => $this->generateUrl('account_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
      * Displays a form to create a new Account entity.
      *
      * @Route("/new", name="account_new")
@@ -130,72 +111,40 @@ class AccountController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Account')->find($id);
+        $account = $em->getRepository('AppBundle:Account')->find($id);
+        $users   = $em->getRepository('AppBundle:User')->findAll();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Account entity.');
+        $error = " ";
+        if (!$account) {
+            $error = "true";
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'account'   => $account,
+            'users'     => $users,
+            'error'     => $error,
         );
     }
 
     /**
-    * Creates a form to edit a Account entity.
-    *
-    * @param Account $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Account $entity)
-    {
-        $form = $this->createForm(new AccountType(), $entity, array(
-            'action' => $this->generateUrl('account_update', array('id' => $entity->getAccountId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
      * Edits an existing Account entity.
      *
      * @Route("/{id}", name="account_update")
-     * @Method("PUT")
+     * @Method("POST")
      * @Template("AppBundle:Account:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $account = $em->getRepository('AppBundle:Account')->find($id);
 
-        $entity = $em->getRepository('AppBundle:Account')->find($id);
+        $account->setName($request->get('name'));
+        $account->setTechnologyDescription($request->get('technologyDescription'));
+        $account->setLeaderName($request->get('leaderName'));
+        $em     ->persist($account);
+        $em     ->flush();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Account entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('account_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return $this->redirectToRoute('account');
     }
     /**
      * Deletes a Account entity.
