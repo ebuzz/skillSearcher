@@ -1,3 +1,7 @@
+.user input, .btn-success, .input-group {
+    margin-bottom: 10px;
+}
+
 img.register {
     display: block;
     margin-left: auto;
@@ -39,10 +43,6 @@ img.register {
 input[readonly] {
     background-color: white !important;
     cursor: text !important;
-}
-
-.user input, .btn-success {
-    margin-bottom: 10px;
 }
 
 .accountsUl li {

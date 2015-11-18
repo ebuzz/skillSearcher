@@ -177,12 +177,15 @@ class UserController extends Controller
             throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
 
+        $userPosition = $user->getPosition();
+
         return array(
             'user'      => $user,
             'userSkills' => $userSkills,
             'accountsEntity' => $accountsEntity,
             'resultados' => $resultados,
             'accountList' => $accountList,
+            'userPosition' => $userPosition,
         );
     }    
     /**
@@ -194,11 +197,13 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-$em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);  
         $skillsRequest = $request->get('skills');
         $accounts = $request->get('account');
         $dateAdmission = $request->get('admissionDate');
+        $password = $request->get('password');
+
         
         /**************** INICIO PROCESOS CON SKILLS ************************************/
         if (!empty($skillsRequest)) {       
@@ -287,14 +292,16 @@ $em = $this->getDoctrine()->getManager();
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
         $user->setUserName($request->get('email'));
-        $user->setPassword($request->get('password'));
         $user->setFile($request->files->get('image'));
-        
-        if(!empty($dateAdmission))
-            {
-                $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
-                $user->setAdmissionDate($dateAdmission);
-            }
+
+        if($password != "") {
+            $user->setPassword($password);
+        }
+
+        if(!empty($dateAdmission)) {
+            $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
+            $user->setAdmissionDate($dateAdmission);
+        }
 
         $em->persist($user);
         $em->flush();
