@@ -25,9 +25,16 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('AppBundle:User')->findAllLastUsers();
         $votes = $em->getRepository('AppBundle:Vote')->findAll();
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $userId = $user->getUserId();
+        $userLogeado = $em->getRepository('AppBundle:User')->find($userId);
+        $elID =  $userLogeado->getUserId();
+
         return array(
             'users' => $users,
             'votes' => $votes,
+            'elID' => $elID,
         );
     }
 

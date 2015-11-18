@@ -6,7 +6,6 @@
 
 
 {% block body %}
-
     <div class="timeline">
         {% for user in users %}
             <div class="timeline-item">
@@ -28,8 +27,8 @@
                                 <div class="btn-group">
                                 {% set status = "no" %}
                                     {% for vote in votes %}
-                                        {% if vote.userkill.skill.skillId == skill.skill.skillId %}
-                                            {% set status =  "si" %}
+                                        {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  elID) %}
+                                            {% set status =  "si" %}  
                                         {% endif %}
                                     {% endfor %}
                                             <button class="btn btn-default rating {{ status}}" type="button" value="{{ skill.skill.skillId }}">
