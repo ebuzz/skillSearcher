@@ -24,8 +24,10 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('AppBundle:User')->findAllLastUsers();
+        $votes = $em->getRepository('AppBundle:Vote')->findAll();
         return array(
             'users' => $users,
+            'votes' => $votes,
         );
     }
 
@@ -212,7 +214,6 @@ class DefaultController extends Controller
         if($userInVoteExistObject)
         {
             $em->remove($userInVoteExistObject);
-            $em->persist($voteEntity);
             $em->flush();
         }
         else

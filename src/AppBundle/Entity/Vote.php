@@ -24,7 +24,7 @@ class Vote
     /** === FOREIGN KEYS === **/
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserSkill")
+     * @ORM\ManyToOne(targetEntity="UserSkill", inversedBy="vote")
      * @ORM\JoinColumn(name="userSkillId", referencedColumnName="userSkillId")
      */
     private $userkill;
@@ -92,5 +92,29 @@ class Vote
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set userkill
+     *
+     * @param \AppBundle\Entity\UserSkill $userkill
+     *
+     * @return Vote
+     */
+    public function setUserkill(\AppBundle\Entity\UserSkill $userkill = null)
+    {
+        $this->userkill = $userkill;
+
+        return $this;
+    }
+
+    /**
+     * Get userkill
+     *
+     * @return \AppBundle\Entity\UserSkill
+     */
+    public function getUserkill()
+    {
+        return $this->userkill;
     }
 }

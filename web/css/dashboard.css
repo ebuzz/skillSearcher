@@ -170,14 +170,6 @@
 
 }
 
-.unlike {
-    background: #aaa;
-}
-
-.like {
-    background: #4b8df8;
-}
-
 .timeline > li .timeline-icon > i {
     font-size: 18px;
 }

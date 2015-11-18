@@ -1,14 +1,5 @@
 $(document).ready(function(e){
-
-
-$('.timeline-body').find('button').each(function(){
-       var buttonValue = $(this).val();
-       if (buttonValue >= 0){
-           $(this).removeClass('unlike').addClass('like');
-       }
-   });
-
-
+    $(".si").addClass('like');
     $(function() {
         $(".rating").on('click', function(event) {
             event.preventDefault();

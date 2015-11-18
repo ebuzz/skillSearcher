@@ -13,6 +13,7 @@
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{  asset('css/metisMenu.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/rating.css') }}" rel="stylesheet">
         <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         {% block stylesheets %}{% endblock %}
 </head>
@@ -73,9 +74,9 @@
                         </li>             
                         <li><a href="{{ path('homepage') }}"><i class="fa fa-home fa-fw"></i> Dashboard</a></li>
                         <li><a href="#"><i class="fa fa-group fa-fw"></i> Equipos</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-check fa-fw"></i> Skills</a></li>
+                        <li><a href="{{ path('skills') }}"><i class="glyphicon glyphicon-check fa-fw"></i> Skills</a></li>
                         <li><a href="{{ path('user') }}"><i class="fa fa-user fa-fw"></i> Usuarios </a></li>
-                        <li><a href="#"><i class="fa fa-sitemap fa-fw"></i> Posiciones</a></li>
+                        <li><a href="{{ path('positions') }}"><i class="fa fa-sitemap fa-fw"></i> Posiciones</a></li>
                         <li><a href="{{ path('account') }}"><i class="fa fa-suitcase fa-fw"></i> Cuentas</a></li>
                     </ul> 
                 </div>

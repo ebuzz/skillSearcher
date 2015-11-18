@@ -32,10 +32,21 @@ class UserSkill
     private $skill;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="userskill", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="userskill", cascade={"all"})
      * @ORM\JoinColumn(name="userId", referencedColumnName="userId")
      */
     private $user;  
+
+    /**
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy="userkill")
+     */
+    private $vote;
+    // ...
+
+    public function __construct() {
+        $this->vote = new ArrayCollection();
+        
+    }
 
     /**
      * Get userSkillId
@@ -93,5 +104,39 @@ class UserSkill
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add vote
+     *
+     * @param \AppBundle\Entity\Vote $vote
+     *
+     * @return UserSkill
+     */
+    public function addVote(\AppBundle\Entity\Vote $vote)
+    {
+        $this->vote[] = $vote;
+
+        return $this;
+    }
+
+    /**
+     * Remove vote
+     *
+     * @param \AppBundle\Entity\Vote $vote
+     */
+    public function removeVote(\AppBundle\Entity\Vote $vote)
+    {
+        $this->vote->removeElement($vote);
+    }
+
+    /**
+     * Get vote
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVote()
+    {
+        return $this->vote;
     }
 }
