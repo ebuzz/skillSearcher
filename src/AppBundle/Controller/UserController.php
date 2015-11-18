@@ -1,7 +1,5 @@
 <?php
-
 namespace AppBundle\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +11,6 @@ use AppBundle\Entity\UserSkill;
 use AppBundle\Entity\Skill;
 use AppBundle\Entity\Account;
 use AppBundle\Form\UserType;
-
 /**
  * User controller.
  *
@@ -31,12 +28,10 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);
-
         return array(
             'user'      => $user,
         );
     }
-
     /**
      * Lists all User entities.
      *
@@ -47,9 +42,7 @@ class UserController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:User')->findAll();
-
         return array(
             'entities' => $entities,
         );
@@ -66,21 +59,17 @@ class UserController extends Controller
         $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
             return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getUserId())));
         }
-
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
-
     /**
      * Creates a form to create a User entity.
      *
@@ -94,12 +83,9 @@ class UserController extends Controller
             'action' => $this->generateUrl('user_create'),
             'method' => 'POST',
         ));
-
         $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
-
     /**
      * Displays a form to create a new User entity.
      *
@@ -111,13 +97,11 @@ class UserController extends Controller
     {
         $entity = new User();
         $form   = $this->createCreateForm($entity);
-
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
-
     /**
      * Finds and displays a User entity.
      *
@@ -130,21 +114,16 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppBundle:User')->find($id);
         $userSkills = $entity->getSkills();
-
-
         if (!$entity) {
             throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
             'userSkills' => $userSkills,
             'delete_form' => $deleteForm->createView(),
         );
     }
-
     /**
      * Displays a form to edit an existing User entity.
      *
@@ -155,7 +134,6 @@ class UserController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $user = $em->getRepository('AppBundle:User')->find($id);
         $userSkills = $user->getSkills();
         $accountsEntity = $em->getRepository('AppBundle:Account')->findAll();
@@ -172,17 +150,17 @@ class UserController extends Controller
             array_push($accountList, $userAccount);
         }
         $resultados = array_diff($accounts, $accountList);
-
         if (!$user) {
             throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
-
+        $userPosition = $user->getPosition();
         return array(
             'user'      => $user,
             'userSkills' => $userSkills,
             'accountsEntity' => $accountsEntity,
             'resultados' => $resultados,
             'accountList' => $accountList,
+            'userPosition' => $userPosition,
         );
     }    
     /**
@@ -194,11 +172,12 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-$em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);  
         $skillsRequest = $request->get('skills');
         $accounts = $request->get('account');
         $dateAdmission = $request->get('admissionDate');
+        $password = $request->get('password');
         
         /**************** INICIO PROCESOS CON SKILLS ************************************/
         if (!empty($skillsRequest)) {       
@@ -207,7 +186,6 @@ $em = $this->getDoctrine()->getManager();
                 $skillRequestId = $skillRequest['id'];
                 array_push($skillsRequestId, $skillRequestId);
             }
-
             $userSkills = $user->getSkills();
             $allUserSkills = [];
             foreach ($userSkills as $userSkill) {
@@ -231,7 +209,6 @@ $em = $this->getDoctrine()->getManager();
                     }     
                 }     
             }
-
             foreach ($skillsRequest as $skillRequest) {
                 $skillEntityByName = $em->getRepository('AppBundle:Skill')->findOneByName($skillRequest["name"]);
                 if ($skillRequest["id"] == "" && is_null($skillEntityByName)) {
@@ -268,7 +245,6 @@ $em = $this->getDoctrine()->getManager();
                     $em->persist($user);
                     $em->flush();
                 }
-
                 foreach ($accounts as $requestAccount) {
                     $account_AccountId = $em->getRepository('AppBundle:Account')->find($requestAccount);
                     $user->addAccount($account_AccountId);
@@ -287,18 +263,16 @@ $em = $this->getDoctrine()->getManager();
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
         $user->setUserName($request->get('email'));
-        $user->setPassword($request->get('password'));
         $user->setFile($request->files->get('image'));
-        
-        if(!empty($dateAdmission))
-            {
-                $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
-                $user->setAdmissionDate($dateAdmission);
-            }
-
+        if($password != "") {
+            $user->setPassword($password);
+        }
+        if(!empty($dateAdmission)) {
+            $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
+            $user->setAdmissionDate($dateAdmission);
+        }
         $em->persist($user);
         $em->flush();
-
         return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
     }
     /**
@@ -311,22 +285,17 @@ $em = $this->getDoctrine()->getManager();
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AppBundle:User')->find($id);
-
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
-
             $em->remove($entity);
             $em->flush();
         }
-
         return $this->redirect($this->generateUrl('user'));
     }
-
     /**
      * Creates a form to delete a User entity by id.
      *
