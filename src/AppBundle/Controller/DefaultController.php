@@ -23,18 +23,17 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $userId = $this->get('security.token_storage')->getToken()->getUser()->getUserId();
+        $userLogged = $em->getRepository('AppBundle:User')->find($userId)->getUserId();
         $users = $em->getRepository('AppBundle:User')->findAllLastUsers();
+        $counts = $em->getRepository('AppBundle:Vote')->findAllCounter();
         $votes = $em->getRepository('AppBundle:Vote')->findAll();
-
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $userId = $user->getUserId();
-        $userLogeado = $em->getRepository('AppBundle:User')->find($userId);
-        $elID =  $userLogeado->getUserId();
 
         return array(
             'users' => $users,
             'votes' => $votes,
-            'elID' => $elID,
+            'counts' => $counts,
+            'userLogged' => $userLogged,
         );
     }
 

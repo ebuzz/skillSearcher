@@ -1,5 +1,4 @@
 $(document).ready(function(e){
-    $(".si").addClass('like');
     $(function() {
         $(".rating").on('click', function(event) {
             event.preventDefault();

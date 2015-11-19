@@ -3,8 +3,6 @@
 {% block stylesheets %}
     <link href="{{ asset('css/dashboard3.css') }}" rel="stylesheet">
 {% endblock %}
-
-
 {% block body %}
     <div class="timeline">
         {% for user in users %}
@@ -22,25 +20,26 @@
                                    class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
                                 <span class="timeline-body-time font-grey-cascade">{{ user.position.name }}</span>
                             </div>
-
                             <div class="timeline-body-head-actions">
                                 <div class="btn-group">
-                                {% set status = "no" %}
+                                {% set status = "unlike" %}
+                                {% set score =  0 %}  
                                     {% for vote in votes %}
-                                        {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  elID) %}
-                                            {% set status =  "si" %}  
+                                                {% for count in counts %} 
+                                                  {%  if  count.us_userSkillId  ==  skill.skill.skillId %}
+                                                       {% set score =  count.total %}
+                                                     {% endif %}
+                                                {% endfor %}
+                                        {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
+                                            {% set status =  "like" %}  
                                         {% endif %}
                                     {% endfor %}
                                             <button class="btn btn-default rating {{ status}}" type="button" value="{{ skill.skill.skillId }}">
                                               <i class="fa fa-thumbs-o-up"></i>
-                                              <span class="badge"></span>
+                                              <span class="badge">{{ score }}</span>
                                             </button>
-
-
                                 </div>
                             </div>
-
-
                             <div class="timeline-body-head-actions">
                             </div>
                         </div>
@@ -52,9 +51,6 @@
             </div>
         {% endfor %}
     </div>
-
-
-
 
 {% endblock %}
 {% block javascripts %}
