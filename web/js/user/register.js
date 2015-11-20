@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    
     var allSkills = [];
     var count = 0;
 

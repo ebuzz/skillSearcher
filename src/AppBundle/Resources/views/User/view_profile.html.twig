@@ -24,15 +24,37 @@
         </div>
     </div>
 <div class="col-lg-1"></div>
-    <div class="col-lg-4" style="background-color: #f1f1f1">
+    <div class="col-lg-4">
         <div class="row">
             <h3>Habilidades</h3>
-            <ul>
                 {% for skill in user.skills %}
-                    <li>{{ skill.skill.name }}</li>
+                        {% set status = "unlike" %}
+                        {% set score =  0 %}
+                        {% for vote in votes %}
+                            {% for count in counts %}
+                                {%  if  count.us_userSkillId  ==  skill.skill.skillId %}
+                                    {% set score =  count.total %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
+                                {% set status =  "like" %}
+                            {% endif %}
+                        {% endfor %}
+                        <button class="btn btn-default rating {{ status}}" type="button" value="{{ skill.skill.skillId }}">
+                            <i class="fa fa-thumbs-o-up"></i>
+                            {{ skill.skill.name }} <span class="badge">{{ score }}</span>
+                        </button>
                 {% endfor %}
-            </ul>
         </div>
     </div>
     </div>
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/rating/rate-skills.js') }}"></script>
 {% endblock %}

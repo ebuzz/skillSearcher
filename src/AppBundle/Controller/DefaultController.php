@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
     /**
      * @Route("/", name="homepage")
@@ -23,11 +23,10 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $userId = $this->get('security.token_storage')->getToken()->getUser()->getUserId();
-        $userLogged = $em->getRepository('AppBundle:User')->find($userId)->getUserId();
         $users = $em->getRepository('AppBundle:User')->findAllLastUsers();
         $counts = $em->getRepository('AppBundle:Vote')->findAllCounter();
         $votes = $em->getRepository('AppBundle:Vote')->findAll();
+        $userLogged = $this->getUserIdLogged();
 
         return array(
             'users' => $users,
@@ -46,7 +45,6 @@ class DefaultController extends Controller
     public function registerAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $accounts = $em->getRepository('AppBundle:Account')->findAll();
         $positions = $em->getRepository('AppBundle:Position')->findAll();
         return array(
@@ -63,7 +61,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if($request->getMethod()=="POST") {
+        if ($request->getMethod() == "POST") {
 
             $user = new User();
             $dateAdmission = $request->get('admissionDate');
@@ -73,9 +71,8 @@ class DefaultController extends Controller
 
             $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
 
-            if(!empty($dateAdmission))
-            {
-                $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
+            if (!empty($dateAdmission)) {
+                $dateAdmission = date_create_from_format('Y-m-d', $dateAdmission);
                 $user->setAdmissionDate($dateAdmission);
             }
 
@@ -101,20 +98,20 @@ class DefaultController extends Controller
             $this->get('security.token_storage')->setToken($token);
 
             if (!empty($skills)) {
-                $this->AddSkills($skills,$user);
+                $this->AddSkills($skills, $user);
             }
         }
         return $this->redirect($this->generateUrl('user_edit', array(
             'id' => $user->getUserId()
-            )));
+        )));
     }
 
-    private function AddSkills($skills,$user){
+    private function AddSkills($skills, $user)
+    {
         foreach ($skills as $userSkill) {
-
             $userSkillEntity = new UserSkill();
             $em = $this->getDoctrine()->getManager();
-            
+
             if ($userSkill["id"] == "") {
                 $skillEntity = new Skill();
                 $skillEntity->setName($userSkill["name"]);
@@ -125,8 +122,7 @@ class DefaultController extends Controller
                 $userSkillEntity->setUser($user);
                 $em->persist($userSkillEntity);
                 $em->flush();
-            }
-            elseif($userSkill["id"] != ""){
+            } elseif ($userSkill["id"] != "") {
                 $skill = $em->getRepository('AppBundle:Skill')->find($userSkill["id"]);
                 $skill->getSkillId();
                 $userSkillEntity->setSkill($skill);
@@ -144,54 +140,48 @@ class DefaultController extends Controller
      * @Method("GET")
      * @Template("AppBundle:Search:search.html.twig")
      */
-    public function getUsersWithSkillsAction(Request $request)
+    public function searchAction(Request $request)
     {
-        // Get values
+        $em = $this->getDoctrine()->getManager();
+
         $searchText = $request->get('search-box');
         $searchType = $request->get('search-type');
-        // Instatiate em
-        $em = $this->getDoctrine()->getManager();
-        // This will be used no matter what ?
-        $userRepository = $em->getRepository('AppBundle:User');
-        $accountRepository = $em->getRepository('AppBundle:Account');
-        $skillRepository = $em->getRepository('AppBundle:Skill');
-        // Cases
-        if($searchType == "user"){
-            $results = $userRepository->findBySearch($searchText);
-            if(empty($searchText)){
-                $results = $userRepository->findAll();
-            }
-            $allAccounts = null;
-            $allSkills = null;
+
+        $counts = $em->getRepository('AppBundle:Vote')->findAllCounter();
+        $votes = $em->getRepository('AppBundle:Vote')->findAll();
+        $teams = $em->getRepository('AppBundle:Team')->findAll();
+        $userLogged = $this->getUserIdLogged();
+
+        switch ($searchType) {
+            case "user":
+                $searchResults = $em->getRepository('AppBundle:User')->findBySearch($searchText);
+                break;
+            case "skill":
+                $searchResults = $em->getRepository('AppBundle:Skill')->findByName($searchText);
+                break;
+            case "account":
+                $searchResults = $em->getRepository('AppBundle:Account')->findByName($searchText);
+                break;
+            case "position":
+                $searchResults = $em->getRepository('AppBundle:Position')->findBySearch($searchText);
+                break;
+            default:
+                $searchResults = $em->getRepository('AppBundle:User')->findAll();
+                break;
         }
 
-        if($searchType == "skill"){
-            $allSkills = $skillRepository->findByName($searchText);
-            if(empty($searchText)){
-                $allSkills = $skillRepository->findAll();
-            }
-            $allAccounts = null;
-            $results = null;
-        }
-
-        if($searchType == "account"){
-            $allAccounts = $accountRepository->findByName($searchText);
-            if(empty($searchText)){
-                $allAccounts = $accountRepository->findAll();
-            }
-            $results = null;
-            $allSkills = null;
-        }
-        
-        $listAccounts = $accountRepository->findAll();
+        $all = $em->getRepository('AppBundle:User')->findAll();
 
         return array(
-            'allAccounts' => $allAccounts,
-            'listAccounts' => $listAccounts,
-            'allSkills' => $allSkills,
-            'results' => $results,
+            'searchResults' => $searchResults,
+            'teams' => $teams,
+            'all' => $all,
             'searchType' => $searchType,
-            'searchText' => $searchText
+            'searchText' => $searchText,
+            'userLogged' => $userLogged,
+            'counts' => $counts,
+            'votes' => $votes
+
         );
     }
 
@@ -215,15 +205,13 @@ class DefaultController extends Controller
             array('user' => $userId, 'userkill' => $userSkillId)
         );
 
-        $voteEntity = new Vote();
 
-        if($userInVoteExistObject)
-        {
+        if ($userInVoteExistObject) {
             $em->remove($userInVoteExistObject);
             $em->flush();
-        }
-        else
-        {
+        } else {
+
+            $voteEntity = new Vote();
             $voteEntity->setUserSkill($userSkill);
             $voteEntity->setUser($userVoting);
             $em->persist($voteEntity);
@@ -234,72 +222,12 @@ class DefaultController extends Controller
         $counts = $em->getRepository('AppBundle:Skill')->findByCount($id);
 
         foreach ($counts as $count) {
-                $total = ($count['total']);
+            $total = ($count['total']);
         }
 
         $response = new Response();
         $response->setContent(json_encode(array('total' => $total, 'status' => $result)));
         return $response;
-    }
-
-    
-    /**
-     * Rate User Skill 
-     *
-     * @Route("/busqueda/califica/userskill/{id}",name="rate_user")
-     * @Method("GET")
-     * @Template()
-     */
-    public function rateUserSkillAction(Request $request,$id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        // Get UserSkill Entity
-        $userSkillRepository = $em->getRepository('AppBundle:UserSkill');   
-        $userSkill = $userSkillRepository->find($id);
-        // Get UserSkll Id
-        $userSkillId = $userSkill->getUserSkillId();
-
-        // Instantiate Repo and gettin' user from session
-        $userRepository = $em->getRepository('AppBundle:User');
-        $user = $this->get('security.token_storage')->getToken()->getUser(); 
-        $userId = $user->getUserId();
-        // Get entity from User who is voting
-        $userVoting = $userRepository->find($userId);
-
-        // Verify if the logged user hasn't already voted for the same skill
-        $voteRepository = $em->getRepository('AppBundle:Vote');
-
-        // $userInVoteExist = $voteRepository->findByUser($userId);
-        // $userSkillInVoteExist = $voteRepository->findByUserkill($userSkillId);
-        $message1 = "";
-        
-        $userInVoteExistObject = $voteRepository->findOneBy(
-                array('user' => $userId, 'userkill' => $userSkillId)
-            );
-
-        // if($userInVoteExist && $userSkillInVoteExist)
-        $voteEntity = new Vote();
-
-        if($userInVoteExistObject)
-        {
-            $message1 = "Voto quitado";
-            // $voteEntity = new Vote();
-            $em->remove($userInVoteExistObject);
-            $em->persist($voteEntity);
-            $em->flush();
-        }
-        else
-        {
-            $message1 = "Voto agregado";
-            // Instantiate Vote entity 
-            //$voteEntity = new Vote();
-            $voteEntity->setUserSkill($userSkill);
-            $voteEntity->setUser($userVoting);
-            $em->persist($voteEntity);
-            $em->flush();
-        }
-        return new Response("Este Skill" . dump($userSkill) ."fue votado por". "::" . $message1 . dump($userInVoteExistObject));
     }
 
     /**
@@ -335,7 +263,7 @@ class DefaultController extends Controller
         $username = $em->getRepository('AppBundle:User')->findByusername($value);
 
         $result = 'false';
-        if(!empty($username)){
+        if (!empty($username)) {
             $result = 'true';
         }
 

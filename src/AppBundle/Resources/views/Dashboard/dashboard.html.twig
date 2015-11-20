@@ -1,7 +1,6 @@
 {% extends '::base.html.twig' %}
-
 {% block stylesheets %}
-    <link href="{{ asset('css/dashboard3.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body %}
     <div class="timeline">
@@ -22,22 +21,23 @@
                             </div>
                             <div class="timeline-body-head-actions">
                                 <div class="btn-group">
-                                {% set status = "unlike" %}
-                                {% set score =  0 %}  
+                                    {% set status = "unlike" %}
+                                    {% set score =  0 %}
                                     {% for vote in votes %}
-                                                {% for count in counts %} 
-                                                  {%  if  count.us_userSkillId  ==  skill.skill.skillId %}
-                                                       {% set score =  count.total %}
-                                                     {% endif %}
-                                                {% endfor %}
+                                        {% for count in counts %}
+                                            {% if  count.us_userSkillId  ==  skill.skill.skillId %}
+                                                {% set score =  count.total %}
+                                            {% endif %}
+                                        {% endfor %}
                                         {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
-                                            {% set status =  "like" %}  
+                                            {% set status =  "like" %}
                                         {% endif %}
                                     {% endfor %}
-                                            <button class="btn btn-default rating {{ status}}" type="button" value="{{ skill.skill.skillId }}">
-                                              <i class="fa fa-thumbs-o-up"></i>
-                                              <span class="badge">{{ score }}</span>
-                                            </button>
+                                    <button class="btn btn-default rating {{ status }}" type="button"
+                                            value="{{ skill.skill.skillId }}">
+                                        <i class="fa fa-thumbs-o-up"></i>
+                                        <span class="badge">{{ score }}</span>
+                                    </button>
                                 </div>
                             </div>
                             <div class="timeline-body-head-actions">
@@ -51,30 +51,7 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/rating/rate-skills.js') }}"></script>
 {% endblock %}
-
-{#
-<div class="row"> 
-    <div class="col-lg-9 col-lg-push-1 "> 
-        <ul class="timeline">  {% for user in users %} 
-            <li class="timeline-blue"> 
-                <div class="timeline-time"> 
-                    <span class="time"> <a  href="{{ path('user_profile', { 'id': user.userId }) }}">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a> </span> 
-                    <span class="date"> {{ user.position.name }} </span> 
-                </div>
-                  {% for skill in user.skills|reverse(true)|slice(0, 1) %} 
-                <button class="timeline-icon rating unlike" value="{{ skill.skill.skillId }}">  <i
-                            class="fa fa-thumbs-o-up"></i> 
-                </button>
-                <div class="timeline-body">  Agregó <b> {{ skill.skill.name }} </b> </div>
-                  {% endfor %} 
-            </li>
-              {% endfor %} 
-        </ul>
-    </div>
-</div>
-#}

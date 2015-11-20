@@ -27,9 +27,17 @@ class UserController extends Controller
     public function showProfileAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $userId = $this->get('security.token_storage')->getToken()->getUser()->getUserId();
+        $userLogged = $em->getRepository('AppBundle:User')->find($userId)->getUserId();
         $user = $em->getRepository('AppBundle:User')->find($id);
+        $counts = $em->getRepository('AppBundle:Vote')->findAllCounter();
+        $votes = $em->getRepository('AppBundle:Vote')->findAll();
+
         return array(
             'user'      => $user,
+            'userLogged' => $userLogged,
+            'votes' => $votes,
+            'counts' => $counts,
         );
     }
     /**
