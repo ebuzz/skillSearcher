@@ -41,7 +41,6 @@ class UserSkill
      * @ORM\OneToMany(targetEntity="Vote", mappedBy="userkill")
      */
     private $vote;
-    // ...
 
     public function __construct() {
         $this->vote = new ArrayCollection();

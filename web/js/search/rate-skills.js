@@ -1,4 +1,0 @@
-var rateUserSkill = function(userSkillId)
-{
-
-}
