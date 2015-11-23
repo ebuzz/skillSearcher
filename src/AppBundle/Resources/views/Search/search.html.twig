@@ -1,206 +1,229 @@
 {% extends '::base.html.twig' %}
-{% block title %} {{ searchText }} {% endblock %}
 {% block stylesheets %}
     <link href="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('js/datatables-responsive/css/dataTables.responsive.css') }}" rel="stylesheet">
 {% endblock %}
-{% block body %}
-    <div class="col-md-9">
-        <div class="panel panel-default">
-            <div class="panel-heading"> Usuarios con <u> {{ searchText }} </u> en <u> {{ searchType }} </u>
+{% block body -%}
+    <div id="wrapper">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> Usuarios con <u> {{ searchText }} </u> en <u> {{ searchType }} </u>
+                    </div>
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <div id="dataTables-example_wrapper"
+                                 class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-striped table-bordered table-hover dataTable no-footer"
+                                               id="dataTables" role="grid">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Usuario</th>
+                                                <th>Cuentas</th>
+                                                <th>Skills</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if searchText is empty %}
+                                                {% for user in all %}
+                                                    <tr>
+                                                        <td>
+                                                            <a class="btn btn-link" data-toggle="modal"
+                                                               data-target="#ModalTeams">
+                                                                <i class="glyphicon glyphicon-heart"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ path('user_profile', { 'id': user.userId }) }}"
+                                                               class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
+                                                        </td>
+                                                        <td>
+                                                            {% for account in user.accounts %}
+                                                                <span>{{ account.name }}</span>
+                                                            {% endfor %}
+                                                        </td>
+                                                        <td>
+                                                            {% for skill in user.skills|slice(0, 5) %}
+                                                                <span>{{ skill.skill.name }}</span>
+                                                            {% endfor %}
+                                                            <a href="#" onclick="showCharm({{ user.userId }})"
+                                                               class="detail btn btn-link">Ver
+                                                                mas</a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% if searchType == "account" %}
+                                                {% for account in searchResults %}
+                                                    {% for user in account.user %}
+                                                        <tr>
+                                                            <td>
+                                                                <a class="btn btn-link" data-toggle="modal"
+                                                                   data-target="#ModalTeams">
+                                                                    <i class="glyphicon glyphicon-heart"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ path('user_profile', { 'id': user.userId }) }}"
+                                                                   class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
+                                                            </td>
+                                                            <td>
+                                                                {% for account in user.accounts %}
+                                                                    <span>{{ account.name }}</span>
+                                                                {% endfor %}
+                                                            </td>
+                                                            <td>
+                                                                {% for skill in user.skills|slice(0, 5) %}
+                                                                    <span>{{ skill.skill.name }}</span>
+                                                                {% endfor %}
+                                                                <a href="#" onclick="showCharm({{ user.userId }})"
+                                                                   class="detail btn btn-link">Ver
+                                                                    mas</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% if searchType == "skill" %}
+                                                {% for skill in searchResults %}
+                                                    {% for users in skill.users %}
+                                                        <tr>
+                                                            <td>
+                                                                <a class="btn btn-link" data-toggle="modal"
+                                                                   data-target="#ModalTeams">
+                                                                    <i class="glyphicon glyphicon-heart"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ path('user_profile', { 'id': users.user.userId }) }}"
+                                                                   class="timeline-body-title font-blue-madison">{{ users.user.name }} {{ users.user.lastName }} {{ users.user.surName }} </a>
+                                                            </td>
+                                                            <td>
+                                                                {% for account in users.user.accounts %}
+                                                                    <span>{{ account.name }}</span>
+                                                                {% endfor %}
+                                                            </td>
+                                                            <td>
+                                                                {% for skill in users.user.skills|slice(0, 5) %}
+                                                                    <span>{{ skill.skill.name }}</span>
+                                                                {% endfor %}
+                                                                <a href="#" onclick="showCharm({{ users.user.userId }})"
+                                                                   class="detail btn btn-link">Ver
+                                                                    mas</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% if searchType == "user" or searchType == "position" %}
+                                                {% for user in searchResults %}
+                                                    <tr>
+                                                        <td>
+                                                            <a class="btn btn-link" data-toggle="modal"
+                                                               data-target="#ModalTeams">
+                                                                <i class="glyphicon glyphicon-heart"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ path('user_profile', { 'id': user.userId }) }}"
+                                                               class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
+                                                        </td>
+                                                        <td>
+                                                            {% for account in user.accounts %}
+                                                                <span>{{ account.name }}</span>
+                                                            {% endfor %}
+                                                        </td>
+                                                        <td>
+                                                            {% for skill in user.skills|slice(0, 5) %}
+                                                                <span>{{ skill.skill.name }}</span>
+                                                            {% endfor %}
+                                                            <a href="#" onclick="showCharm({{ user.userId }})"
+                                                               class="detail btn btn-link">Ver
+                                                                mas</a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
-                <table class="table table-striped table-bordered table-hover dataTable" id="dataTables">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Usuario</th>
-                        <th>Cuentas</th>
-                        <th>Skills</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% if searchText is empty %}
-                        {% for user in all %}
-                            <tr>
-                                <td>
-                                    <a class="btn btn-link" data-toggle="modal" data-target="#ModalTeams">
-                                        <i class="glyphicon glyphicon-heart"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ path('user_profile', { 'id': user.userId }) }}"
-                                       class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
-                                </td>
-                                <td>
-                                    {% for account in user.accounts %}
-                                        <span>{{ account.name }}</span>
-                                    {% endfor %}
-                                </td>
-                                <td>
-                                    {% for skill in user.skills|slice(0, 5) %}
-                                        <span>{{ skill.skill.name }}</span>
-                                    {% endfor %}
-                                    <a href="#" onclick="showCharm({{ user.userId }})" class="detail btn btn-link">Ver
-                                        mas</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
 
-                    {% if searchType == "account" %}
-                        {% for account in searchResults %}
-                            {% for user in account.user %}
-                                <tr>
-                                    <td>
-                                        <a class="btn btn-link" data-toggle="modal" data-target="#ModalTeams">
-                                            <i class="glyphicon glyphicon-heart"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ path('user_profile', { 'id': user.userId }) }}"
-                                           class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
-                                    </td>
-                                    <td>
-                                        {% for account in user.accounts %}
-                                            <span>{{ account.name }}</span>
-                                        {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% for skill in user.skills|slice(0, 5) %}
-                                            <span>{{ skill.skill.name }}</span>
-                                        {% endfor %}
-                                        <a href="#" onclick="showCharm({{ user.userId }})" class="detail btn btn-link">Ver
-                                            mas</a>
-                                    </td>
-                                </tr>
+            <div class="col-md-3">
+                <ul style="text-decoration:none;list-style-type:none;">
+                    {% for user in all %}
+                        <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
+                            <h3>Selecciona Skills</h3>
+                            {% for skill in user.skills %}
+                                {% set status = "unlike" %}
+                                {% set score =  0 %}
+                                {% for vote in votes %}
+                                    {% for count in counts %}
+                                        {% if  count.us_userSkillId  ==  skill.skill.skillId %}
+                                            {% set score =  count.total %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
+                                        {% set status =  "like" %}
+                                    {% endif %}
+                                {% endfor %}
+                                <li>
+                                    <button class="btn btn-default rating {{ status }}" type="button"
+                                            value="{{ skill.skill.skillId }}">
+                                        <i class="fa fa-thumbs-o-up"></i>
+                                        {{ skill.skill.name }} <span class="badge">{{ score }}</span>
+                                    </button>
+                                </li>
                             {% endfor %}
-                        {% endfor %}
-                    {% endif %}
-
-                    {% if searchType == "skill" %}
-                        {% for skill in searchResults %}
-                            {% for users in skill.users %}
-                                <tr>
-                                    <td>
-                                        <a class="btn btn-link" data-toggle="modal" data-target="#ModalTeams">
-                                            <i class="glyphicon glyphicon-heart"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ path('user_profile', { 'id': users.user.userId }) }}"
-                                           class="timeline-body-title font-blue-madison">{{ users.user.name }} {{ users.user.lastName }} {{ users.user.surName }} </a>
-                                    </td>
-                                    <td>
-                                        {% for account in users.user.accounts %}
-                                            <span>{{ account.name }}</span>
-                                        {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% for skill in users.user.skills|slice(0, 5) %}
-                                            <span>{{ skill.skill.name }}</span>
-                                        {% endfor %}
-                                        <a href="#" onclick="showCharm({{ users.user.userId }})"
-                                           class="detail btn btn-link">Ver
-                                            mas</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% endfor %}
-                    {% endif %}
-
-                    {% if searchType == "user" or searchType == "position" %}
-                        {% for user in searchResults %}
-                            <tr>
-                                <td>
-                                    <a class="btn btn-link" data-toggle="modal" data-target="#ModalTeams">
-                                        <i class="glyphicon glyphicon-heart"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ path('user_profile', { 'id': user.userId }) }}"
-                                       class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
-                                </td>
-                                <td>
-                                    {% for account in user.accounts %}
-                                        <span>{{ account.name }}</span>
-                                    {% endfor %}
-                                </td>
-                                <td>
-                                    {% for skill in user.skills|slice(0, 5) %}
-                                        <span>{{ skill.skill.name }}</span>
-                                    {% endfor %}
-                                    <a href="#" onclick="showCharm({{ user.userId }})" class="detail btn btn-link">Ver
-                                        mas</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <ul style="text-decoration:none;list-style-type:none;">
-            {% for user in all %}
-                <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
-                    <h3>Selecciona Skills</h3>
-                    {% for skill in user.skills %}
-                        {% set status = "unlike" %}
-                        {% set score =  0 %}
-                        {% for vote in votes %}
-                            {% for count in counts %}
-                                {% if  count.us_userSkillId  ==  skill.skill.skillId %}
-                                    {% set score =  count.total %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
-                                {% set status =  "like" %}
-                            {% endif %}
-                        {% endfor %}
-                        <li>
-                            <button class="btn btn-default rating {{ status }}" type="button"
-                                    value="{{ skill.skill.skillId }}">
-                                <i class="fa fa-thumbs-o-up"></i>
-                                {{ skill.skill.name }} <span class="badge">{{ score }}</span>
-                            </button>
-                        </li>
+                        </div>
                     {% endfor %}
-                </div>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="modal fade" id="ModalTeams" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
-                    <h4 class="modal-title" id="myModalLabel">Armar equipo</h4>
-                </div>
-                <div class="modal-body">
-                    <h3>Selecciona equipo</h3>
-                    <ul>
-                        {% for team in teams %}
-                            <li>
-                                <button class="button cycle-square">
-                                    {{ team.name }}
-                                </button>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar usuario</button>
+                </ul>
+            </div>
+            <div class="modal fade" id="ModalTeams" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                            <h4 class="modal-title" id="myModalLabel">Armar equipo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h3>Selecciona equipo</h3>
+                            <ul>
+                                {% for team in teams %}
+                                    <li>
+                                        <button class="button cycle-square">
+                                            {{ team.name }}
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary">Guardar usuario</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </div>
     </div>
-    {% block javascripts %}
-        <script src="{{ asset('js/datatables/media/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
-    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/search/user-search.js') }}"></script>
 {% endblock %}
