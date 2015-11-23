@@ -22,32 +22,21 @@
                                         <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables" role="grid">
                                             <thead>
                                                 <tr>
-                                                <th>Imagen</th>
                                                 <th>Nombre</th>
                                                 <th>Correo</th>
-                                                <th>Fecha de admisión</th>
-                                                <th>Acciones</th>
+                                                <th>Posición</th>
+                                                <th style="background:none; cursor:default"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for entity in entities %}
                                                 <tr>
-                                                    <td>{{ entity.image }}</td>
-                                                    <td>{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</td>
+                                                    <td><a href="{{path('user_profile', { 'id':entity.userId})}}">{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</a></td>
                                                     <td>{{ entity.username }}</td>
-                                                    <td>{% if entity.admissionDate %}{{ entity.admissionDate|date('Y-m-d') }}{% endif %}</td>
-                                                    <td>
-                                                        <ul>
-                                                            <li>
-                                                                <a href="{{ path('user_show', { 'id': entity.userId }) }}">mostrar</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="{{ path('user_edit', { 'id': entity.userId }) }}">editar</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="{{ path('user_delete', { 'id': entity.userId }) }}">eliminar</a>
-                                                            </li>
-                                                        </ul>
+                                                    <td>{% if entity.position.name %}{{ entity.position.name}}{% endif %}</td>
+                                                    <td style="text-align:center">
+                                                        <a href="{{ path('user_edit', { 'id': entity.userId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                        <a href="{{ path('user_delete', { 'id': entity.userId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}   
