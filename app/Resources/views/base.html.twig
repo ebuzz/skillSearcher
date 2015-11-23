@@ -15,7 +15,6 @@
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{  asset('css/metisMenu.min.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/base.html.twig.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/rating.css') }}" rel="stylesheet">
@@ -28,20 +27,22 @@
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="row first-top" >
-                <div class="col-lg-3" >
+            <div class="first-top" >
+                <div class="col-sm-3 col-md-3 col-lg-3" >
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('mindlogo.png') }}" width="124"></a>
+                        {% if is_granted('ROLE_RH') %}
+                            <button type="button" class="navbar-toggle menu" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        {% endif %}
+                        <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('mindlogo.png') }}" width="120"></a>
                     </div>
                 </div>
-                <form action="/busqueda" method="GET">
-                    <div class="col-lg-2 col-lg-offset-2 select-type" >
+                <div class="col-sm-3 col-md-3 select-type col-lg-2 col-lg-offset-2" >
+                    <form action="/busqueda" method="GET">
                         <select name="search-type" class="form-control">
                             <option value="skill">Skills</option>
                             <option value="user">Usuarios</option>
@@ -49,7 +50,7 @@
                             <option value="position">Posición</option>
                          </select>
                     </div>
-                    <div class="col-lg-3 input-search" >
+                    <div class="col-sm-4 col-md-3 input-search col-lg-3" >
                         <div class="input-group custom-search-form ">
                             <input name="search-box" type="text" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
@@ -58,13 +59,14 @@
                                 </button>
                             </span>
                         </div>
+                        </form>
                     </div>
-                </form>
-                <div class="col-lg-2" >
+                
+                <div class="hidden-xs col-sm-2 col-md-3 col-lg-2" >
                     <ul class="nav navbar-top-links navbar-right">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <label>{{ app.user.name }} {{ app.user.lastName }}</label>
+                                <label class="hidden-sm">{{ app.user.name }}</label>
                                 <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
@@ -82,16 +84,16 @@
                 </div>
             </div>
             {% if is_granted('ROLE_RH') %}
-                <div class="row second-top">
+                <div class="second-top navbar-header " >
                     <div class="sidebar-nav navbar-collapse">
-                        <ul>                            
+                        <ul class="nav in">                            
                             <li class="user"><a href="{{ path('user') }}"><i class="fa fa-user fa-fw"></i> Usuarios </a></li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                            <li class="equip"><a href="#"><i class="fa fa-group fa-fw"></i> Equipos</a></li>
-                            <li class="skills"><a href="{{ path('skills') }}"><i class="glyphicon glyphicon-check fa-fw"></i> Skills</a></li>
-                            <li class="positions"><a href="{{ path('positions') }}"><i class="fa fa-sitemap fa-fw"></i> Posiciones</a></li>
-                            <li class="account"><a href="{{ path('account') }}"><i class="fa fa-suitcase fa-fw"></i> Cuentas</a></li>               
+                            <li><a href="#"><i class="fa fa-group fa-fw"></i> Equipos</a></li>
+                            <li><a href="{{ path('skills') }}"><i class="glyphicon glyphicon-check fa-fw"></i> Skills</a></li>
+                            <li><a href="{{ path('positions') }}"><i class="fa fa-sitemap fa-fw"></i> Posiciones</a></li>
+                            <li><a href="{{ path('account') }}"><i class="fa fa-suitcase fa-fw"></i> Cuentas</a></li>               
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->
@@ -121,10 +123,9 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/metisMenu.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/sb-admin-2.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/rating/rate-skills.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/search/user-search.js') }}"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-    <script type="text/javascript" src="{{ asset('js/paintMenuOption.js') }}"></script>
     {% block javascripts %}{% endblock %}
 
 </body>
