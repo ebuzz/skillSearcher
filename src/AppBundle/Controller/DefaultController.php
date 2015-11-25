@@ -64,31 +64,11 @@ class DefaultController extends BaseController
         if ($request->getMethod() == "POST") {
 
             $user = new User();
-            $dateAdmission = $request->get('admissionDate');
-            $accounts = $request->get('account');
-            $skills = $request->get('skills');
 
-
-            $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
-
-            if (!empty($dateAdmission)) {
-                $dateAdmission = date_create_from_format('Y-m-d', $dateAdmission);
-                $user->setAdmissionDate($dateAdmission);
-            }
-
-            if (!empty($accounts)) {
-                foreach ($accounts as $account) {
-                    $account = $em->getRepository('AppBundle:Account')->find($account);
-                    $user->addAccount($account);
-                }
-            }
             $user->setName($request->get('name'));
             $user->setLastName($request->get('lastName'));
-            $user->setSurName($request->get('surName'));
             $user->setPassword($request->get('password'));
             $user->setUsername($request->get('email'));
-            $user->setFile($request->files->get('image'));
-            $user->setPosition($position);
             $user->setRoles('ROLE_USER');
             $em->persist($user);
             $em->flush();
@@ -97,9 +77,6 @@ class DefaultController extends BaseController
             $token = new UsernamePasswordToken($user, null, 'default', $user->getRoles());
             $this->get('security.token_storage')->setToken($token);
 
-            if (!empty($skills)) {
-                $this->AddSkills($skills, $user);
-            }
         }
         return $this->redirect($this->generateUrl('user_edit', array(
             'id' => $user->getUserId()
