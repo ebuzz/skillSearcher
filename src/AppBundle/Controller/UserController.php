@@ -144,6 +144,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);
         $userSkills = $user->getSkills();
+        $position = $em->getRepository('AppBundle:Position')->findAll();
         $accountsEntity = $em->getRepository('AppBundle:Account')->findAll();
         $accounts = [];
         foreach ($accountsEntity as $accountEntity) {
@@ -169,6 +170,7 @@ class UserController extends Controller
             'resultados' => $resultados,
             'accountList' => $accountList,
             'userPosition' => $userPosition,
+            'positions' => $position,
         );
     }    
     /**
@@ -186,6 +188,7 @@ class UserController extends Controller
         $accounts = $request->get('account');
         $dateAdmission = $request->get('admissionDate');
         $password = $request->get('password');
+        $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
         
         /**************** INICIO PROCESOS CON SKILLS ************************************/
         if (!empty($skillsRequest)) {       
@@ -278,6 +281,9 @@ class UserController extends Controller
         if(!empty($dateAdmission)) {
             $dateAdmission = date_create_from_format('Y-m-d',$dateAdmission);
             $user->setAdmissionDate($dateAdmission);
+        }
+        if($position != "") {
+            $user->setPosition($position);
         }
         $em->persist($user);
         $em->flush();

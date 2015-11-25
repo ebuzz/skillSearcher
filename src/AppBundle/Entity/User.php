@@ -92,7 +92,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\ManyToOne(targetEntity="Position", cascade={"persist"})
-     * @ORM\JoinColumn(name="positionId", referencedColumnName="positionId")
+     * @ORM\JoinColumn(name="positionId", referencedColumnName="positionId", onDelete="SET NULL", nullable=true)
      **/
     private $position;
 

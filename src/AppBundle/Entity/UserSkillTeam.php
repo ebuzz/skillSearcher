@@ -25,13 +25,13 @@ class UserSkillTeam
 
     /**
      * @ORM\ManyToOne(targetEntity="UserSkill")
-     * @ORM\JoinColumn(name="userSkillId", referencedColumnName="userSkillId")
+     * @ORM\JoinColumn(name="userSkillId", referencedColumnName="userSkillId", onDelete="CASCADE")
      */
     private $userskill;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserTeam")
-     * @ORM\JoinColumn(name="userTeamId", referencedColumnName="userTeamId")
+     * @ORM\JoinColumn(name="userTeamId", referencedColumnName="userTeamId", onDelete="CASCADE")
      */
     private $userteam;
 

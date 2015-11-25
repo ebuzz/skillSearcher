@@ -29,10 +29,10 @@ class AccountController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Account')->findAll();
+        $account = $em->getRepository('AppBundle:Account')->findAll();
 
         return array(
-            'entities' => $entities,
+            'accounts' => $account,
         );
     }
     /**
@@ -66,11 +66,9 @@ class AccountController extends Controller
     public function newAction()
     {
         $em             = $this->getDoctrine()->getManager();
-        $entity         = $em->getRepository('AppBundle:Account')->findAll();
         $users          = $em->getRepository('AppBundle:User')->findAll();
         
         return array(
-            'entity'    => $entity,
             'users'     => $users,
         );
     }
@@ -86,17 +84,14 @@ class AccountController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Account')->find($id);
+        $account = $em->getRepository('AppBundle:Account')->find($id);
 
-        if (!$entity) {
+        if (!$account) {
             throw $this->createNotFoundException('Unable to find Account entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'account'      => $account,
         );
     }
 
@@ -129,7 +124,7 @@ class AccountController extends Controller
     /**
      * Edits an existing Account entity.
      *
-     * @Route("/{id}", name="account_update")
+     * @Route("/{id}/update", name="account_update")
      * @Method("POST")
      * @Template("AppBundle:Account:edit.html.twig")
      */
@@ -149,43 +144,21 @@ class AccountController extends Controller
     /**
      * Deletes a Account entity.
      *
-     * @Route("/{id}", name="account_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="account_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Account')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Account')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Account entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Account entity.');
         }
 
-        return $this->redirect($this->generateUrl('account'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a Account entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('account_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $this->redirectToRoute('account');
     }
 }

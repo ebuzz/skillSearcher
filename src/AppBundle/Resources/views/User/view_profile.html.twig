@@ -14,7 +14,7 @@
                     <img class="img-responsive" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
                 </div>
                 <h3>{{ user.name }} {{ user.lastName }} {{ user.surName }} </h3>
-                {{ user.position.name }}</br>
+                {# {{ user.position.name }}</br> #}
                 {{ user.username }}<br>
                 <b>Cuentas: </b>
                     {% for account in user.accounts %}

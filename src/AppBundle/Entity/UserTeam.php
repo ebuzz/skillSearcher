@@ -25,13 +25,13 @@ class UserTeam
 
     /** 
      * @ORM\ManyToOne(targetEntity="User", inversedBy="usersTeam") 
-     * @ORM\JoinColumn(name="userId", referencedColumnName="userId") 
+     * @ORM\JoinColumn(name="userId", referencedColumnName="userId", onDelete="CASCADE") 
      */
     protected $user;
 
     /** 
      * @ORM\ManyToOne(targetEntity="Team", inversedBy="team") 
-     * @ORM\JoinColumn(name="teamId", referencedColumnName="teamId") 
+     * @ORM\JoinColumn(name="teamId", referencedColumnName="teamId", onDelete="CASCADE") 
      */
     protected $team;
 
