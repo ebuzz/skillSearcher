@@ -7,12 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title> 
-        Inicio de Sesión - Skill Searcher
+        Inicio de Sesión .:Skill Searcher:.
     </title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/login/normalize.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/login/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/login/login.css') }}" rel="stylesheet" />
 
 </head>
 <body>
@@ -34,12 +33,13 @@
                 <div id="login">   
                     <form role="form" action="{{ path('login_check') }}" method="post">
                         <div class="field-wrap">
-                            <label>Correo Electrónico<span class="req">*</span></label>
-                            <input type="email" id="username" name="_username" autocomplete="off" required />
+                            <label>Email<span class="req">*</span></label>
+                            <input type="email" id="username" name="_username" required />
                         </div>
                         <div class="field-wrap">
                             <label>Contraseña<span class="req">*</span></label>
-                            <input type="password" id="password" name="_password" required />
+                            <input type="password" id="password" name="_password" class="password" required />
+                            <i class="form-control-feedback glyphicon glyphicon-eye-open loginpass" data-clicks="true" title="Ver contraseña"></i>
                         </div>
                         <div class="options">
                             <p class="remember_me">
@@ -63,13 +63,14 @@
                             </div>
                         </div>
                         <div class="field-wrap">
-                            <label>Correo Electrónico<span class="req">*</span></label>
+                            <label>Email<span class="req">*</span></label>
                             <input type="email" id="verifyMail" name="email" required/>
-                            <span class="form-control-feedback reg glyphicon " id="mailIcon"></span> 
+                            <span class="form-control-feedback reg glyphicon " id="mailIcon"></span>
                         </div>
                         <div class="field-wrap">
                             <label>Contraseña<span class="req">*</span></label>
-                            <input type="password" name="password" required />
+                            <input type="password" name="password" class="password" required />
+                            <i class="form-control-feedback glyphicon glyphicon-eye-open singuppass" data-clicks="true" title="Ver contraseña"></i>
                         </div>
                         <button type="submit" class="button button-block"/>Regístrate</button>
                     </form>
@@ -79,5 +80,9 @@
     </div><!-- Container -->
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/login/login.js') }}"></script>
+    <script src="{{ asset('js/login/capslock.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/user/register.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 </body>
 </html>

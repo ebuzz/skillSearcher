@@ -221,3 +221,27 @@ textarea {
   display: block;
   width: 100%;
 }
+
+@media screen and (max-width: 460px){
+  .top-row > div{
+      width: 100%;
+  }
+
+  .top-row .row div{
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .top-row > div:last-child {
+    margin-bottom: 40px;
+  }
+}
+
+.form-control-feedback{
+  top:5px;
+  pointer-events: all;
+}
+
+.form-control-feedback:focus, .form-control-feedback:hover{
+  cursor: pointer;
+}

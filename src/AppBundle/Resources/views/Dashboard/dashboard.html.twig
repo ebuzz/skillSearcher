@@ -35,13 +35,11 @@
                                 <img class="timeline-badge-userpic" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
                             </div>
                             <div class="col-lg-12 userskill">
-                                Recientemente agregó <b> {{ skill.skill.name }} </b>.
+                                <p style="margin-top:10px; margin-bottom: 0;"> Recientemente agregó <b> {{ skill.skill.name }} </b>.</p>
+                                {% if user.position %}
+                                    <p><label>{{ user.position.name }}</label></p>
+                                {% endif %}
                             </div>
-                        </div>
-                        <div class="panel-footer">
-                            {% if user.position %}
-                                <label>{{ user.position.name }}</label>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
