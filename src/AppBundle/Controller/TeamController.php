@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Team;
 use AppBundle\Entity\UserTeam;
+use AppBundle\Entity\UserSkillTeam;
 
 /**
  * Team controller.
@@ -76,13 +77,14 @@ class TeamController extends Controller
         if (!$team) {
             throw $this->createNotFoundException('Unable to find Team entity.');
         }
-        // $users = $em->getRepository('AppBundle:UserTeam')->findByUserSelected($id);
-        // $userSkill = $em->getRepository('AppBundle:UserTeam')->getSkillSelected($id);
+        $users = $em->getRepository('AppBundle:UserTeam')->findByUserSelected($id);
+        $userSkill = $em->getRepository('AppBundle:UserSkillTeam')->findBySkillSelected($id);
 
+        // die($users);
         return array(
             'team'  => $team,
-            // 'users' => $users,
-            // 'userSkill' => $userSkill,
+            'users' => $users,
+            'userSkill' => $userSkill,
         );
     }
 
