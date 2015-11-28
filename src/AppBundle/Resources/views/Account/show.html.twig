@@ -12,30 +12,24 @@
             <div class="well">
                 <div class="row">
                     <div class="col-lg-12">
-                        <label>Ientificador de la cuenta: </label> {{ entity.accountId }}
+                        <label>Nombre de la cuenta: </label> {{ account.name }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <label>Nombre de la cuenta: </label> {{ entity.name }}
+                        <label>Descripcion de la tecnologia: </label> {{ account.technologyDescription }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <label>Descripcion de la tecnologia: </label> {{ entity.technologyDescription }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Lider de cuenta: </label> {{ entity.leaderName }}
+                        <label>Lider de cuenta: </label> {{ account.leaderName }}
                     </div>
                 </div>
                 </br>
                 <div class="row">
                     <div class"col-lg-12">
                         <div class="col-lg-7 col-lg-offset-2">
-                            <a href="{{ path('account') }}">Regresar</a> | <a href="{{ path('account_edit', { 'id': entity.accountId }) }}">Editar</a> {#| {{ form(delete_form) }}
-                             <a href="{{ path('account_delete',{'id': entity.accountId}) }}">Eliminar</a> #}
+                            <a href="{{ path('account') }}">Regresar</a> | <a href="{{ path('account_edit', { 'id': account.accountId }) }}">Editar</a>
                         </div>
                    </div>
                 </div>

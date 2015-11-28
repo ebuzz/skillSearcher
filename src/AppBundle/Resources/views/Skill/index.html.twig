@@ -7,7 +7,7 @@
 <div id="wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Cuentas</h1>
+            <h1 class="page-header">Skills</h1>
         </div>
     </div>
     <div class="row">
@@ -23,21 +23,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
-                                                <th>Descripcion de la tecnología</th>
-                                                <th>Nombre del Líder</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for account in accounts %}
+                                            {% for skill in skills %}
                                                 <tr>
-                                                    <td><a href="{{ path('account_show', { 'id': account.accountId }) }}">{{ account.name }}</a></td>
-                                                    <td>{{ account.technologyDescription }}</td>
-                                                    <td>{{ account.leaderName }}</td>
+                                                    <td>{{ skill.name }}</td>
                                                     <td>
                                                         <ul>
-                                                            <li><a href="{{ path('account_edit', { 'id': account.accountId }) }}">Editar</a></li>
-                                                            <li><a href="{{ path('account_delete', { 'id': account.accountId }) }}">Borrar</a></li>
+                                                            <li><a href="{{ path('skill_edit', { 'id': skill.skillId }) }}">Editar</a></li>
+                                                            <li><a href="{{ path('skill_delete', { 'id': skill.skillId }) }}">Borrar</a></li>
                                                         </ul>
                                                     </td>
                                                 </tr>
@@ -45,8 +41,8 @@
                                         </tbody>
                                     </table>
                                     <span>
-                                        <a href="{{ path('account_new') }}">
-                                            <i class="glyphicon glyphicon-plus-sign"></i> Crear cuenta
+                                        <a href="{{ path('skill_new') }}">
+                                            <i class="glyphicon glyphicon-plus-sign"></i> Crear skill
                                         </a>    
                                     </span>
                                 </div>

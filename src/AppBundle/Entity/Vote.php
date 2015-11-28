@@ -25,13 +25,13 @@ class Vote
 
     /**
      * @ORM\ManyToOne(targetEntity="UserSkill", inversedBy="vote")
-     * @ORM\JoinColumn(name="userSkillId", referencedColumnName="userSkillId")
+     * @ORM\JoinColumn(name="userSkillId", referencedColumnName="userSkillId", onDelete="CASCADE")
      */
     private $userkill;
 
     /**
     * @ORM\ManyToOne(targetEntity="User")
-    * @ORM\JoinColumn(name="userId", referencedColumnName="userId")
+    * @ORM\JoinColumn(name="userId", referencedColumnName="userId", onDelete="CASCADE")
     */
     private $user;
 

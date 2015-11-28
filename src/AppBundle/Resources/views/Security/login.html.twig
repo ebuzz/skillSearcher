@@ -7,94 +7,82 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title> 
-        Inicio de Sesión - Skill Searcher
+        Inicio de Sesión .:Skill Searcher:.
     </title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="{{ asset('css/login/login.css') }}" rel="stylesheet" />
 
 </head>
 <body>
-
     <div class="container">
-        <div class="row">
+        <center>
+            <img src="{{ asset('mindlogo.png') }}" class="img-responsive img-center" style="width:300px">
+        </center>
+        <div class="form">
             {% if error %}
                 <div class="alert alert-danger">
-                        Las credenciales ingresadas no son validas.
+                    Usuario o contraseña incorrectos
                 </div>
-            {% endif %}
-            {# {% if alert %}
-                <div class="alert alert-warning">
-                        Su código de seguridad para cambiar su contraseña ha expirado. Solicite un nuevo código.
+            {% endif %}    
+            <ul class="tab-group">
+                <li class="tab active"><a href="#login">Iniciar Sesión</a></li>
+                <li class="tab"><a href="#signup">Regístrate</a></li>
+            </ul>
+            <div class="tab-content">     
+                <div id="login">   
+                    <form role="form" action="{{ path('login_check') }}" method="post">
+                        <div class="field-wrap">
+                            <label>Email<span class="req">*</span></label>
+                            <input type="email" id="username" name="_username" required />
+                        </div>
+                        <div class="field-wrap">
+                            <label>Contraseña<span class="req">*</span></label>
+                            <input type="password" id="password" name="_password" class="password" required />
+                            <i class="form-control-feedback glyphicon glyphicon-eye-open loginpass" data-clicks="true" title="Ver contraseña"></i>
+                        </div>
+                        <div class="options">
+                            <p class="remember_me">
+                                <input type="checkbox" id="remember_me" name="_remember_me" checked /> No cerrar sesión
+                            </p>
+                            <p class="forgot"><a type="button" href="{{ path('retrieve_password') }}">Recuperar contraseña</a></p>
+                        </div>
+                        <button class="button button-block"/>Iniciar Sesión</button>
+                    </form>
                 </div>
-            {% endif %} #}
-            <div class="col-md-4 col-md-offset-4">
-                <h1 class="margin">
-                <center>
-                    <img src="{{ asset('mindBlack.png') }}" class="img-responsive img-center">
-                </center>
-                </h1>
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Iniciar Sesión</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" action="{{ path('login_check') }}" method="post">
-                            <fieldset>
-                                <label>Correo Electronico</label>
-                                <div class="pull-right">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="tucorreo@arkusnexus.com" id="username" name="_username" value="{{ last_username }}" />
-                                </div>
-                                <label>Contraseña</label>
-                                <div class="pull-right">
-                                    <a type="button" class="btn btn-link" href="{{ path('retrieve_password') }}">Recuperar contraseña</a>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" placeholder = "Inserte su contraseña" id="password" name="_password" />
-                                </div>
-                                <div class="checkbox">
-                                    {# <label>
-                                        <input name="_remember_me" value="Remember Me" type="checkbox">No cerrar sesión
-                                    </label> #}
-                                    <label for="remember_me">
-                                    <input type="checkbox" id="remember_me" name="_remember_me" checked /> No cerrar sesión
-                                </label>
-                                </div>
-
-                                <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" class="btn btn-success btn-block">Ingresar</button>
-                                <br>
-                                <div>
-                                    <center>¿No tienes una cuenta?</center>
-                                </div>
-                                <div>
-                                    <a href="{{ path('register') }}" class="btn btn-outline btn-primary btn-block" role="button">Crear cuenta</a>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
-
+                 <div id="signup">   
+                    <form method='post' action="{{ path('registered') }}" accept-charset='UTF-8' enctype="multipart/form-data">
+                        <div class="top-row">
+                            <div class="field-wrap">
+                                <label>Nombre<span class="req">*</span></label>
+                                <input type="text" name="name" type="text" required/>
+                            </div>
+                            <div class="field-wrap">
+                                <label>Apellido Paterno<span class="req">*</span></label>
+                                <input type="text" name="lastName" required required/>
+                            </div>
+                        </div>
+                        <div class="field-wrap">
+                            <label>Email<span class="req">*</span></label>
+                            <input type="email" id="verifyMail" name="email" required/>
+                            <span class="form-control-feedback reg glyphicon " id="mailIcon"></span>
+                        </div>
+                        <div class="field-wrap">
+                            <label>Contraseña<span class="req">*</span></label>
+                            <input type="password" name="password" class="password" required />
+                            <i class="form-control-feedback glyphicon glyphicon-eye-open singuppass" data-clicks="true" title="Ver contraseña"></i>
+                        </div>
+                        <button type="submit" class="button button-block"/>Regístrate</button>
+                    </form>
+                </div>  
+            </div><!-- tab-content -->      
+        </div> <!-- /form -->
+    </div><!-- Container -->
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/login/login.js') }}"></script>
+    <script src="{{ asset('js/login/capslock.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/user/register.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 </body>
 </html>

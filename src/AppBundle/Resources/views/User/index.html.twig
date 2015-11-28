@@ -33,7 +33,11 @@
                                                 <tr>
                                                     <td><a href="{{path('user_profile', { 'id':entity.userId})}}">{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</a></td>
                                                     <td>{{ entity.username }}</td>
-                                                    <td>{% if entity.position.name %}{{ entity.position.name}}{% endif %}</td>
+                                                    <td> 
+                                                        {% if entity.position %}
+                                                            {{ entity.position.name }}
+                                                        {% endif %}
+                                                    </td>
                                                     <td style="text-align:center">
                                                         <a href="{{ path('user_edit', { 'id': entity.userId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
                                                         <a href="{{ path('user_delete', { 'id': entity.userId }) }}"><i class="glyphicon glyphicon-trash"></i></a>

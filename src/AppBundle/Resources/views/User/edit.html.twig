@@ -60,8 +60,26 @@
 						            </div>
 						            <div class="col-lg-12">
                                         <label>Posición</label>
-                                        <input type="hidden" name="position"  value="{{ userPosition.positionId }}" />
-                                        <input type="text" class="form-control" value="{{ userPosition.name }}" disabled="disabled" />
+                                        {% if userPosition is null %}
+	                                        <select class="form-control" name="position" title="Puesto"
+	                                                placeholder="Puesto">
+                                                <option value="" selected="selected"> </option>
+	                                            {% for position in positions %}
+	                                                <option value="{{ position.positionId }}">{{ position.name }}</option>
+	                                            {% endfor %}
+	                                        </select>
+	                                    {% else %}
+											<select class="form-control" name="position" title="Puesto" placeholder="Puesto">
+	                                            {% for position in positions %}
+	                                            	{% if position.positionId == userPosition.positionId %}
+		                                                <option value="{{ position.positionId }}" selected="selected">{{ position.name }}</option>
+		                                            	}
+		                                            	{% else %}
+		                                            	<option value="{{ position.positionId }}">{{ position.name }}</option>
+	                                            	{% endif %}
+	                                            {% endfor %}
+	                                        </select>
+	                                	{% endif %}
                                     </div>
 									</div>
 								</div>

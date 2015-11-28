@@ -27,13 +27,13 @@ class UserSkill
     
     /**
      * @ORM\ManyToOne(targetEntity="Skill", inversedBy="userskill", cascade={"persist"})
-     * @ORM\JoinColumn(name="skillId", referencedColumnName="skillId")
+     * @ORM\JoinColumn(name="skillId", referencedColumnName="skillId", onDelete="CASCADE")
      **/
     private $skill;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="userskill", cascade={"all"})
-     * @ORM\JoinColumn(name="userId", referencedColumnName="userId")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="userId", onDelete="CASCADE")
      */
     private $user;  
 
