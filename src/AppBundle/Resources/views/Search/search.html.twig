@@ -8,7 +8,8 @@
         <div class="row">
             <div class="col-lg-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading"> Usuarios con <u> {{ searchText }} </u> en <u> {{ searchType }} </u>
+                    <div class="panel-heading"> Usuarios con <b><i> {{ searchText }} </i></b> en
+                        <b><i> {{ searchType }} </i></b>
                     </div>
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
@@ -22,6 +23,7 @@
                                             <tr>
                                                 <th></th>
                                                 <th>Usuario</th>
+                                                <th>Posición</th>
                                                 <th>Cuentas</th>
                                                 <th>Skills</th>
                                             </tr>
@@ -41,6 +43,11 @@
                                                                class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
                                                         </td>
                                                         <td>
+                                                            {% if user.position %}
+                                                                <span>{{ user.position.name }}</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
                                                             {% for account in user.accounts %}
                                                                 <span>{{ account.name }}</span>
                                                             {% endfor %}
@@ -57,71 +64,7 @@
                                                 {% endfor %}
                                             {% endif %}
 
-                                            {% if searchType == "account" %}
-                                                {% for account in searchResults %}
-                                                    {% for user in account.user %}
-                                                        <tr>
-                                                            <td>
-                                                                <a class="btn btn-link" data-toggle="modal"
-                                                                   data-target="#ModalTeams">
-                                                                    <i class="glyphicon glyphicon-heart"></i>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ path('user_profile', { 'id': user.userId }) }}"
-                                                                   class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
-                                                            </td>
-                                                            <td>
-                                                                {% for account in user.accounts %}
-                                                                    <span>{{ account.name }}</span>
-                                                                {% endfor %}
-                                                            </td>
-                                                            <td>
-                                                                {% for skill in user.skills|slice(0, 5) %}
-                                                                    <span>{{ skill.skill.name }}</span>
-                                                                {% endfor %}
-                                                                <a href="#" onclick="showCharm({{ user.userId }})"
-                                                                   class="detail btn btn-link">Ver
-                                                                    mas</a>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                            {% endif %}
-
-                                            {% if searchType == "skill" %}
-                                                {% for skill in searchResults %}
-                                                    {% for users in skill.users %}
-                                                        <tr>
-                                                            <td>
-                                                                <a class="btn btn-link" data-toggle="modal"
-                                                                   data-target="#ModalTeams">
-                                                                    <i class="glyphicon glyphicon-heart"></i>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ path('user_profile', { 'id': users.user.userId }) }}"
-                                                                   class="timeline-body-title font-blue-madison">{{ users.user.name }} {{ users.user.lastName }} {{ users.user.surName }} </a>
-                                                            </td>
-                                                            <td>
-                                                                {% for account in users.user.accounts %}
-                                                                    <span>{{ account.name }}</span>
-                                                                {% endfor %}
-                                                            </td>
-                                                            <td>
-                                                                {% for skill in users.user.skills|slice(0, 5) %}
-                                                                    <span>{{ skill.skill.name }}</span>
-                                                                {% endfor %}
-                                                                <a href="#" onclick="showCharm({{ users.user.userId }})"
-                                                                   class="detail btn btn-link">Ver
-                                                                    mas</a>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                            {% endif %}
-
-                                            {% if searchType == "user" or searchType == "position" %}
+                                            {% if searchText %}
                                                 {% for user in searchResults %}
                                                     <tr>
                                                         <td>
@@ -164,25 +107,20 @@
                 <ul style="text-decoration:none;list-style-type:none;">
                     {% for user in all %}
                         <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
-                            <h3>Selecciona Skills</h3>
+
+                            <h4>Selecciona Skills de {{ user.name }} {{ user.lastName }}</h4>
                             {% for skill in user.skills %}
                                 {% set status = "unlike" %}
-                                {% set score =  0 %}
-                                {% for vote in votes %}
-                                    {% for count in counts %}
-                                        {% if  count.us_userSkillId  ==  skill.skill.skillId %}
-                                            {% set score =  count.total %}
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
+                                {% for vote in skill.vote %}
+                                    {% if vote.user.userId ==  userLogged %}
                                         {% set status =  "like" %}
                                     {% endif %}
                                 {% endfor %}
                                 <li>
                                     <button class="btn btn-default rating {{ status }}" type="button"
-                                            value="{{ skill.skill.skillId }}">
-                                        <i class="fa fa-thumbs-o-up"></i>
-                                        {{ skill.skill.name }} <span class="badge">{{ score }}</span>
+                                            value="{{ skill.userSkillId }}">
+                                        <i class="fa fa-thumbs-o-up"></i>{{ skill.skill.name }}
+                                        <span class="badge">{{ skill.vote | length }}</span>
                                     </button>
                                 </li>
                             {% endfor %}

@@ -18,22 +18,6 @@ class Votes extends AbstractFixture implements OrderedFixtureInterface
 	
 	public function load(ObjectManager $manager)
 	{
-		// UserSkill : 1
-		$repository = $manager
-        ->getRepository('AppBundle:UserSkill');
-        $userSkillEntity = $repository->find(1);
-
-        // User : 2
-		$repository = $manager
-        ->getRepository('AppBundle:User');
-        $userEntity = $repository->find(2);
-        
-        $voteEntity = new Vote();
-        $voteEntity->setUserSkill($userSkillEntity);
-        $voteEntity->setUser($userEntity);
-
-        $manager->persist($voteEntity);
-        $manager->flush();
 
 	}
 }

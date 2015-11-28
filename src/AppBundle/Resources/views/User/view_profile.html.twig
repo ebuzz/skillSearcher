@@ -29,21 +29,15 @@
             <h3>Habilidades</h3>
                 {% for skill in user.skills %}
                         {% set status = "unlike" %}
-                        {% set score =  0 %}
-                        {% for vote in votes %}
-                            {% for count in counts %}
-                                {%  if  count.us_userSkillId  ==  skill.skill.skillId %}
-                                    {% set score =  count.total %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if (vote.userkill.skill.skillId == skill.skill.skillId) and (vote.user.userId ==  userLogged) %}
-                                {% set status =  "like" %}
-                            {% endif %}
-                        {% endfor %}
-                        <button class="btn btn-default rating {{ status}}" type="button" value="{{ skill.skill.skillId }}">
-                            <i class="fa fa-thumbs-o-up"></i>
-                            {{ skill.skill.name }} <span class="badge">{{ score }}</span>
-                        </button>
+                                    {% for vote in skill.vote %}
+                                        {% if vote.user.userId ==  userLogged %}
+                                            {% set status =  "like" %}
+                                        {% endif %}
+                                    {% endfor %}
+                        <button class="btn btn-default rating {{ status }}" type="button" value="{{ skill.userSkillId }}">
+                                        <i class="fa fa-thumbs-o-up"></i>{{ skill.skill.name }}
+                                        <span class="badge">{{ skill.vote | length }}</span>
+                                    </button>
                 {% endfor %}
         </div>
     </div>

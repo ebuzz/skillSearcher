@@ -1,4 +1,4 @@
-<?php
+<?php 
 // src/AppBundle/Repository/UserRepository.php
 namespace AppBundle\Repository;
 
@@ -27,17 +27,34 @@ class UserRepository extends EntityRepository
         }
     }
 
-    public function findAllLastUsers()
+    public function lastUpdates()
     {
-        $query = $this->getEntityManager()
-            ->createQuery(
-                "SELECT u, MAX(us.userSkillId) AS HIDDEN maxSkill FROM AppBundle:User u,AppBundle:UserSkill  us WHERE u.userId=us.user  GROUP BY u.userId ORDER BY  maxSkill DESC")
-            ->setMaxResults(6);
-        try {
-            return $query->getResult();
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select('u')
+            ->addSelect('MAX(us.userSkillId) as HIDDEN maxSkill')
+            ->from('AppBundle:User', 'u')
+            ->leftJoin('u.skills', 'us', 'WITH', 'us.user = u.userId')
+            ->addgroupBy('u.userId')
+            ->orderBy('maxSkill', 'DESC')
+            ->setMaxResults(12)
+            ->getQuery();
+        return $qb->getResult();
+    }
+
+    public function usersRating()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select('u')
+            ->addSelect('COUNT(v.user) as hidden rate')
+            ->from('AppBundle:User', 'u')
+            ->leftJoin('u.skills', 'us', 'WITH', 'us.user = u.userId')
+            ->leftJoin('us.vote', 'v', 'WITH', 'us.userSkillId = v.userkill')
+            ->addgroupBy('us.userSkillId')
+            ->orderBy('rate', 'DESC')
+            ->getQuery();
+        return $qb->getResult();
     }
 }
 
