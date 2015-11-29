@@ -187,17 +187,31 @@
                                         <input name="user-skill"  id="{{ skill.userSkillId }}" type="checkbox" aria-label="...">
                                 </li>
                             {% endfor %}
+                            
                             {# Test #}
                             <h3>Selecciona equipo</h3>
+                            
                             <ul>
-                                {% for team in teams %}
-                                    <li>
-                                        <button class="btn btn-default">
-                                            {{ team.name }}
-                                        </button>
-                                        <input name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" type="checkbox" aria-label="...">
-                                    </li>
+                            {% for team in teams %}
+                                {% for teami in user.teams %}
+                                    {% if team.teamId == teami.team.teamId %}
+                                    {% if user.userId == teami.user.userId %}
+                                        <li>
+                                            <button class="btn btn-default" disabled>
+                                                {{ team.name }}
+                                            </button>
+                                            <input name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" type="checkbox" aria-label="..." disabled>
+                                        </li>
+                                    {% endif %} 
+                                    {% endif %} 
                                 {% endfor %}
+                                 <li>
+                                            <button class="btn btn-default">
+                                                {{ team.name }}
+                                            </button>
+                                            <input name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" type="checkbox" aria-label="..." >
+                                    </li>
+                            {% endfor %}
                             </ul>
                             <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default">Guardar</button>
                         </div>

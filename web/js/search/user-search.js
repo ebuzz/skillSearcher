@@ -49,6 +49,8 @@ $(document).ready(function() {
             data: {skills: userSkills, userteams: userTeams},
             success: function(data){
                 data: $.parseJSON(data);
+                // Ops: Usar toaster
+                // alert("Usuario agregado a equipo exitosamente.")
             },
             error: function(){
                 console.log("error");
