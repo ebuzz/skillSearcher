@@ -30,11 +30,9 @@
                                             {% for skill in skills %}
                                                 <tr>
                                                     <td>{{ skill.name }}</td>
-                                                    <td>
-                                                        <ul>
-                                                            <li><a href="{{ path('skill_edit', { 'id': skill.skillId }) }}">Editar</a></li>
-                                                            <li><a href="{{ path('skill_delete', { 'id': skill.skillId }) }}">Borrar</a></li>
-                                                        </ul>
+                                                    <td style="text-align:center">
+                                                        <a href="{{ path('skill_edit', { 'id': skill.skillId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                        <a href="{{ path('skill_delete', { 'id': skill.skillId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}   

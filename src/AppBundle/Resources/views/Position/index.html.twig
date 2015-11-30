@@ -30,11 +30,9 @@
                                             {% for position in positions %}
                                                 <tr>
                                                     <td>{{ position.name }}</td>
-                                                    <td>
-                                                        <ul>
-                                                            <li><a href="{{ path('position_edit', { 'id': position.positionId }) }}">Editar</a></li>
-                                                            <li><a href="{{ path('position_delete', { 'id': position.positionId }) }}">Borrar</a></li>
-                                                        </ul>
+                                                    <td style="text-align:center">
+                                                            <a href="{{ path('position_edit', { 'id': position.positionId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                            <a href="{{ path('position_delete', { 'id': position.positionId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}   

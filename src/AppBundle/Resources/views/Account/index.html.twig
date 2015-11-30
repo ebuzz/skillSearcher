@@ -34,11 +34,9 @@
                                                     <td><a href="{{ path('account_show', { 'id': account.accountId }) }}">{{ account.name }}</a></td>
                                                     <td>{{ account.technologyDescription }}</td>
                                                     <td>{{ account.leaderName }}</td>
-                                                    <td>
-                                                        <ul>
-                                                            <li><a href="{{ path('account_edit', { 'id': account.accountId }) }}">Editar</a></li>
-                                                            <li><a href="{{ path('account_delete', { 'id': account.accountId }) }}">Borrar</a></li>
-                                                        </ul>
+                                                    <td style="text-align:center">
+                                                            <a href="{{ path('account_edit', { 'id': account.accountId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                            <a href="{{ path('account_delete', { 'id': account.accountId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}   

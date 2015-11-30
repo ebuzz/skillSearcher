@@ -30,11 +30,9 @@
                                             {% for team in teams %}
                                                 <tr>
                                                     <td><a href="{{ path('team_show', { 'id': team.teamId }) }}">{{ team.name }}</a></td>
-                                                    <td>
-                                                        <ul>
-                                                            <li><a href="{{ path('team_edit', { 'id': team.teamId }) }}">Editar</a></li>
-                                                            <li><a href="{{ path('team_delete', { 'id': team.teamId }) }}">Borrar</a></li>
-                                                        </ul>
+                                                    <td style="text-align:center">
+                                                            <a href="{{ path('team_edit', { 'id': team.teamId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                            <a href="{{ path('team_delete', { 'id': team.teamId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}   

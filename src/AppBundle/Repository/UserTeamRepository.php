@@ -8,15 +8,15 @@ class UserTeamRepository extends EntityRepository
 {
 	public function findByUserSelected($id)
 	{
-		$qb = $this->getEntityManager()->createQueryBuilder();
-		$qb -> select('ut')
-			-> from('AppBundle:UserTeam', 'ut')
-			-> innerJoin('ut.user', 'u')
-			-> where('ut.team = :id')
-		    -> setParameter('id', $id)
-		    -> getQuery()
-			-> getResult();
-
-		return $qb;
+		$em = $this->getEntityManager();
+		$qb = $em->createQueryBuilder('ut')
+			->select('ut.userTeamId, t.teamId, u.name, u.lastName, u.surName')
+			->from('AppBundle:UserTeam', 'ut')
+			->leftJoin('ut.user', 'u')
+			->leftJoin('ut.team', 't')
+			->where('ut.team = :id')
+		    ->setParameter('id', $id)
+		    ->getQuery();
+		return $qb->getResult();
 	}
 }
