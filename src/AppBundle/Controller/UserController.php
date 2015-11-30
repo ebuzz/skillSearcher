@@ -234,6 +234,29 @@ class UserController extends BaseController
         $em->flush();
         return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
     }
+
+    /**
+     * @Route("/verify_skill", name="verify_skill", options={"expose"=true})
+     */
+    public function verifySkills(Request $request)
+    {
+        $value = $request->get('term');
+        $em = $this->getDoctrine()->getEntityManager();
+        $skills = $em->getRepository('AppBundle:Skill')->findByComplete($value);
+
+        $json = array();
+        foreach ($skills as $skill) {
+            $json[] = array(
+                'label' => $skill->getName(),
+                'value' => $skill->getSkillId()
+            );
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode($json));
+
+        return $response;
+    }
     
     /**
      * Deletes a User entity.
