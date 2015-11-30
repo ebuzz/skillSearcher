@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,6 +20,61 @@ use AppBundle\Entity\UserSkillTeam;
 class TeamController extends Controller
 {
     /**
+     * @Route("/userteam/", name="add_user_team", options={"expose"=true})
+     * Method("POST")
+     */
+    public function addUserTeamAction(Request $request)
+    {
+        $skills = $request->get('skills');
+        $teams = $request->get('userteams');
+        $em = $this->getDoctrine()->getManager();
+
+        // UserTeams
+        $jsonStringUserTeam = json_encode($teams);
+        $jsonUserTeamObject = json_decode($jsonStringUserTeam);
+
+        // Create UserTeam foreach team selected
+        foreach ($jsonUserTeamObject as $userTeamObject) {
+            // $usersIds[] = $userTeamObject->idUser;
+            // $teamsIds[] = $userTeamObject->idTeam;
+            $userId = $userTeamObject->idUser;
+            $teamId = $userTeamObject->idTeam;
+
+            $team = $em->getRepository('AppBundle:Team')->find($teamId);
+            $user = $em->getRepository('AppBundle:User')->find($userId);
+
+            $userTeam = new UserTeam();
+            $userTeam->setUser($user);
+            $userTeam->setTeam($team);
+            $em->persist($userTeam);
+            $em->flush();
+
+            $userTeamId = $userTeam->getUserTeamId();
+            //  Skills
+            $jsonstring = json_encode($skills);
+            $jsonUserSkillObject = json_decode($jsonstring);
+            // Put each UserSkill selected in UserTeam
+            foreach ($jsonUserSkillObject as $userSkillObject) {
+                $userSkillId = $userSkillObject->idUserSkill;
+                $userTeam = $em->getRepository('AppBundle:UserTeam')->find($userTeamId);
+                $userSkill = $em->getRepository('AppBundle:UserSkill')->find($userSkillId);
+                $userSkillTeam = new UserSkillTeam();
+                $userSkillTeam->setUserSkill($userSkill);
+                $userSkillTeam->setUserTeam($userTeam);
+                $em->persist($userSkillTeam);
+                $em->flush();
+
+                $result = true;
+            }
+        }
+
+        $response = new Response();
+        //$response->setContent(json_encode(array('UserTeamId'=>$userTeamId, 'userIds' => $usersIds,'teamsIds' => $teamsIds, 'skillsIds' => $skillsIds)));
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
+    }
+
+    /**
      * Lists all User entities.
      *
      * @Route("/", name="team")
@@ -32,6 +88,7 @@ class TeamController extends Controller
             'teams' => $team,
         );
     }
+
     /**
      * Displays a form to create a new Team entity.
      *
@@ -55,9 +112,9 @@ class TeamController extends Controller
         $em = $this->getDoctrine()->getManager();
         $team = new Team();
 
-        $team ->setName($request->get('name'));
-        $em   ->persist($team);
-        $em   ->flush();
+        $team->setName($request->get('name'));
+        $em->persist($team);
+        $em->flush();
 
         return $this->redirectToRoute('team');
     }
@@ -82,7 +139,7 @@ class TeamController extends Controller
 
         // die($users);
         return array(
-            'team'  => $team,
+            'team' => $team,
             'users' => $users,
             'userSkill' => $userSkill,
         );
@@ -105,13 +162,13 @@ class TeamController extends Controller
         if (!$team) {
             $error = "true";
             return $this->redirectToRoute('team', array(
-                'error'     => $error,
-                )); 
+                'error' => $error,
+            ));
         }
 
         return array(
-            'team'   => $team,
-            'error'     => $error,
+            'team' => $team,
+            'error' => $error,
         );
     }
 
@@ -128,11 +185,12 @@ class TeamController extends Controller
         $team = $em->getRepository('AppBundle:Team')->find($id);
 
         $team->setName($request->get('name'));
-        $em     ->persist($team);
-        $em     ->flush();
+        $em->persist($team);
+        $em->flush();
 
         return $this->redirectToRoute('team');
     }
+
     /**
      * Deletes a Team entity.
      *
@@ -157,7 +215,7 @@ class TeamController extends Controller
      * @Route("/{id}/delete/{idMember}", name="team_deleteMember")
      * @Method("GET")
      */
-    public function deleteMemberAction(Request $request, $id, $idMember )
+    public function deleteMemberAction(Request $request, $id, $idMember)
     {
         $em = $this->getDoctrine()->getManager();
         $member = $em->getRepository('AppBundle:UserTeam')->find($idMember);
@@ -167,6 +225,6 @@ class TeamController extends Controller
         $em->remove($member);
         $em->flush();
         // return $this->redirectToRoute('team');
-        return $this->redirectToRoute('team_show', array('id'=> $id));
+        return $this->redirectToRoute('team_show', array('id' => $id));
     }
 }

@@ -43,7 +43,7 @@ $(document).ready(function() {
 
     $(".saveTeam").click(function(event){
         $.ajax({
-            url: Routing.generate('teami'),
+            url: Routing.generate('add_user_team'),
             type: 'POST',
             data: {skills: userSkills, userteams: userTeams},
             success: function(data){
