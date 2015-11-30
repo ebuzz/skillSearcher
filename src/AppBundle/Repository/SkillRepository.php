@@ -6,32 +6,40 @@ use Doctrine\ORM\EntityRepository;
 
 class SkillRepository extends EntityRepository
 {
-    public function findByComplete($name)
+    public function completeSkill($name)
     {
-        $query = $this->getEntityManager()
-            ->createQuery(
-                "SELECT s FROM AppBundle:Skill s
-              WHERE s.name LIKE :name"
-            )->setParameter('name', '%' . $name . '%');
-
-        try {
-            return $query->getResult();
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder()
+            ->select('s')
+            ->from('AppBundle:Skill', 's')
+            ->where('s.name = :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery();
+        return $qb->getResult();
     }
-
-    public function findByCount($id)
+    
+    public function searchSkill($name)
     {
-        $query = $this->getEntityManager()
-            ->createQuery(
-                "SELECT COUNT(v.userkill) as total FROM AppBundle:Vote v  where v.userkill = :id"
-            )->setParameter('id', $id);
+        $em = $this->getEntityManager();
+        $subQuery = $em->createQueryBuilder()
+            ->select('s.skillId')
+            ->from('AppBundle:Skill', 's')
+            ->where('s.name LIKE :name')
+            ->setParameter('name', $name)
+            ->getQuery();
+        $skillId = $subQuery->getScalarResult();
 
-        try {
-            return $query->getResult();
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
+        $qb = $em->createQueryBuilder()
+            ->select('u')
+            ->addSelect('COUNT(v.userkill) as hidden rate')
+            ->from('AppBundle:User', 'u')
+            ->leftJoin('u.skills', 'us', 'WITH', 'us.user = u.userId')
+            ->leftJoin('us.vote', 'v', 'WITH', 'us.userSkillId = v.userkill')
+            ->addgroupBy('us.userSkillId')
+            ->orderBy('rate', 'DESC')
+            ->where('us.skill = :skillId')
+            ->setParameter('skillId', $skillId)
+            ->getQuery();
+        return $qb->getResult();
     }
 }

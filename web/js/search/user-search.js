@@ -7,7 +7,6 @@ $(document).ready(function() {
     $('#dataTables').DataTable( {
         "paging":  true,
         "bFilter": false,
-        "ordering": false,
         "info":     false
     });
 
