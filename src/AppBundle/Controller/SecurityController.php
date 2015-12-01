@@ -62,6 +62,12 @@ class SecurityController extends Controller
         $user = $em->getRepository('AppBundle:User')->findOneBy(array(
             'username' => $request->get('email')
             ));
+
+        if (empty($user)) {
+            return $this->render('AppBundle:Security:retrieve_password.html.twig', array(
+                'blank' => 'blank',
+            ));
+        }
         
         $token = new Token();
         $token->setTokenId($nip);
