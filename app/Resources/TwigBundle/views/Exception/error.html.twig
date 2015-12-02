@@ -1,0 +1,14 @@
+{# app/Resources/TwigBundle/views/Exception/error.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pagina no encontrada :(</h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {# ... #}
+    {% endif %}
+
+    <p>
+        La pagina solicitada no ha sido encontrada. Verifica que hayas escrito bien la direccion o <a href="{{ path('homepage') }}">regresa a la pagina principal</a>.
+    </p>
+{% endblock %}
