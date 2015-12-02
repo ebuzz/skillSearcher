@@ -45,6 +45,7 @@ class DefaultController extends BaseController
         $user->setPassword($request->get('password'));
         $user->setUsername($request->get('email'));
         $user->setRoles('ROLE_USER');
+        $user->setAdmissionDate(null);
         $em->persist($user);
         $em->flush();
         $user->getUserId();
