@@ -2,11 +2,18 @@
 {% block stylesheets %}
     <link href="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('js/datatables-responsive/css/dataTables.responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/search/search.css') }}" rel="stylesheet">
+
 {% endblock %}
 {% block body -%}
     <div id="wrapper">
         <div class="row">
-            <div class="col-lg-9">
+            <div class="col-lg-12">
+                <h1 class="page-header">Busqueda</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading"> Usuarios con <b><i> {{ searchText }} </i></b> en
                         <b><i> {{ searchType }} </i></b>
@@ -21,7 +28,6 @@
                                                id="dataTables" role="grid">
                                             <thead>
                                             <tr>
-                                                <th></th>
                                                 <th>Usuario</th>
                                                 <th>Posición</th>
                                                 <th>Cuentas</th>
@@ -32,12 +38,6 @@
                                             {% if searchText is empty %}
                                                 {% for user in all %}
                                                     <tr>
-                                                        <td>
-                                                            <a class="btn btn-link" data-toggle="modal"
-                                                               data-target="#ModalTeams">
-                                                                <i class="glyphicon glyphicon-heart"></i>
-                                                            </a>
-                                                        </td>
                                                         <td>
                                                             <a href="{{ path('user_profile', { 'id': user.userId }) }}"
                                                                class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
@@ -56,8 +56,7 @@
                                                             {% for skill in user.skills|slice(0, 5) %}
                                                                 <span>{{ skill.skill.name }}</span>
                                                             {% endfor %}
-                                                            <a href="#" onclick="showCharm({{ user.userId }})"
-                                                               class="detail btn btn-link">Ver
+                                                            <a href="#" class="detail btn btn-link" idUser = "{{ user.userId }}">Ver
                                                                 mas</a>
                                                         </td>
                                                     </tr>
@@ -93,8 +92,7 @@
                                                             {% for skill in user.skills|slice(0, 5) %}
                                                                 <span>{{ skill.skill.name }}</span>
                                                             {% endfor %}
-                                                            <a href="#" onclick="showCharm({{ user.userId }})"
-                                                               class="detail btn btn-link">Ver
+                                                            <a href="#" class="detail btn btn-link" idUser = "{{ user.userId }}">Ver
                                                                 mas</a>
                                                         </td>
                                                     </tr>
@@ -110,90 +108,60 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <ul style="text-decoration:none;list-style-type:none;">
+            <div class="col-lg-10">
+                <ul>
                     {% for user in all %}
                         <div style="display:none;" class="user-skills" id="user-{{ user.userId }}">
-
-                            <h4>Selecciona Skills de {{ user.name }} {{ user.lastName }}</h4>
-                            {% for skill in user.skills %}
-                                {% set status = "unlike" %}
-                                {% for vote in skill.vote %}
-                                    {% if vote.user.userId ==  userLogged %}
-                                        {% set status =  "like" %}
-                                    {% endif %}
-                                {% endfor %}
-                                <li>
-                                    <button class="btn btn-default rating {{ status }}" type="button"
-                                            value="{{ skill.userSkillId }}">
-                                        <i class="fa fa-thumbs-o-up"></i>{{ skill.skill.name }}
-                                        <span class="badge">{{ skill.vote | length }}</span>
-                                    </button>
-                                        <input name="user-skill"  id="{{ skill.userSkillId }}" type="checkbox" aria-label="...">
-                                </li>
-                            {% endfor %}
-                            
-                            {# Test #}
-                            <h3>Selecciona equipo</h3>
-                            
-                            <ul>
-                            {% for team in teams %}
-                                {% for teami in user.teams %}
-                                    {% if team.teamId == teami.team.teamId %}
-                                    {% if user.userId == teami.user.userId %}
-                                        <li>
-                                            <button class="btn btn-default" disabled>
-                                                {{ team.name }}
-                                            </button>
-                                            <input name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" type="checkbox" aria-label="..." disabled>
-                                        </li>
-                                    {% endif %} 
-                                    {% endif %} 
-                                {% endfor %}
-                                 <li>
-                                            <button class="btn btn-default">
-                                                {{ team.name }}
-                                            </button>
-                                            <input name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" type="checkbox" aria-label="..." >
+                            <div>
+                                <a href="#close" title="Close" class="close">X</a>
+                            </div>
+                            <div class="options">
+                                <div class="skillsTitle">
+                                    <h2>Selecciona Skills de {{ user.name }} {{ user.lastName }}</h2>
+                                </div>
+                                {% for skill in user.skills %}
+                                    {% set status = "unlike" %}
+                                    {% for vote in skill.vote %}
+                                        {% if vote.user.userId ==  userLogged %}
+                                            {% set status =  "like" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <li>
+                                        <input type="checkbox" name="user-skill" id="{{ skill.userSkillId }}">
+                                        <div style="border:solid 1px #eeeeee; display:inline; padding:3px">
+                                            <i class="glyphicon glyphicon-bookmark {{ status }} rating">
+                                                <input type="hidden" value="{{ skill.userSkillId }}"/>
+                                            </i> {{ skill.skill.name }}
+                                            <label class="score">{{ skill.vote | length }}</label>
+                                        </div>
                                     </li>
-                            {% endfor %}
-                            </ul>
-                            <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default">Guardar</button>
+                                {% endfor %}
+                                
+                                <div class="teamTitle">
+                                    <h2>Selecciona equipo</h2> 
+                                </div>
+                                <ul> 
+                                    {% set status = "enabled" %} 
+                                    {% for team in teams %} 
+                                        {% for teami in user.teams %} 
+                                            {% if (team.teamId == teami.team.teamId) and (user.userId == teami.user.userId) %} 
+                                                {% set status = "disabled" %} 
+                                            {% endif %} 
+                                        {% endfor %} 
+                                    <li> 
+                                        <input type="checkbox" aria-label="..." name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" {{status}}> 
+                                        <label {{ status }}> {{ team.name }}</label>
+                                    </li> 
+                                        {% set status = "enabled" %} 
+                                    {% endfor %}
+                                </ul>
+                                <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default">Guardar</button>
+                            </div>
                         </div>
 
                     {% endfor %}
                 </ul>
-
             </div>
-            <div class="modal fade" id="ModalTeams" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
-                            <h4 class="modal-title" id="myModalLabel">Armar equipo</h4>
-                        </div>
-                        <div class="modal-body">
-                            <h3>Selecciona equipo</h3>
-                            <ul>
-                                {% for team in teams %}
-                                    <li>
-                                        <button class="button cycle-square">
-                                            {{ team.name }}
-                                        </button>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Guardar usuario</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
     </div>
 {% endblock %}

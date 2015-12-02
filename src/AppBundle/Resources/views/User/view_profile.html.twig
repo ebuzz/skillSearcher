@@ -34,10 +34,10 @@
                                             {% set status =  "like" %}
                                         {% endif %}
                                     {% endfor %}
-                        <button class="btn btn-default rating {{ status }}" type="button" value="{{ skill.userSkillId }}">
-                                        <i class="fa fa-thumbs-o-up"></i>{{ skill.skill.name }}
-                                        <span class="badge">{{ skill.vote | length }}</span>
-                                    </button>
+                        <i class="glyphicon glyphicon-bookmark {{ status }} rating">
+                                <input type="hidden" value="{{ skill.userSkillId }}"/>
+                        </i> {{ skill.skill.name }}
+                        <label class="score">{{ skill.vote | length }}</label>
                 {% endfor %}
         </div>
     </div>

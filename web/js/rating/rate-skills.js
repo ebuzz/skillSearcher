@@ -5,16 +5,16 @@ $(document).ready(function () {
         $.ajax({
             url: Routing.generate('rating'),
             type: 'POST',
-            data: {term: $(this).val()},
+            data: {term: $(this).find('input').val()},
             success: function (data) {
                 data = $.parseJSON(data);
                 if (data.status != 'true') {
                     $(me).removeClass('like').addClass('unlike');
-                    $(me).find("span").html(data.total);
+                    $(me).siblings("label").html(data.total);
                 }
                 else {
                     $(me).removeClass('unlike').addClass('like');
-                    $(me).find("span").html(data.total);
+                    $(me).siblings("label").html(data.total);
                 }
             },
             error: function () {

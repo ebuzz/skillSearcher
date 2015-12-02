@@ -18,10 +18,13 @@
 }
 
 .unlike {
-    background: #F0F0F0;
+    color: gray;
 }
 
 .like {
-    background: #23517C;
-    color: #f0f0f0;
+    color: darkcyan;
+}
+
+.rating:hover{
+    cursor: pointer;
 }

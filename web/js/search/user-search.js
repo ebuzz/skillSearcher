@@ -60,25 +60,13 @@ $(document).ready(function() {
     });
 });
 
-function showCharm(idUser){
-    skillHidder();
-    showSkillsFromUser(idUser);
-}
-
-function showSkillsFromUser(idUser){
-    var element = "#user-"+idUser;
-    $(element).show();
-}
-
-function skillHidder(){
+$(".detail").click(function(){
     $(".user-skills").hide();
-}
+    var idUser = $(this).attr('idUser');
+    var user = "#user-"+idUser;
+    $(user).show();
+});
 
-// function addUserSkill(userSkillId){
-//     var userSkills = [];
-//     var userskill = {
-//             id: $("#user-skill-"+userSkillId).val()
-//     };
-//     userSkills.push(userskill);
-//     console.log(userSkills);
-// }
+$(".close").click(function(){
+    $(".user-skills").hide();
+});
