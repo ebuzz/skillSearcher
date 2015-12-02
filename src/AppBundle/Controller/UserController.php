@@ -108,6 +108,22 @@ class UserController extends BaseController
             throw $this->createNotFoundException('No existe la entidad de usuario.');
         }
         $userPosition = $user->getPosition();
+
+        $roles = array(
+            0 => array(
+                'id'    => 'ROLE_ADMIN',
+                'name'  => 'Administrador'
+                ),
+            1 => array(
+                'id'    => 'ROLE_RH',
+                'name'  => 'Recursos Humanos'
+                ),
+            2 => array(
+                'id'    => 'ROLE_USER',
+                'name'  => 'Colaborador'
+                )
+            );
+
         return array(
             'user'      => $user,
             'userSkills' => $userSkills,
@@ -116,12 +132,13 @@ class UserController extends BaseController
             'accountList' => $accountList,
             'userPosition' => $userPosition,
             'positions' => $position,
+            'roles' => $roles,
         );
     }    
     /**
      * Edits an existing User entity.
      *
-     * @Route("/{id}", name="user_update", options={"expose"=true})
+     * @Route("/{id}/update", name="user_update", options={"expose"=true})
      * @Method("GET")
      * @Template("AppBundle:User:edit.html.twig")
      */
@@ -215,6 +232,10 @@ class UserController extends BaseController
             }
         /*************** FIN PROCESOS CON CUENTAS ********************************/
         
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $user->setRoles($request->get('role'));
+        }
+
         $user->setName($request->get('name'));
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
