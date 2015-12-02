@@ -51,7 +51,11 @@
 									<div class="col-lg-12">
 									    <label>Fecha de admisión</label>
 									    <div class="input-group ">
-									        <input type="text" class="form-control date" value="{{ user.admissionDate|date('Y-m-d') }}" name="admissionDate" placeholder="(YYYY-MM-DD)" />
+									    	{% if user.admissionDate is null %}
+									    		<input type="text" class="form-control date" value="" name="admissionDate" placeholder="(YYYY-MM-DD)" />
+									    	{% else %}
+									        	<input type="text" class="form-control date" value="{{ user.admissionDate|date('Y-m-d') }}" name="admissionDate" placeholder="(YYYY-MM-DD)" />
+									    	{% endif %}
 									        <span class="input-group-btn" >
 									            <button class="btn btn-default date" type="button">
 									            <i class="fa fa-calendar-o"></i></button>
@@ -61,8 +65,7 @@
 						            <div class="col-lg-12">
                                         <label>Posición</label>
                                         {% if userPosition is null %}
-	                                        <select class="form-control" name="position" title="Puesto"
-	                                                placeholder="Puesto">
+	                                        <select class="form-control" name="position" title="Puesto" placeholder="Puesto">
                                                 <option value="" selected="selected"> </option>
 	                                            {% for position in positions %}
 	                                                <option value="{{ position.positionId }}">{{ position.name }}</option>
@@ -81,6 +84,21 @@
 	                                        </select>
 	                                	{% endif %}
                                     </div>
+                                    {% if is_granted('ROLE_ADMIN') %}
+	                                    <div class="col-lg-12">
+	                                        <label>Rol</label>
+	                                        <select class="form-control" name="role" title="Rol" placeholder="Rol">
+	                                            {% for role in roles %}
+	                                            	{% if role.id == user.roles %}
+		                                                <option value="{{ role.id }}" selected="selected">{{ role.name }}</option>
+		                                            	}
+		                                            {% else %}
+		                                            	<option value="{{ role.id }}">{{ role.name }}</option>
+	                                            	{% endif %}
+	                                            {% endfor %}
+	                                        </select>
+	                                    </div>
+                                	{% endif %}
 									</div>
 								</div>
 							</div>
