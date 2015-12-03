@@ -1,0 +1,14 @@
+{# app/Resources/TwigBundle/views/Exception/error.html.twig #}
+{% extends 'base_error.html.twig' %}
+
+{% block body %}
+    <h1>Acceso denegado - Error {{ status_code }} </h1>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {# ... #}
+    {% endif %}
+
+    <p>
+        Usted no tiene acceso para ingresar a esta pagina. Contacte al administrador de sistema.
+    </p>
+{% endblock %}
