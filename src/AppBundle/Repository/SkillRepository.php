@@ -12,12 +12,12 @@ class SkillRepository extends EntityRepository
         $qb = $em->createQueryBuilder()
             ->select('s')
             ->from('AppBundle:Skill', 's')
-            ->where('s.name = :name')
+            ->where('s.name LIKE :name')
             ->setParameter('name', '%' . $name . '%')
             ->getQuery();
         return $qb->getResult();
     }
-    
+
     public function searchSkill($name)
     {
         $em = $this->getEntityManager();
