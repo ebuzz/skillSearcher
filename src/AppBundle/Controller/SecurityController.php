@@ -152,11 +152,19 @@ class SecurityController extends Controller
                     'error' => $alert,
                     );
         }
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->find($request->get('id'));
-        $user->setPassword($request->get('password'));
-        $em->persist($user);
-        $em->flush();
+        
+        else
+        {
+            $em = $this->getDoctrine()->getManager();
+                $user = $em->getRepository('AppBundle:User')->find($request->get('id'));
+                $user->setPassword($request->get('password'));
+                $em->persist($user);
+                $em->flush();
+        
+                $tokenSelected = $em->getRepository('AppBundle:Token')->find($request->get('nip'));
+                $em->remove($tokenSelected);
+                $em->flush();
+        }
         
         return $this->redirect($this->generateUrl('login_route'));
     }
