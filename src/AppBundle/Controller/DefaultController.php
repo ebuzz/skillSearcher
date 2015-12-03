@@ -37,6 +37,7 @@ class DefaultController extends BaseController
      */
     public function registerAction(Request $request)
     {
+        $flag = true;
         $em = $this->getDoctrine()->getManager();
 
         $user = new User();
@@ -54,7 +55,8 @@ class DefaultController extends BaseController
         $this->get('security.token_storage')->setToken($token);
 
         return $this->redirect($this->generateUrl('user_edit', array(
-            'id' => $user->getUserId()
+            'id' => $user->getUserId(),
+            'flag' => $flag,
         )));
     }
 

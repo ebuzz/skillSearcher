@@ -11,7 +11,11 @@
            	<form method="PUT" action="{{ path('user_update', {'id': user.userId}) }}" id="register"> 
 	            <div class="row">
 	                <div class="col-lg-12">
-	                    <h1 class="page-header">Editar usuario</h1>
+	                	{% if flag == true %}
+	                    	<h1 class="page-header">Bienvenido {{ app.user.name }}, continua con tu registro</h1>
+	                	{% else %}
+	                		<h1 class="page-header">Editar usuario</h1>
+	                	{% endif %}
 	                </div>
 	                <!-- /.col-lg-12 -->
 	            </div>
@@ -45,10 +49,12 @@
 								        <label>Correo</label>
 								        <input type="text" value="{{user.username}}" name="email" class="form-control" />
 									</div>
-									<div class="col-lg-12">
-							            <label>Contraseña</label>
-							            <input type="password" name="password" class="form-control" placeholder="Ingrese nueva contraseña"/>
-									</div>
+									{% if flag != true %}
+										<div class="col-lg-12">
+								            <label>Contraseña</label>
+								            <input type="password" name="password" class="form-control" placeholder="Ingrese nueva contraseña"/>
+										</div>
+									{% endif %}
 									<div class="col-lg-12">
 									    <label>Fecha de admisión</label>
 									    <div class="input-group ">

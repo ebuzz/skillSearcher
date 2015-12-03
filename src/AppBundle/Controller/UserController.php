@@ -82,7 +82,7 @@ class UserController extends BaseController
      * @Method("GET")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->find($id);
@@ -130,6 +130,8 @@ class UserController extends BaseController
             )
         );
 
+        $flag = ($request->get('flag'));
+
         return array(
             'user' => $user,
             'userSkills' => $userSkills,
@@ -139,6 +141,7 @@ class UserController extends BaseController
             'userPosition' => $userPosition,
             'positions' => $position,
             'roles' => $roles,
+            'flag' => $flag,
         );
     }
 
