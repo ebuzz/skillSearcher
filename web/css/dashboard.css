@@ -2,29 +2,76 @@
     margin-top: 5%;
 }
 
-.panel-heading, .userimage, .userskill, .panel-footer{
+.panel-heading, .userskill{
     text-align: center;
 }
-.votes{
-    text-align: right;
-}
-.panel-body img{
-    border-radius: 50%;
-    width: 150px;
-}
 
-.userskill b {
-    color: #9b0707;
+.panel-body img, .position, .skillList{
+	border-radius: 5px;
+}
+.userimage{
+	text-align: left;
+	padding: 0;
+ }
+
+.panel-body img{
+    width: 140px;
 }
 
 .unlike {
-    color: gray;
+    color: #777777;
 }
 
 .like {
     color: darkcyan;
 }
 
+.rating{
+	top: 4px;
+}
+
 .rating:hover{
     cursor: pointer;
+}
+
+.position{
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.skillList{
+	display: inline-block;
+    padding: 5px 5px;
+    overflow: hidden;
+    text-align: center;
+    /*white-space: nowrap;*/
+    border: 1px solid gray;
+    color: #9b0707;
+}
+
+.vote{
+	display: inline;
+	white-space: initial;
+}
+
+.badge, .skillList{
+	font-weight: 400;
+	font-style: normal;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1610px){
+	.col-lg-4 {
+	    width: 50%;
+	}
+	.userimage{
+		width: 30%;
+	}
+}
+
+@media screen and (max-width: 1200px){
+	.userimage{
+		text-align: center;
+	}
 }

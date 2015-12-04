@@ -6,40 +6,46 @@
 
 {% block body %}
     <div style="padding-top: 50px">
-    <div class="col-lg-1"></div>
-    <div class="col-lg-4">
-        <div class="row">
-            <div class="col-lg-12" style="text-align: center">
-                <div class="profile-userpic">
-                    <img class="img-responsive" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-12" style="text-align: center">
+                    <div class="profile-userpic">
+                        <img class="img-responsive" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+                    </div>
+                    <h3>{{ user.name }} {{ user.lastName }} {{ user.surName }} </h3>
+                    {{ user.username }}<br>
+                    <b>Cuentas: </b>
+                        {% for account in user.accounts %}
+                            {{ account.name }} |
+                        {% endfor %}
                 </div>
-                <h3>{{ user.name }} {{ user.lastName }} {{ user.surName }} </h3>
-                {# {{ user.position.name }}</br> #}
-                {{ user.username }}<br>
-                <b>Cuentas: </b>
-                    {% for account in user.accounts %}
-                        {{ account.name }} |
-                    {% endfor %}
             </div>
         </div>
-    </div>
-<div class="col-lg-1"></div>
-    <div class="col-lg-4">
-        <div class="row">
-            <h3>Habilidades</h3>
+        <div class="col-lg-4">
+            <div class="row">
+                <h3>Habilidades</h3>
                 {% for skill in user.skills %}
-                        {% set status = "unlike" %}
-                                    {% for vote in skill.vote %}
-                                        {% if vote.user.userId ==  userLogged %}
-                                            {% set status =  "like" %}
-                                        {% endif %}
-                                    {% endfor %}
-                        <i class="glyphicon glyphicon-bookmark {{ status }} rating">
-                                <input type="hidden" value="{{ skill.userSkillId }}"/>
-                        </i> {{ skill.skill.name }}
-                        <label class="score">{{ skill.vote | length }}</label>
+                    {% set status = "unlike" %}
+                    {% for vote in skill.vote %}
+                        {% if vote.user.userId ==  userLogged %}
+                            {% set status =  "like" %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="skillList">    
+                        <div class="vote">   
+                            {{ skill.skill.name }}
+                            <i class="badge">
+                                {{ skill.vote | length }}
+                            </i>
+                        </div>
+                        <div> 
+                            <i class="glyphicon glyphicon-bookmark {{ status }} rating">
+                               <input type="hidden" value="{{ skill.userSkillId }}"/>
+                            </i>
+                        </div>    
+                    </div>      
                 {% endfor %}
+            </div>
         </div>
-    </div>
     </div>
 {% endblock %}

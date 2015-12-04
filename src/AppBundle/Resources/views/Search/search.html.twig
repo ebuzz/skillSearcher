@@ -9,11 +9,14 @@
     <div id="wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Busqueda</h1>
+                <h1 class="page-header">Resultados</h1>
             </div>
         </div>
+        <div class="alert alert-success" style="display:none">
+                El equipo se actualizó correctamente
+        </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 main">
                 <div class="panel panel-default">
                     <div class="panel-heading"> Usuarios con <b><i> {{ searchText }} </i></b> en
                         <b><i> {{ searchType }} </i></b>
@@ -67,12 +70,6 @@
                                                 {% for user in searchResults %}
                                                     <tr>
                                                         <td>
-                                                            <a class="btn btn-link" data-toggle="modal"
-                                                               data-target="#ModalTeams">
-                                                                <i class="glyphicon glyphicon-heart"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td>
                                                             <a href="{{ path('user_profile', { 'id': user.userId }) }}"
                                                                class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
                                                         </td>
@@ -107,7 +104,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-10">
                 <ul>
                     {% for user in all %}
@@ -117,7 +113,10 @@
                             </div>
                             <div class="options">
                                 <div class="skillsTitle">
-                                    <h2>Selecciona Skills de {{ user.name }} {{ user.lastName }}</h2>
+                                    <h2>{{ user.name }} {{ user.lastName }}</h2>
+                                </div>
+                                <div class="skillsTitle">
+                                    <h3>Skills</h3>
                                 </div>
                                 {% for skill in user.skills %}
                                     {% set status = "unlike" %}
@@ -126,36 +125,52 @@
                                             {% set status =  "like" %}
                                         {% endif %}
                                     {% endfor %}
-                                    <li>
-                                        <input type="checkbox" name="user-skill" id="{{ skill.userSkillId }}">
-                                        <div style="border:solid 1px #eeeeee; display:inline; padding:3px">
-                                            <i class="glyphicon glyphicon-bookmark {{ status }} rating">
-                                                <input type="hidden" value="{{ skill.userSkillId }}"/>
-                                            </i> {{ skill.skill.name }}
-                                            <label class="score">{{ skill.vote | length }}</label>
+                                    <li class="skillsList">
+                                        <div class="skillList">    
+                                            {% if is_granted('ROLE_RH') %}
+                                                <div class="equip">    
+                                                    <input type="checkbox" name="user-skill" id="{{ skill.userSkillId }}" class="checkbox">
+                                                </div>
+                                            {% endif %}
+                                            <div class="vote">   
+                                                <label class="skillname">{{ skill.skill.name }}</label>
+                                                <i class="badge">
+                                                    {{ skill.vote | length }}
+                                                </i>
+                                            </div>
+                                            <div> 
+                                                <i class="glyphicon glyphicon-bookmark {{ status }} rating">
+                                                    <input type="hidden" value="{{ skill.userSkillId }}"/>
+                                                </i>
+                                            </div>    
                                         </div>
                                     </li>
                                 {% endfor %}
                                 
-                                <div class="teamTitle">
-                                    <h2>Selecciona equipo</h2> 
-                                </div>
-                                <ul> 
-                                    {% set status = "enabled" %} 
-                                    {% for team in teams %} 
-                                        {% for teami in user.teams %} 
-                                            {% if (team.teamId == teami.team.teamId) and (user.userId == teami.user.userId) %} 
-                                                {% set status = "disabled" %} 
-                                            {% endif %} 
-                                        {% endfor %} 
-                                    <li> 
-                                        <input type="checkbox" aria-label="..." name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" {{status}}> 
-                                        <label {{ status }}> {{ team.name }}</label>
-                                    </li> 
+                                {% if is_granted('ROLE_RH') %}
+                                    <div class="teamTitle">
+                                        <h3>Selecciona equipo</h3> 
+                                    </div>
+                                    <ul> 
                                         {% set status = "enabled" %} 
-                                    {% endfor %}
-                                </ul>
-                                <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default">Guardar</button>
+                                        {% set checked = "" %}
+                                        {% for team in teams %} 
+                                            {% for teami in user.teams %} 
+                                                {% if (team.teamId == teami.team.teamId) and (user.userId == teami.user.userId) %} 
+                                                    {% set status = "disabled" %}
+                                                    {% set checked = "checked" %}  
+                                                {% endif %} 
+                                            {% endfor %} 
+                                        <li> 
+                                            <input type="checkbox" class="checkbox" name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" {{status}} {{ checked }} /> 
+                                            <label {{ status }}> {{ team.name }}</label>
+                                        </li> 
+                                            {% set status = "enabled" %}
+                                            {% set checked = "" %} 
+                                        {% endfor %}
+                                    </ul>
+                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default">Guardar</button>
+                                {% endif %}
                             </div>
                         </div>
 

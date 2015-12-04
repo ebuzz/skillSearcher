@@ -3,6 +3,7 @@ $(document).ready(function() {
     var userTeams = [];
     var userSkillBoxes= [];
     var userTeamBoxes = [];
+    var sideSkill = $(".user-skills");
 
     $('#dataTables').DataTable( {
         "paging":  true,
@@ -20,7 +21,6 @@ $(document).ready(function() {
         };
         userSkills.push(userskill);
         });
-        console.log(userSkills);
         userSkillBoxes.prop('checked', false);
     });
 
@@ -37,7 +37,6 @@ $(document).ready(function() {
         };
         userTeams.push(userteam);
         });
-        console.log(userTeams);
         userTeamBoxes.prop('checked', false);
     });
 
@@ -48,25 +47,32 @@ $(document).ready(function() {
             data: {skills: userSkills, userteams: userTeams},
             success: function(data){
                 data: $.parseJSON(data);
-                // Ops: Usar toaster
-                // alert("Usuario agregado a equipo exitosamente.")
-            },
-            error: function(){
-                console.log("error");
+                $('.user-skills').hide();
+                $('.alert-success').show();
+                setTimeout(function(){
+                    window.location.reload(1);
+                }, 1000);
             } 
-        });
-        
-        
+        });    
     });
+
+    $(".detail").click(function(){
+        sideSkill.hide();
+        var idUser = $(this).attr('idUser');
+        var user = "#user-"+idUser;
+        $(user).show();
+    });
+
+    $(".close").click(function(){
+        sideSkill.hide();
+    });
+
+    /*$(document).bind('click',function(event){
+        if(sideSkill.is(':visible') && event.target != sideSkill[0] && jQuery.inArray(sideSkill[0],$(event.target).parents().map(function(){return this}).get()) == -1){ 
+            // alert('Oculta la lista');
+            sideSkill.hide();
+        }
+    });*/
+
 });
 
-$(".detail").click(function(){
-    $(".user-skills").hide();
-    var idUser = $(this).attr('idUser');
-    var user = "#user-"+idUser;
-    $(user).show();
-});
-
-$(".close").click(function(){
-    $(".user-skills").hide();
-});

@@ -7,9 +7,33 @@
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;
 }*/
+.skillList{
+    display: inline-block;
+    padding: 5px 5px;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 5px;
+    color: #9b0707;
+    font-weight: 400;
+    border: 1px solid gray;
+}
+
+.badge{
+	font-style: normal;
+}
+
+.skillList > div{
+	display: inline;
+}
+
+.rating{
+	top: 4px;
+	cursor:pointer;
+}
 
 .unlike {
-    color: gray;
+    color: #777777;
 }
 
 .like {

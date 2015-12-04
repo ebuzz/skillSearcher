@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".rating").on('click', function (event) {
+    $(".rating").click(function (event) {
         event.preventDefault();
         var me = this;
         $.ajax({
@@ -10,16 +10,16 @@ $(document).ready(function () {
                 data = $.parseJSON(data);
                 if (data.status != 'true') {
                     $(me).removeClass('like').addClass('unlike');
-                    $(me).siblings("label").html(data.total);
+                    $(me).parents().siblings('.vote').find('.badge').html(data.total);
                 }
                 else {
                     $(me).removeClass('unlike').addClass('like');
-                    $(me).siblings("label").html(data.total);
+                    $(me).parents().siblings('.vote').find('.badge').html(data.total);
                 }
-            },
+            }/*,
             error: function () {
                 alert('error');
-            }
+            }*/
         });
     });
 });
