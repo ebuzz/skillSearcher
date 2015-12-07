@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     function validateEmail(email) {
-        var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,4})(\]?)$/;
+        var filter = /[aA-zZ0-9\-\.]+@arkusnexus+\.com$/;
         return !!filter.test(email);
     }
 
