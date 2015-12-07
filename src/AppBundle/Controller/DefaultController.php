@@ -40,6 +40,13 @@ class DefaultController extends BaseController
         $flag = true;
         $em = $this->getDoctrine()->getManager();
 
+        $mail=$request->get('exist');
+        if ($mail == "true") {
+            return $this->render('AppBundle:Security:login.html.twig', array(
+                'exist' => 'exist',
+            ));
+        }
+
         $user = new User();
         $user->setName($request->get('name'));
         $user->setLastName($request->get('lastName'));
