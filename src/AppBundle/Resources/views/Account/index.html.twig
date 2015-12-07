@@ -23,17 +23,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
-                                                <th>Descripcion de la tecnología</th>
-                                                <th>Nombre del Líder</th>
-                                                <th></th>
+                                                <th class="hidden-xs">Descripcion de la tecnología</th>
+                                                <th class="hidden-xs">Nombre del Líder</th>
+                                                <th style="background:none; cursor:default; width:64px"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for account in accounts %}
                                                 <tr>
                                                     <td><a href="{{ path('account_show', { 'id': account.accountId }) }}">{{ account.name }}</a></td>
-                                                    <td>{{ account.technologyDescription }}</td>
-                                                    <td>{{ account.leaderName }}</td>
+                                                    <td class="hidden-xs">{{ account.technologyDescription }}</td>
+                                                    <td class="hidden-xs">{{ account.leaderName }}</td>
                                                     <td style="text-align:center">
                                                             <a href="{{ path('account_edit', { 'id': account.accountId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
                                                             <a href="{{ path('account_delete', { 'id': account.accountId }) }}"><i class="glyphicon glyphicon-trash"></i></a>

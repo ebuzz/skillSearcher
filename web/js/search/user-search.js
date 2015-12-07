@@ -4,6 +4,7 @@ $(document).ready(function() {
     var userSkillBoxes= [];
     var userTeamBoxes = [];
     var sideSkill = $(".user-skills");
+    var teamCheck = $('.teamCheck');
 
     $('#dataTables').DataTable( {
         "paging":  true,
@@ -11,8 +12,11 @@ $(document).ready(function() {
         "info":     false
     });
 
-    $('.addUserSkill').click(function(){
-        userSkills= [];       
+    teamCheck.change(function() {
+        $('.saveTeam').show();
+    });
+
+    $('.addUserSkill').click(function(){      
         userSkillBoxes = $('input[name=user-skill]:checked');
         var filler = userSkillBoxes.each(function(){
             var id = $(this).attr('id');
@@ -26,7 +30,6 @@ $(document).ready(function() {
 
 
     $(".addUserTeam").click(function(){
-        userTeams = [];
         userTeamBoxes = $('input[name=user-team]:checked');
         var filler = userTeamBoxes.each(function(){
             var idTeam = $(this).attr('idTeam');
@@ -60,6 +63,14 @@ $(document).ready(function() {
         sideSkill.hide();
         var idUser = $(this).attr('idUser');
         var user = "#user-"+idUser;
+        $('.saveTeam').hide();
+        teamCheck.each(function(){
+            if($(this).is(':disabled')){  
+                
+            }else{
+                $(this).prop('checked',false);
+            }
+        });
         $(user).show();
     });
 
