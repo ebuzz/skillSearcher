@@ -32,8 +32,8 @@
                                             <thead>
                                             <tr>
                                                 <th>Usuario</th>
-                                                <th>Posición</th>
-                                                <th>Cuentas</th>
+                                                <th class="hidden-xs">Posición</th>
+                                                <th class="hidden-xs">Cuentas</th>
                                                 <th>Skills</th>
                                             </tr>
                                             </thead>
@@ -45,12 +45,12 @@
                                                             <a href="{{ path('user_profile', { 'id': user.userId }) }}"
                                                                class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
                                                         </td>
-                                                        <td>
+                                                        <td class="hidden-xs">
                                                             {% if user.position %}
                                                                 <span>{{ user.position.name }}</span>
                                                             {% endif %}
                                                         </td>
-                                                        <td>
+                                                        <td class="hidden-xs">
                                                             {% for account in user.accounts %}
                                                                 <span>{{ account.name }}</span>
                                                             {% endfor %}
@@ -162,14 +162,14 @@
                                                 {% endif %} 
                                             {% endfor %} 
                                         <li> 
-                                            <input type="checkbox" class="checkbox" name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" {{status}} {{ checked }} /> 
+                                            <input type="checkbox" class="teamCheck" name="user-team" idTeam="{{ team.teamId }}" idUser="{{ user.userId }}" {{status}} {{ checked }} /> 
                                             <label {{ status }}> {{ team.name }}</label>
                                         </li> 
                                             {% set status = "enabled" %}
                                             {% set checked = "" %} 
                                         {% endfor %}
                                     </ul>
-                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default">Guardar</button>
+                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default" style="display:none">Guardar</button>
                                 {% endif %}
                             </div>
                         </div>

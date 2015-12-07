@@ -32,6 +32,10 @@ a:hover{
     float: none;
 }
 
+.img{
+    border-radius: 5px;
+}
+
 .second-top ul {
     height: 100%;
 }
@@ -156,5 +160,9 @@ a.dropdown-toggle{
 
     .navbar-toggle:focus span, .navbar-toggle:hover span {
         background-color: #9b0707 !important;
+    }
+
+    .input-sm{
+        width: 71%;
     }
 }

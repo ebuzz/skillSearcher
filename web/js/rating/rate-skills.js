@@ -16,10 +16,7 @@ $(document).ready(function () {
                     $(me).removeClass('unlike').addClass('like');
                     $(me).parents().siblings('.vote').find('.badge').html(data.total);
                 }
-            }/*,
-            error: function () {
-                alert('error');
-            }*/
+            }
         });
     });
 });
