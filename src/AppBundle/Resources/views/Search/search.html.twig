@@ -9,7 +9,7 @@
     <div id="wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Resultados</h1>
+                <h1 class="page-header">Resultados encontrados</h1>
             </div>
         </div>
         <div class="alert alert-success" style="display:none">
@@ -18,9 +18,10 @@
         <div class="row">
             <div class="col-lg-12 main">
                 <div class="panel panel-default">
-                    <div class="panel-heading"> Usuarios con <b><i> {{ searchText }} </i></b> en
-                        <b><i> {{ searchType }} </i></b>
+                {% if searchText %}
+                    <div class="panel-heading"> Usuarios con <b><i> {{ searchText | upper }} </i></b>
                     </div>
+                {% endif %}
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <div id="dataTables-example_wrapper"
@@ -31,7 +32,7 @@
                                                id="dataTables" role="grid">
                                             <thead>
                                             <tr>
-                                                <th>Usuario</th>
+                                                <th>Nombre</th>
                                                 <th class="hidden-xs">Posición</th>
                                                 <th class="hidden-xs">Cuentas</th>
                                                 <th>Skills</th>
@@ -169,7 +170,7 @@
                                             {% set checked = "" %} 
                                         {% endfor %}
                                     </ul>
-                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default" style="display:none">Guardar</button>
+                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default" style="display:none">Agregar a equipo</button>
                                 {% endif %}
                             </div>
                         </div>
