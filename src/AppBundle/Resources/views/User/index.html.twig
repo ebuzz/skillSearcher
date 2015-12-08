@@ -24,14 +24,14 @@
                                                 <tr>
                                                 <th>Nombre</th>
                                                 <th class="hidden-xs">Correo</th>
-                                                <th class="hidden-xs">Posición</th>
+                                                <th class="hidden-xs">Puesto</th>
                                                 <th style="background:none; cursor:default; width:64px"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for entity in entities %}
                                                 <tr>
-                                                    <td><a href="{{path('user_profile', { 'id':entity.userId})}}">{{ entity.name }} {{ entity.lastName }} {{ entity.surName }}</a></td>
+                                                    <td><a href="{{path('user_profile', { 'id':entity.userId})}}">{{ entity.name | capitalize }} {{ entity.lastName | capitalize }} {{ entity.surName | capitalize }}</a></td>
                                                     <td class="hidden-xs">{{ entity.username }}</td>
                                                     <td class="hidden-xs"> 
                                                         {% if entity.position %}

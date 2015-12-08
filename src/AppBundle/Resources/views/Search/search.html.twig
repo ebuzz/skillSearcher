@@ -72,7 +72,7 @@
                                                     <tr>
                                                         <td>
                                                             <a href="{{ path('user_profile', { 'id': user.userId }) }}"
-                                                               class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
+                                                               class="timeline-body-title font-blue-madison">{{ user.name | capitalize }} {{ user.lastName | capitalize }} {{ user.surName | capitalize }} </a>
                                                         </td>
 
                                                         <td>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="options">
                                 <div class="skillsTitle">
-                                    <h2>{{ user.name }} {{ user.lastName }}</h2>
+                                    <h2>{{ user.name | capitalize }} {{ user.lastName | capitalize }}</h2>
                                 </div>
                                 <div class="skillsTitle">
                                     <h3>Skills</h3>
