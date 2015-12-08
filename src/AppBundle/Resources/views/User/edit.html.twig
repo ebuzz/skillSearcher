@@ -8,7 +8,8 @@
     <div id="wrapper">
         <!-- Page Content -->
         <div class="container-fluid">
-           	<form method="PUT" action="{{ path('user_update', {'id': user.userId}) }}" id="register"> 
+           	<form method="POST" action="{{ path('user_update', {'id': user.userId}) }}" id="register" enctype="multipart/form-data">
+
 	            <div class="row">
 	                <div class="col-lg-12">
 	                	{% if flag == true %}

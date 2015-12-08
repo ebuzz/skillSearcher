@@ -117,16 +117,16 @@ class UserController extends BaseController
 
         $roles = array(
             0 => array(
-                'id' => 'ROLE_ADMIN',
-                'name' => 'Administrador'
+                'id' => 'ROLE_USER',
+                'name' => 'Colaborador'
             ),
             1 => array(
                 'id' => 'ROLE_RH',
                 'name' => 'Recursos Humanos'
             ),
             2 => array(
-                'id' => 'ROLE_USER',
-                'name' => 'Colaborador'
+                'id' => 'ROLE_ADMIN',
+                'name' => 'Administrador'
             )
         );
 
@@ -149,7 +149,7 @@ class UserController extends BaseController
      * Edits an existing User entity.
      *
      * @Route("/{id}/update", name="user_update", options={"expose"=true})
-     * @Method("GET")
+     * @Method("POST")
      * @Template("AppBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
@@ -160,6 +160,7 @@ class UserController extends BaseController
         $accounts = $request->get('account');
         $dateAdmission = $request->get('admissionDate');
         $password = $request->get('password');
+        $image = $request->get('image');
         $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
 
         /**************** INICIO PROCESOS CON SKILLS ************************************/
@@ -250,7 +251,9 @@ class UserController extends BaseController
         $user->setLastName($request->get('lastname'));
         $user->setSurName($request->get('surname'));
         $user->setUserName($request->get('email'));
-        $user->setFile($request->files->get('image'));
+        if ($image != "") {
+            $user->setFile($request->files->get('image'));
+        }
         if ($password != "") {
             $user->setPassword($password);
         }
