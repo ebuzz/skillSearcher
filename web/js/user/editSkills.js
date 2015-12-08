@@ -21,6 +21,12 @@ $(document).ready(function() {
         }
     }
 
+    $('.btn-file :file').on('change', function (event) {
+        var input = $(this).parents('.input-group').find(':text');
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    });
+
     $('.addSkill').click(function () {
         var skill = {
             id: "",
@@ -67,13 +73,6 @@ $(document).ready(function() {
             event.preventDefault();
             $(this).val(ui.item.label);
         }
-    });
-
-
-    $('.btn-file :file').on('change', function (event) {
-        var input = $(this).parents('.input-group').find(':text');
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
     });
 
     $('.date').datepicker({
