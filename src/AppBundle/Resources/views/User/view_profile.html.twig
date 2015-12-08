@@ -5,47 +5,87 @@
 {% endblock %}
 
 {% block body %}
-    <div style="padding-top: 50px">
-        <div class="col-lg-4">
-            <div class="row">
-                <div class="col-lg-12" style="text-align: center">
-                    <div class="profile-userpic">
-                        <img class="img-responsive" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+    <div id="wrapper">
+        <div class="col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 home">
+            <a href="{{ path('homepage') }}">
+                <i class="glyphicon glyphicon-home"></i>  Página principal
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-offset-1 col-lg-10">
+            <h2>Perfil</h2>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 ">
+            <div class="card hovercard">
+                <div class="card-background">
+                    <img class="img" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+                </div>
+                <div class="useravatar">
+                    <img class="img" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+                </div>
+                <div class="card-info"> 
+                    <span class="card-title">{{ user.name }} {{ user.lastName }} {{ user.surName }}</span>
+                </div>
+            </div>
+            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        <div class="hidden-xs">Información</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-check fa-fw" aria-hidden="true"></span>
+                        <div class="hidden-xs">Skills</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                        <div class="hidden-xs">Cuentas</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="well">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1">
+                            <p><b>Correo:</b> {{ user.username }}</p>
+                            {% if user.position %}
+                                <p><b>Puesto:</b> {{ user.position.name }}</p>
+                            {% endif %}
+                            <p><b>Fecha de contratación:</b> {{ user.admissionDate| date("m/d/Y") }}</p>
                     </div>
-                    <h3>{{ user.name }} {{ user.lastName }} {{ user.surName }} </h3>
-                    {{ user.username }}<br>
-                    <b>Cuentas: </b>
+                    <div class="tab-pane fade in" id="tab2">
+                        {% for skill in user.skills %}
+                                {% set status = "unlike" %}
+                                {% for vote in skill.vote %}
+                                    {% if vote.user.userId ==  userLogged %}
+                                        {% set status =  "like" %}
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="skillList">    
+                                    <div class="vote">   
+                                        {{ skill.skill.name }}
+                                        <i class="badge">
+                                            {{ skill.vote | length }}
+                                        </i>
+                                    </div>
+                                    <div> 
+                                        <i class="glyphicon glyphicon-bookmark {{ status }} rating">
+                                           <input type="hidden" value="{{ skill.userSkillId }}"/>
+                                        </i>
+                                    </div>    
+                                </div>      
+                            {% endfor %}
+                    </div>
+                    <div class="tab-pane fade in" id="tab3">
                         {% for account in user.accounts %}
                             {{ account.name }} |
                         {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="row">
-                <h3>Habilidades</h3>
-                {% for skill in user.skills %}
-                    {% set status = "unlike" %}
-                    {% for vote in skill.vote %}
-                        {% if vote.user.userId ==  userLogged %}
-                            {% set status =  "like" %}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="skillList">    
-                        <div class="vote">   
-                            {{ skill.skill.name }}
-                            <i class="badge">
-                                {{ skill.vote | length }}
-                            </i>
-                        </div>
-                        <div> 
-                            <i class="glyphicon glyphicon-bookmark {{ status }} rating">
-                               <input type="hidden" value="{{ skill.userSkillId }}"/>
-                            </i>
-                        </div>    
-                    </div>      
-                {% endfor %}
-            </div>
-        </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/user/viewprofile.js') }}"></script>
 {% endblock %}

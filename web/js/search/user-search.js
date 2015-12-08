@@ -44,6 +44,7 @@ $(document).ready(function() {
     });
 
     $(".saveTeam").click(function(event){
+        $(this).attr('disabled','disabled');
         $.ajax({
             url: Routing.generate('add_user_team'),
             type: 'POST',
@@ -86,4 +87,3 @@ $(document).ready(function() {
     });*/
 
 });
-

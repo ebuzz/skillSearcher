@@ -117,6 +117,13 @@
     top: 3px;
 }
 
+/*.loading {
+    background: darkcyan
+                url('../../loading.gif') 
+                50% 50% 
+                no-repeat;
+}*/
+
 @media screen and (max-width: 600px){
     .user-skills{
         width: 100%;
