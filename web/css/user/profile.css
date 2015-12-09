@@ -62,8 +62,7 @@
     -o-filter: blur(25px);
     -ms-filter: blur(25px);
     filter: blur(25px);
-    margin-left: -100px;
-    margin-top: -200px;
+    margin-left: -80px;
     min-width: 130%;
 }
 .card.hovercard .useravatar {
