@@ -37,6 +37,7 @@ class DefaultController extends BaseController
      */
     public function registerAction(Request $request)
     {
+        $success = "";
         $flag = true;
         $em = $this->getDoctrine()->getManager();
 
@@ -44,6 +45,7 @@ class DefaultController extends BaseController
         if ($mail == "true") {
             return $this->render('AppBundle:Security:login.html.twig', array(
                 'exist' => 'exist',
+                'success'      => $success
             ));
         }
 

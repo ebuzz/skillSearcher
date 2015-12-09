@@ -160,7 +160,7 @@ class UserController extends BaseController
         $accounts = $request->get('account');
         $dateAdmission = $request->get('admissionDate');
         $password = $request->get('password');
-        $image = $request->get('image');
+        $image = $request->files->get('image');
         $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
 
         /**************** INICIO PROCESOS CON SKILLS ************************************/

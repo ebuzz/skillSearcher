@@ -23,6 +23,10 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
+        $success = "";
+        if($request->get('success') == 1){
+            $success = "Se ha enviado a su correo las instrucciones para recuperar su contraseña.";
+        }
         $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
@@ -35,6 +39,7 @@ class SecurityController extends Controller
             // last username entered by the user
             'last_username' => $lastUsername,
             'error'         => $error,
+            'success'      => $success
         );
     }
 
@@ -90,7 +95,7 @@ class SecurityController extends Controller
                 );
         $this->get('mailer')->send($message);
 
-        return $this->redirect($this->generateUrl('login_route'));
+        return $this->redirect($this->generateUrl('login_route', array('success' => '1')));
     }
 
     /**

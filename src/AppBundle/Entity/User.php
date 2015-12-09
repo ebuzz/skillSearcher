@@ -483,7 +483,7 @@ class User implements UserInterface, \Serializable
             $this->temp = $this->image;
             $this->image = null;
         } else {
-            $this->image = 'initial';
+            $this->image = '';
         }
     }
 

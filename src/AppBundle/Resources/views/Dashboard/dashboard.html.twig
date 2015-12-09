@@ -20,7 +20,11 @@
                                 </div>
                             {% endif %}
                             <div class="col-lg-4 col-xs-12 col-sm-4 col-md-12 userimage">
+                                {% if user.image %}
                                 <img class="timeline-badge-userpic" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
+                                {% else %}
+                                <img class="timeline-badge-userpic" src="{{ asset('user.jpg') }}">
+                                {% endif %}
                             </div>
                             <div class="col-lg-8 col-md-12">
                                     {% set status = "unlike" %}
