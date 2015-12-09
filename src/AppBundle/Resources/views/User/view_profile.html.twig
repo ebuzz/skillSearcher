@@ -16,12 +16,21 @@
         </div>
         <div class="col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 ">
             <div class="card hovercard">
+                {% if user.image %}
                 <div class="card-background">
                     <img class="img" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
                 </div>
                 <div class="useravatar">
                     <img class="img" src="{{ asset('uploads/profilePhotos/' ~ user.image) }}">
                 </div>
+                {% else %}
+                <div class="card-background">
+                    <img class="img" src="{{ asset('uploads/profilePhotos/user.jpeg') }}">
+                </div>
+                <div class="useravatar">
+                    <img class="img" src="{{ asset('uploads/profilePhotos/user.jpeg') }}">
+                </div>
+                {% endif %}
                 <div class="card-info"> 
                     <span class="card-title">{{ user.name }} {{ user.lastName }} {{ user.surName }}</span>
                 </div>
