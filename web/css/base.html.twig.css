@@ -112,6 +112,10 @@ a.dropdown-toggle{
     min-height: 267px;
 }
 
+.panel-heading{
+    text-align: right;
+}
+
 .pagination>.active>a, .pagination>.active>a:hover {
     background-color: #9B0707;
     border-color: #9B0707;
