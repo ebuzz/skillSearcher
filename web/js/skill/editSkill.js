@@ -6,7 +6,7 @@ $(document).ready(function() {
 	    var newSpan = spanName.text(name);
 	    var inputName = $('#inputName-'+ id);
 	    $.ajax({
-	        url: Routing.generate('position_update_ajax'),
+	        url: Routing.generate('skill_update_ajax'),
 	        type: 'POST',
 	        data: {name : name, id : id},
 	        success: function(data){
@@ -25,7 +25,7 @@ $(document).ready(function() {
 	        var newSpan = spanName.text(name);
 	        var inputName = $('#inputName-'+ id);
 	        $.ajax({
-	            url: Routing.generate('position_update_ajax'),
+	            url: Routing.generate('skill_update_ajax'),
 	            type: 'POST',
 	            data: {name : name, id : id},
 	            success: function(data){

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Skill;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Skill controller.
@@ -88,24 +89,6 @@ class SkillController extends Controller
     }
 
     /**
-     * Edits an existing Skill entity.
-     *
-     * @Route("/{id}/update", name="skill_update")
-     * @Method("POST")
-     * @Template("AppBundle:Skill:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $skill = $em->getRepository('AppBundle:Skill')->find($id);
-
-        $skill->setName($request->get('name'));
-        $em     ->persist($skill);
-        $em     ->flush();
-
-        return $this->redirectToRoute('skills');
-    }
-    /**
      * Deletes a Skill entity.
      *
      * @Route("/{id}/delete", name="skill_delete")
@@ -121,6 +104,27 @@ class SkillController extends Controller
         $em->remove($skill);
         $em->flush();
         return $this->redirectToRoute('skills');
+    }
+
+    /**
+     * Edits an existing Skill entity con AJAX.
+     *
+     * @Route("/update", name="skill_update_ajax", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function updateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        $skill = $em->getRepository('AppBundle:Skill')->find($id);
+
+        $skill->setName($request->get('name'));
+        $em->persist($skill);
+        $em->flush();
+        $result = "";
+        $response = new Response();
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
     }
 
 }

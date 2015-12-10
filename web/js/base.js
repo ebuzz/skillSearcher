@@ -25,9 +25,13 @@ $(function() {
         element.addClass('active');
     }
 
-    window.setTimeout(function() {
-        $(".alert").fadeTo(500, 0).slideUp(500, function(){
-            $(this).remove();
-        });
-    }, 3500);
+    $('.edit, .spanName').click(function(){
+        event.preventDefault();
+        var idPosition = $(this).data('idposition');
+        var spanName = $('#spanName-'+ idPosition);
+        var inputName = $('#inputName-'+ idPosition);
+        spanName.hide();
+        inputName.show();
+        inputName.focus();
+    });
 });

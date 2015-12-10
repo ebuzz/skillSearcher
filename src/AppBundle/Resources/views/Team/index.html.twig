@@ -29,9 +29,18 @@
                                         <tbody>
                                             {% for team in teams %}
                                                 <tr>
-                                                    <td><a href="{{ path('team_show', { 'id': team.teamId }) }}">{{ team.name }}</a></td>
+                                                    <td>
+                                                        <a href="{{ path('team_show', { 'id': team.teamId }) }}">
+                                                            <span id="spanName-{{ team.teamId }}" data-idposition="{{ team.teamId }}" >
+                                                                {{ team.name }}
+                                                            </span>
+                                                        </a>
+                                                        <input type="text" class="inputName" id="inputName-{{ team.teamId }}" data-idposition ="{{ team.teamId }}" value="{{team.name}}" name="name" style="display:none" />
+                                                    </td>
+                                                    
                                                     <td style="text-align:center">
-                                                            <a href="{{ path('team_edit', { 'id': team.teamId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                            {#<a href="{{ path('team_edit', { 'id': team.teamId }) }}"><i class="glyphicon glyphicon-edit"></i></a>#}
+                                                            <a class="edit" data-idposition="{{ team.teamId }}" href="#"><i class="glyphicon glyphicon-edit"></i></a>
                                                             <a href="{{ path('team_delete', { 'id': team.teamId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
@@ -56,4 +65,5 @@
     <script src="{{ asset('js/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/user/userList.js') }}"></script>
+    <script src="{{ asset('js/team/editTeam.js') }}"></script>
 {% endblock %}

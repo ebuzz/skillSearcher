@@ -108,7 +108,7 @@ class PositionController extends Controller
     }
 
       /**
-     * Edits an existing Team entity con AJAX.
+     * Edits an existing Position entity con AJAX.
      *
      * @Route("/update", name="position_update_ajax", options={"expose"=true})
      * @Method("POST")

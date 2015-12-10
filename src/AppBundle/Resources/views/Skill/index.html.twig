@@ -29,9 +29,14 @@
                                         <tbody>
                                             {% for skill in skills %}
                                                 <tr>
-                                                    <td>{{ skill.name }}</td>
+                                                    <td>
+                                                        <span class="spanName" id="spanName-{{ skill.skillId }}" data-idposition="{{ skill.skillId }}" >
+                                                            {{ skill.name }}
+                                                        </span>
+                                                        <input type="text" class="inputName" id="inputName-{{ skill.skillId }}" data-idposition ="{{ skill.skillId }}" value="{{skill.name}}" name="name" style="display:none" />
+                                                    </td>
                                                     <td style="text-align:center">
-                                                        <a href="{{ path('skill_edit', { 'id': skill.skillId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                                        <a class="edit" data-idposition="{{ skill.skillId }}" href="#"><i class="glyphicon glyphicon-edit"></i></a>
                                                         <a href="{{ path('skill_delete', { 'id': skill.skillId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
@@ -56,4 +61,5 @@
     <script src="{{ asset('js/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/user/userList.js') }}"></script>
+    <script src="{{ asset('js/skill/editSkill.js') }}"></script>
 {% endblock %}

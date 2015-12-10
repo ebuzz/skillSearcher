@@ -13,6 +13,7 @@
     background: rgba(0,0,0,0.8);
     color: white;
     text-align: center;
+    overflow: auto;
 }
 
 .user-skills li{

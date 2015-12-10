@@ -173,25 +173,6 @@ class TeamController extends Controller
     }
 
     /**
-     * Edits an existing Team entity.
-     *
-     * @Route("/{id}/update", name="team_update")
-     * @Method("POST")
-     * @Template("AppBundle:Team:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $team = $em->getRepository('AppBundle:Team')->find($id);
-
-        $team->setName($request->get('name'));
-        $em->persist($team);
-        $em->flush();
-
-        return $this->redirectToRoute('team');
-    }
-
-    /**
      * Deletes a Team entity.
      *
      * @Route("/{id}/delete", name="team_delete")
@@ -226,5 +207,26 @@ class TeamController extends Controller
         $em->flush();
         // return $this->redirectToRoute('team');
         return $this->redirectToRoute('team_show', array('id' => $id));
+    }
+
+    /**
+     * Edits an existing Team entity con AJAX.
+     *
+     * @Route("/update", name="team_update_ajax", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function updateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        $team = $em->getRepository('AppBundle:Team')->find($id);
+
+        $team->setName($request->get('name'));
+        $em->persist($team);
+        $em->flush();
+        $result = "";
+        $response = new Response();
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
     }
 }

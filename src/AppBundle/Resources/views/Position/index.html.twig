@@ -36,7 +36,7 @@
                                                         <input type="text" class="inputName" id="inputName-{{ position.positionId }}" data-idposition ="{{ position.positionId }}" value="{{position.name}}" name="name" style="display:none" />
                                                     </td>
                                                     <td style="text-align:center">
-                                                        <a class="editPosition" data-idposition="{{ position.positionId }}" href="#"><i class="glyphicon glyphicon-edit"></i></a>
+                                                        <a class="edit" data-idposition="{{ position.positionId }}" href="#"><i class="glyphicon glyphicon-edit"></i></a>
                                                         <a href="{{ path('position_delete', { 'id': position.positionId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
