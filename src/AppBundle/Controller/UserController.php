@@ -179,6 +179,17 @@ class UserController extends BaseController
             $addSkill = array_diff($skillsRequestId, $skillsArray);
             $removeSkills = array_diff($skillsArray, $skillsRequestId);
 
+            foreach ($skillsRequestId as $skill) {
+                $skillEntityToManage = $em->getRepository('AppBundle:Skill')->findOneByName($skill)->getSkillId();
+                $foundHiddenSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToManage);
+                $userSkill = $foundHiddenSkill[0];
+                if($userSkill->getIsActive() == 0) {
+                        $userSkill->setIsActive(1);
+                        $em->persist($userSkill);
+                        $em->flush();
+                    }
+            }
+
             if (!empty($addSkill)) {
                 foreach ($addSkill as $add) {
                     $skillEntityByName = $em->getRepository('AppBundle:Skill')->findOneByName($add);
@@ -208,8 +219,8 @@ class UserController extends BaseController
             if (!empty($removeSkills)) {
                 foreach ($removeSkills as $remove) {
                     $skillEntityToRemove = $em->getRepository('AppBundle:Skill')->findOneByName($remove)->getSkillId();
-                    $findedUserSkill = $em->getRepository('AppBundle:UserSkill')->findIdToRemove($id, $skillEntityToRemove);
-                    $userSkill = $findedUserSkill[0];
+                    $foundUserSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToRemove);
+                    $userSkill = $foundUserSkill[0];
                     $userSkill->setIsActive(0);
                     $em->persist($userSkill);
                     $em->flush();
