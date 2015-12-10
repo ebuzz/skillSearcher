@@ -9,7 +9,7 @@
     <div id="wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Resultados encontrados</h1>
+                <h1 class="page-header">Resultados</h1>
             </div>
         </div>
         <div class="alert alert-success" style="display:none">
@@ -18,10 +18,9 @@
         <div class="row">
             <div class="col-lg-12 main">
                 <div class="panel panel-default">
-                {% if searchText %}
-                    <div class="panel-heading"> Usuarios con <b><i> {{ searchText | upper }} </i></b>
+                    <div class="panel-heading"> Usuarios con <b><i> {{ searchText }} </i></b> en
+                        <b><i> {{ searchType }} </i></b>
                     </div>
-                {% endif %}
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <div id="dataTables-example_wrapper"
@@ -32,7 +31,7 @@
                                                id="dataTables" role="grid">
                                             <thead>
                                             <tr>
-                                                <th>Nombre</th>
+                                                <th>Usuario</th>
                                                 <th class="hidden-xs">Posición</th>
                                                 <th class="hidden-xs">Cuentas</th>
                                                 <th>Skills</th>
@@ -58,7 +57,9 @@
                                                         </td>
                                                         <td>
                                                             {% for skill in user.skills|slice(0, 5) %}
-                                                                <span>{{ skill.skill.name }}</span>
+                                                                <div class="fiveSkill">    
+                                                                    {{ skill.skill.name }}
+                                                                </div> 
                                                             {% endfor %}
                                                             <a href="#" class="detail btn btn-link" idUser = "{{ user.userId }}">Ver
                                                                 mas</a>
@@ -72,7 +73,7 @@
                                                     <tr>
                                                         <td>
                                                             <a href="{{ path('user_profile', { 'id': user.userId }) }}"
-                                                               class="timeline-body-title font-blue-madison">{{ user.name | capitalize }} {{ user.lastName | capitalize }} {{ user.surName | capitalize }} </a>
+                                                               class="timeline-body-title font-blue-madison">{{ user.name }} {{ user.lastName }} {{ user.surName }} </a>
                                                         </td>
 
                                                         <td>
@@ -114,7 +115,7 @@
                             </div>
                             <div class="options">
                                 <div class="skillsTitle">
-                                    <h2>{{ user.name | capitalize }} {{ user.lastName | capitalize }}</h2>
+                                    <h2>{{ user.name }} {{ user.lastName }}</h2>
                                 </div>
                                 <div class="skillsTitle">
                                     <h3>Skills</h3>
@@ -170,7 +171,7 @@
                                             {% set checked = "" %} 
                                         {% endfor %}
                                     </ul>
-                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default" style="display:none">Agregar a equipo</button>
+                                    <button class="addUserSkill addUserTeam saveTeam" type="submit" class="btn btn-default" style="display:none">Guardar</button>
                                 {% endif %}
                             </div>
                         </div>

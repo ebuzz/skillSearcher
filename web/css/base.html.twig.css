@@ -109,6 +109,7 @@ a.dropdown-toggle{
 .panel-default{
     box-shadow: 0 0px 15px #DAD2D2;
     border: 1px solid #E2DADA;
+    min-height: 267px;
 }
 
 .pagination>.active>a, .pagination>.active>a:hover {

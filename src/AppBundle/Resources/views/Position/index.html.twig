@@ -29,10 +29,15 @@
                                         <tbody>
                                             {% for position in positions %}
                                                 <tr>
-                                                    <td>{{ position.name }}</td>
+                                                    <td>
+                                                        <span class="spanName" id="spanName-{{ position.positionId }}" data-idposition="{{ position.positionId }}" >
+                                                            {{ position.name }}
+                                                        </span> 
+                                                        <input type="text" class="inputName" id="inputName-{{ position.positionId }}" data-idposition ="{{ position.positionId }}" value="{{position.name}}" name="name" style="display:none" />
+                                                    </td>
                                                     <td style="text-align:center">
-                                                            <a href="{{ path('position_edit', { 'id': position.positionId }) }}"><i class="glyphicon glyphicon-edit"></i></a>
-                                                            <a href="{{ path('position_delete', { 'id': position.positionId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
+                                                        <a class="editPosition" data-idposition="{{ position.positionId }}" href="#"><i class="glyphicon glyphicon-edit"></i></a>
+                                                        <a href="{{ path('position_delete', { 'id': position.positionId }) }}"><i class="glyphicon glyphicon-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}   
@@ -56,4 +61,5 @@
     <script src="{{ asset('js/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/user/userList.js') }}"></script>
+    <script src="{{ asset('js/position/editposition.js') }}"></script>
 {% endblock %}

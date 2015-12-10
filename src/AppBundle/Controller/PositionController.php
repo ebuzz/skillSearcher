@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Position;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Position controller.
@@ -89,24 +90,6 @@ class PositionController extends Controller
     }
 
     /**
-     * Edits an existing Position entity.
-     *
-     * @Route("/{id}/update", name="position_update")
-     * @Method("POST")
-     * @Template("AppBundle:Position:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $position = $em->getRepository('AppBundle:Position')->find($id);
-
-        $position->setName($request->get('name'));
-        $em     ->persist($position);
-        $em     ->flush();
-
-        return $this->redirectToRoute('position');
-    }
-    /**
      * Deletes a Position entity.
      *
      * @Route("/{id}/delete", name="position_delete")
@@ -122,5 +105,26 @@ class PositionController extends Controller
         $em->remove($position);
         $em->flush();
         return $this->redirectToRoute('position');
+    }
+
+      /**
+     * Edits an existing Team entity con AJAX.
+     *
+     * @Route("/update", name="position_update_ajax", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function updateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('id');
+        $position = $em->getRepository('AppBundle:Position')->find($id);
+
+        $position->setName($request->get('name'));
+        $em->persist($position);
+        $em->flush();
+        $result = "";
+        $response = new Response();
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
     }
 }
