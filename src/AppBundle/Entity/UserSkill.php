@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * UserSkill
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserSkillRepository")
  */
 class UserSkill
 {
@@ -22,6 +22,13 @@ class UserSkill
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $userSkillId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="isActive", type="integer")
+     */
+    private $isActive = 0;    
 
     /** === FOREIGN KEYS === **/
     
@@ -137,5 +144,29 @@ class UserSkill
     public function getVote()
     {
         return $this->vote;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param integer $isActive
+     *
+     * @return UserSkill
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return integer
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 }

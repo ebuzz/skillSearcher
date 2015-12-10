@@ -31,6 +31,7 @@ class UserSkills extends AbstractFixture implements OrderedFixtureInterface
         $userSkillEntity = new UserSkill();
         $userSkillEntity->setUser($userEntity);
         $userSkillEntity->setSkill($skillEntity);
+        $userSkillEntity->setIsActive(1);
 
         $manager->persist($userSkillEntity);
         $manager->flush();

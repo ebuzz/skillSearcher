@@ -166,56 +166,53 @@ class UserController extends BaseController
         /**************** INICIO PROCESOS CON SKILLS ************************************/
         if (!empty($skillsRequest)) {
             $skillsRequestId = [];
-            foreach ($skillsRequest as $skillRequest) {
-                $skillRequestId = $skillRequest['id'];
-                array_push($skillsRequestId, $skillRequestId);
+            foreach ($skillsRequest as $skill) {
+                $name = $skill['name'];
+                array_push($skillsRequestId, $name);
             }
-            $userSkills = $user->getSkills();
-            $allUserSkills = [];
-            foreach ($userSkills as $userSkill) {
-                $userSkillId = $userSkill->getSkill()->getSkillId();
-                array_push($allUserSkills, $userSkillId);
+            $userSkillArray = $user->getSkills();
+            $skillsArray = [];
+            foreach ($userSkillArray as $us) {
+                $userSkillName = $us->getSkill()->getName();
+                array_push($skillsArray, $userSkillName);
             }
-            $skillsId = array_diff($allUserSkills, $skillsRequestId);
+            $addSkill = array_diff($skillsRequestId, $skillsArray);
+            $removeSkills = array_diff($skillsArray, $skillsRequestId);
 
-            foreach ($skillsId as $skillId) {
-                $userSkill_SkillsId = $em->getRepository('AppBundle:UserSkill')->findByskill($skillId);
-                foreach ($userSkill_SkillsId as $userSkill_SkillId) {
-                    $userSkill_UserId = $userSkill_SkillId->getUser()->getUserId();
-                    $userSkill_Skill = $userSkill_SkillId->getSkill()->getSkillId();
-
-                    if ($userSkill_UserId == $id && $userSkill_Skill == $skillId) {
-                        $userSkill_UserSkillId = $em->getRepository('AppBundle:UserSkill')->findOneBy(array('user' => $userSkill_UserId, 'skill' => $userSkill_Skill));
-                        $asd = $userSkill_UserSkillId->getUserSkillId();
-                        $deleteUserSkill = $em->getRepository('AppBundle:UserSkill')->findOneByuserSkillId($asd);
-                        $em->remove($deleteUserSkill);
+            if (!empty($addSkill)) {
+                foreach ($addSkill as $add) {
+                    $skillEntityByName = $em->getRepository('AppBundle:Skill')->findOneByName($add);
+                    if (is_null($skillEntityByName)) {
+                        $s = new Skill();
+                        $s ->setName($add);
+                        $em->persist($s);
+                        $em->flush();
+                        $s->getSkillId();
+                        $userSkill = new UserSkill();
+                        $userSkill->setSkill($s);
+                        $userSkill->setUser($user);
+                        $userSkill->setIsActive(1);
+                        $em->persist($userSkill);
+                        $em->flush();
+                    }
+                    else{
+                        $userSkill = new UserSkill();
+                        $userSkill->setSkill($skillEntityByName);
+                        $userSkill->setUser($user);
+                        $userSkill->setIsActive(1);
+                        $em->persist($userSkill);
                         $em->flush();
                     }
                 }
             }
-            foreach ($skillsRequest as $skillRequest) {
-                $skillEntityByName = $em->getRepository('AppBundle:Skill')->findOneByName($skillRequest["name"]);
-                if ($skillRequest["id"] == "" && is_null($skillEntityByName)) {
-                    $skill = new Skill();
-                    $skill->setName($skillRequest["name"]);
-                    $em->persist($skill);
-                    $em->flush();
-                    $skill->getSkillId();
-                    $userSkill = new userSkill();
-                    $userSkill->setSkill($skill);
-                    $userSkill->setUser($user);
+            if (!empty($removeSkills)) {
+                foreach ($removeSkills as $remove) {
+                    $skillEntityToRemove = $em->getRepository('AppBundle:Skill')->findOneByName($remove)->getSkillId();
+                    $findedUserSkill = $em->getRepository('AppBundle:UserSkill')->findIdToRemove($id, $skillEntityToRemove);
+                    $userSkill = $findedUserSkill[0];
+                    $userSkill->setIsActive(0);
                     $em->persist($userSkill);
                     $em->flush();
-                } elseif ($skillEntityByName != "NULL") {
-                    $Skill_SkillId = $skillEntityByName->getSkillId();
-                    $userSkill_UserIdSkillId = $em->getRepository('AppBundle:UserSkill')->findOneBy(array('user' => $id, 'skill' => $Skill_SkillId));
-                    if (empty($userSkill_UserIdSkillId)) {
-                        $userSkill = new userSkill();
-                        $userSkill->setSkill($skillEntityByName);
-                        $userSkill->setUser($user);
-                        $em->persist($userSkill);
-                        $em->flush();
-                    }
                 }
             }
         }
@@ -267,6 +264,9 @@ class UserController extends BaseController
         $em->persist($user);
         $em->flush();
         return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+        // return new Response(dump($getUserSkill));
+        // return new Response(dump($deleteUserSkill));
+        // return new Response(dump($user));
     }
 
 

@@ -521,8 +521,10 @@ class User implements UserInterface, \Serializable
         $this->getFile()->move($this->getUploadRootDir(), $this->image);
 
         if (isset($this->temp)) {
-            unlink($this->getUploadRootDir().'/'.$this->temp);
-            $this->temp = null;
+            if (!$this->temp && $this->temp != null){
+                unlink($this->getUploadRootDir().'/'.$this->temp);
+                $this->temp = null;
+            }
         }
         $this->file = null;
     }

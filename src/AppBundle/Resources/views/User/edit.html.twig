@@ -143,17 +143,19 @@
 									</thead>
 									<tbody>
 										{% for userSkill in userSkills %}
-											<tr class="skills">
-												<td>	
-													<input type="hidden" value="{{userSkill.skill.name}}" name="skills[{{ count }}][name]" class="skillName" />
-													{{userSkill.skill.name}}
-													{# loop.index #}
-												</td>
-												<td>
-													<input type="hidden" value="{{userSkill.skill.skillId}}" name="skills[{{ count }}][id]" class="skillId" />
-												 	<button class="remove btn btn-default btn-xs"> <i class='fa fa-minus'></i> </button>
-												</td>
-											</tr>
+											{% if userSkill.isActive == 1 %}
+												<tr class="skills">
+													<td>	
+														<input type="hidden" value="{{userSkill.skill.name}}" name="skills[{{ count }}][name]" class="skillName" />
+														{{userSkill.skill.name}}
+														{# loop.index #}
+													</td>
+													<td>
+														<input type="hidden" value="{{userSkill.skill.skillId}}" name="skills[{{ count }}][id]" class="skillId" />
+													 	<button class="remove btn btn-default btn-xs"> <i class='fa fa-minus'></i> </button>
+													</td>
+												</tr>
+											{% endif %}
 											{% set count = count + 1 %}
 										{% endfor %}
 									</tbody>	
