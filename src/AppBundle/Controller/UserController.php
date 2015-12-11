@@ -115,7 +115,7 @@ class UserController extends BaseController
         }
         $userPosition = $user->getPosition();
 
-        $roles = array(
+        $rolesArray = array(
             0 => array(
                 'id' => 'ROLE_USER',
                 'name' => 'Colaborador'
@@ -131,6 +131,8 @@ class UserController extends BaseController
         );
 
         $flag = ($request->get('flag'));
+        $userRoleArray = $user->getRoles();
+        $userRole = $userRoleArray[0];
 
         return array(
             'user' => $user,
@@ -140,9 +142,11 @@ class UserController extends BaseController
             'accountList' => $accountList,
             'userPosition' => $userPosition,
             'positions' => $position,
-            'roles' => $roles,
+            'roles' => $rolesArray,
+            'userRole' => $userRole,
             'flag' => $flag,
         );
+        // return new Response(dump($userRole));
     }
 
     /**
@@ -288,9 +292,6 @@ class UserController extends BaseController
         $em->persist($user);
         $em->flush();
         return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
-        // return new Response(dump($skillsArray));
-        // return new Response(dump($deleteUserSkill));
-        // return new Response(dump($user));
     }
 
 

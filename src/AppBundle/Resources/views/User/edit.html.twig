@@ -101,7 +101,7 @@
 	                                        <label>Rol</label>
 	                                        <select class="form-control" name="role" title="Rol" placeholder="Rol">
 	                                            {% for role in roles %}
-	                                            	{% if role.id == user.roles %}
+	                                            	{% if role.id == userRole %}
 		                                                <option value="{{ role.id }}" selected="selected">{{ role.name }}</option>
 		                                            	}
 		                                            {% else %}
