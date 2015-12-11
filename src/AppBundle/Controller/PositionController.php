@@ -44,25 +44,6 @@ class PositionController extends Controller
     }
 
     /**
-     * Creates a new Position entity.
-     *
-     * @Route("/create", name="position_create")
-     * @Method("POST")
-     * @Template("AppBundle:Position:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $position = new Position();
-
-        $position ->setName($request->get('name'));
-        $em       ->persist($position);
-        $em       ->flush();
-
-        return $this->redirectToRoute('position');
-    }
-
-    /**
      * Displays a form to edit an existing Position entity.
      *
      * @Route("/{id}/edit", name="position_edit")
@@ -122,6 +103,26 @@ class PositionController extends Controller
         $position->setName($request->get('name'));
         $em->persist($position);
         $em->flush();
+        $result = "";
+        $response = new Response();
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
+    }
+
+    /**
+     * Creates a new Position entity.
+     *
+     * @Route("/create", name="position_create_ajax", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function createAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $position = new Position();
+
+        $position ->setName($request->get('name'));
+        $em       ->persist($position);
+        $em       ->flush();
         $result = "";
         $response = new Response();
         $response->setContent(json_encode(array('result' => $result)));

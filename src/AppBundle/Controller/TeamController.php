@@ -101,25 +101,6 @@ class TeamController extends Controller
     }
 
     /**
-     * Creates a new Team entity.
-     *
-     * @Route("/create", name="team_create")
-     * @Method("POST")
-     * @Template("AppBundle:Team:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $team = new Team();
-
-        $team->setName($request->get('name'));
-        $em->persist($team);
-        $em->flush();
-
-        return $this->redirectToRoute('team');
-    }
-
-    /**
      * Finds and displays a Team entity.
      *
      * @Route("/{id}", name="team_show")
@@ -220,6 +201,26 @@ class TeamController extends Controller
         $em = $this->getDoctrine()->getManager();
         $id = $request->get('id');
         $team = $em->getRepository('AppBundle:Team')->find($id);
+
+        $team->setName($request->get('name'));
+        $em->persist($team);
+        $em->flush();
+        $result = "";
+        $response = new Response();
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
+    }
+
+    /**
+     * Creates a new Team entity.
+     *
+     * @Route("/create", name="team_create_ajax", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function createAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $team = new Team();
 
         $team->setName($request->get('name'));
         $em->persist($team);

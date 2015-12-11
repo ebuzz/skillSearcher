@@ -43,25 +43,6 @@ class SkillController extends Controller
     }
 
     /**
-     * Creates a new Skill entity.
-     *
-     * @Route("/create", name="skill_create")
-     * @Method("POST")
-     * @Template("AppBundle:Skill:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $skill = new Skill();
-
-        $skill ->setName($request->get('name'));
-        $em       ->persist($skill);
-        $em       ->flush();
-
-        return $this->redirectToRoute('skills');
-    }
-
-    /**
      * Displays a form to edit an existing Skill entity.
      *
      * @Route("/{id}/edit", name="skill_edit")
@@ -121,6 +102,26 @@ class SkillController extends Controller
         $skill->setName($request->get('name'));
         $em->persist($skill);
         $em->flush();
+        $result = "";
+        $response = new Response();
+        $response->setContent(json_encode(array('result' => $result)));
+        return $response;
+    }
+
+    /**
+     * Creates a new Skill entity.
+     *
+     * @Route("/create", name="skill_create_ajax", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function createAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $skill = new Skill();
+
+        $skill ->setName($request->get('name'));
+        $em       ->persist($skill);
+        $em       ->flush();
         $result = "";
         $response = new Response();
         $response->setContent(json_encode(array('result' => $result)));

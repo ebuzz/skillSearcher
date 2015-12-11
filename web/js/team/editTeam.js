@@ -36,4 +36,19 @@ $(document).ready(function() {
 	        });  
 	    }  
     });
+
+	$(".teamName").keydown(function (event){
+		if(event.keyCode == 13){
+			var name = $(this).val();
+		    $.ajax({
+		        url: Routing.generate('team_create_ajax'),
+		        type: 'POST',
+		        data: {name : name},
+		        success: function(data){
+		    	    data: $.parseJSON(data);
+		    	    location.reload();
+		        } 
+		    }); 
+	    } 
+    });
 });

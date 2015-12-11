@@ -126,6 +126,19 @@ a.dropdown-toggle{
     box-shadow:inset 0px -2px 0px 0px #5e5e5e;
 }
 
+.createSection{
+    border: 2px solid #9b0707;
+    border-radius: 5px;
+    background: #9b0707;
+    color: white;
+}
+
+.createInfo{
+    margin-bottom: 25px;
+    font-size: 11px;
+    text-align: right;
+}
+
 
 @media screen and (max-width: 992px){
     #page-wrapper {

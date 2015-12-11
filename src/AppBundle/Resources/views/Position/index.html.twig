@@ -11,15 +11,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-8">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                                    <span>
-                                        <a href="{{ path('position_new') }}">
-                                            <i class="glyphicon glyphicon-plus-sign"></i> Crear posición
-                                        </a>    
-                                    </span>
-                </div>
+                <div class="panel-heading"></div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
                         <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -56,7 +50,18 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-4 createSection">
+            <div class="col-lg-offset-2 col-lg-8">
+                <h2>Crear Puesto</h2>
+            </div>
+            <div class="col-lg-offset-2 col-lg-8">
+                Nombre de la puesto:
+                <input type="text" name="name" class="form-control positionName"/>
+                <p class="createInfo">*Presiona ENTER para guardar</p>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/datatables/media/js/jquery.dataTables.min.js') }}"></script>
