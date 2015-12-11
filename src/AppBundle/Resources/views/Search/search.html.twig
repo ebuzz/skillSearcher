@@ -57,9 +57,11 @@
                                                         </td>
                                                         <td>
                                                             {% for skill in user.skills|slice(0, 5) %}
-                                                                <div class="fiveSkill">    
-                                                                    {{ skill.skill.name }}
-                                                                </div> 
+                                                                {% if skill.isActive == 1%}
+                                                                    <div class="fiveSkill">    
+                                                                        {{ skill.skill.name }}
+                                                                    </div> 
+                                                                {% endif %}
                                                             {% endfor %}
                                                             <a href="#" class="detail btn btn-link" idUser = "{{ user.userId }}">Ver
                                                                 mas</a>
@@ -89,7 +91,9 @@
                                                         </td>
                                                         <td>
                                                             {% for skill in user.skills|slice(0, 5) %}
-                                                                <span>{{ skill.skill.name }}</span>
+                                                                {% if skill.isActive == 1%}
+                                                                    <span>{{ skill.skill.name }}</span>
+                                                                {% endif %}
                                                             {% endfor %}
                                                             <a href="#" class="detail btn btn-link" idUser = "{{ user.userId }}">Ver
                                                                 mas</a>
@@ -121,6 +125,7 @@
                                     <h3>Skills</h3>
                                 </div>
                                 {% for skill in user.skills %}
+                                {% if skill.isActive == 1 %}
                                     {% set status = "unlike" %}
                                     {% for vote in skill.vote %}
                                         {% if vote.user.userId ==  userLogged %}
@@ -147,6 +152,7 @@
                                             </div>    
                                         </div>
                                     </li>
+                                    {% endif %}
                                 {% endfor %}
                                 
                                 {% if is_granted('ROLE_RH') %}

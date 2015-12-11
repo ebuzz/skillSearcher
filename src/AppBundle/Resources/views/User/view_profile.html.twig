@@ -64,28 +64,28 @@
                     </div>
                     <div class="tab-pane fade in" id="tab2">
                         {% for skill in user.skills %}
-                            {% if userSkill.isActive == 1 %}
-                                {% set status = "unlike" %}
-                                {% for vote in skill.vote %}
-                                    {% if vote.user.userId ==  userLogged %}
-                                        {% set status =  "like" %}
-                                    {% endif %}
-                                {% endfor %}
-                                <div class="skillList">    
-                                    <div class="vote">   
-                                        {{ skill.skill.name }}
-                                        <i class="badge">
-                                            {{ skill.vote | length }}
-                                        </i>
-                                    </div>
-                                    <div> 
-                                        <i class="glyphicon glyphicon-bookmark {{ status }} rating">
-                                           <input type="hidden" value="{{ skill.userSkillId }}"/>
-                                        </i>
-                                    </div>    
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+                                {% if skill.isActive == 1 %}
+                                    {% set status = "unlike" %}
+                                    {% for vote in skill.vote %}
+                                        {% if vote.user.userId ==  userLogged %}
+                                            {% set status =  "like" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="skillList">    
+                                        <div class="vote">   
+                                            {{ skill.skill.name }}
+                                            <i class="badge">
+                                                {{ skill.vote | length }}
+                                            </i>
+                                        </div>
+                                        <div> 
+                                            <i class="glyphicon glyphicon-bookmark {{ status }} rating">
+                                               <input type="hidden" value="{{ skill.userSkillId }}"/>
+                                            </i>
+                                        </div>    
+                                    </div>  
+                                {% endif %}    
+                            {% endfor %}
                     </div>
                     <div class="tab-pane fade in" id="tab3">
                         {% for account in user.accounts %}
