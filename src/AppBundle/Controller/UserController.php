@@ -163,6 +163,13 @@ class UserController extends BaseController
         $image = $request->files->get('image');
         $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
 
+        $userSkillArray = $user->getSkills();
+            $skillsArray = [];
+            foreach ($userSkillArray as $us) {
+                $userSkillName = $us->getSkill()->getName();
+                array_push($skillsArray, $userSkillName);
+            }
+
         /**************** INICIO PROCESOS CON SKILLS ************************************/
         if (!empty($skillsRequest)) {
             $skillsRequestId = [];
@@ -170,24 +177,20 @@ class UserController extends BaseController
                 $name = $skill['name'];
                 array_push($skillsRequestId, $name);
             }
-            $userSkillArray = $user->getSkills();
-            $skillsArray = [];
-            foreach ($userSkillArray as $us) {
-                $userSkillName = $us->getSkill()->getName();
-                array_push($skillsArray, $userSkillName);
-            }
             $addSkill = array_diff($skillsRequestId, $skillsArray);
             $removeSkills = array_diff($skillsArray, $skillsRequestId);
 
             foreach ($skillsRequestId as $skill) {
                 $skillEntityToManage = $em->getRepository('AppBundle:Skill')->findOneByName($skill)->getSkillId();
                 $foundHiddenSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToManage);
-                $userSkill = $foundHiddenSkill[0];
-                if($userSkill->getIsActive() == 0) {
-                        $userSkill->setIsActive(1);
-                        $em->persist($userSkill);
-                        $em->flush();
-                    }
+                if(!empty($foundHiddenSkill)) {
+                    $userSkill = $foundHiddenSkill[0];
+                    if($userSkill->getIsActive() == 0) {
+                            $userSkill->setIsActive(1);
+                            $em->persist($userSkill);
+                            $em->flush();
+                        }
+                }
             }
 
             if (!empty($addSkill)) {
@@ -225,6 +228,16 @@ class UserController extends BaseController
                     $em->persist($userSkill);
                     $em->flush();
                 }
+            }
+        }
+        else {
+            foreach ($skillsArray as $skill) {
+                $skillEntityToRemove = $em->getRepository('AppBundle:Skill')->findOneByName($skill)->getSkillId();
+                $foundUserSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToRemove);
+                $userSkill = $foundUserSkill[0];
+                $userSkill->setIsActive(0);
+                $em->persist($userSkill);
+                $em->flush();
             }
         }
         /****************FIN PROCESOS CON SKILLS ************************************/
@@ -275,7 +288,7 @@ class UserController extends BaseController
         $em->persist($user);
         $em->flush();
         return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
-        // return new Response(dump($getUserSkill));
+        // return new Response(dump($skillsArray));
         // return new Response(dump($deleteUserSkill));
         // return new Response(dump($user));
     }
