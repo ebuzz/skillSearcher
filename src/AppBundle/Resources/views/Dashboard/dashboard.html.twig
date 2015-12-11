@@ -8,6 +8,7 @@
         </div>
         {% for user in users %}
             {% for skill in user.skills|reverse(true)|slice(0, 1) %}
+                {% if skill.isActive == 1 %}
                 <div class="col-md-6 col-lg-4">    
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -53,6 +54,7 @@
                         </div>
                     </div>
                 </div>
+            {% endif %}
             {% endfor %}
         {% endfor %}
 {% endblock %}
