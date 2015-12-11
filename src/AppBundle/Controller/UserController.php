@@ -186,15 +186,18 @@ class UserController extends BaseController
             $removeSkills = array_diff($skillsArray, $skillsRequestId); //Lista de nombres de skills para eliminar
 
             foreach ($skillsRequestId as $skill) { //Por cada skill del Request verifica si una skill previamente agregada se quiere insertar nuevamente
-                $skillEntityToManage = $em->getRepository('AppBundle:Skill')->findOneByName($skill)->getSkillId();
-                $foundHiddenSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToManage);
-                if(!empty($foundHiddenSkill)) {
-                    $userSkill = $foundHiddenSkill[0];
-                    if($userSkill->getIsActive() == 0) {
+                $skillEntityToManage = $em->getRepository('AppBundle:Skill')->findOneByName($skill);
+                if(!is_null($skillEntityToManage)) {
+                    $skillId = $skillEntityToManage->getSkillId();
+                    $foundHiddenSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillId);
+                    if(!empty($foundHiddenSkill)) {
+                        $userSkill = $foundHiddenSkill[0];
+                        if($userSkill->getIsActive() == 0) {
                             $userSkill->setIsActive(1);
                             $em->persist($userSkill);
                             $em->flush();
                         }
+                    }
                 }
             }
 
