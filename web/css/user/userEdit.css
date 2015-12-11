@@ -2,6 +2,10 @@
     margin-bottom: 10px;
 }
 
+.panel-heading{
+    text-align: left;
+}
+
 img.register {
     display: block;
     margin-left: auto;
@@ -81,5 +85,11 @@ input[readonly] {
     .accountsUl li {
         width:100%;
         float: none;
+    }
+}
+
+@media screen and (min-width: 588px) and (max-width: 1199px){
+    .imgCenter, .imgCenter input{
+        text-align: center;
     }
 }
