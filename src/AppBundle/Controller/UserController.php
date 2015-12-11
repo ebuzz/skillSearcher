@@ -89,7 +89,7 @@ class UserController extends BaseController
         $userLogged = $this->getUserIdLogged();
 
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_RH')) {
-            if ($userLogged != $id) {
+            if ($userLogged != $id) { //Si un colaborador quiere editar a otro colaborador, le niega el acceso
                 return $this->redirectToRoute('homepage');
             }
         }
@@ -130,8 +130,8 @@ class UserController extends BaseController
             )
         );
 
-        $flag = ($request->get('flag'));
-        $userRoleArray = $user->getRoles();
+        $flag = ($request->get('flag')); //Bandera para identificar un nuevo usuario
+        $userRoleArray = $user->getRoles(); 
         $userRole = $userRoleArray[0];
 
         return array(
@@ -146,7 +146,6 @@ class UserController extends BaseController
             'userRole' => $userRole,
             'flag' => $flag,
         );
-        // return new Response(dump($userRole));
     }
 
     /**
@@ -167,24 +166,26 @@ class UserController extends BaseController
         $image = $request->files->get('image');
         $position = $em->getRepository('AppBundle:Position')->find($request->get('position'));
 
-        $userSkillArray = $user->getSkills();
+        /**************** INICIO PROCESOS CON SKILLS ************************************/
+        
+        $userSkillArray = $user->getSkills(); //Arreglo de skills actuales del usuario seleccionado
             $skillsArray = [];
             foreach ($userSkillArray as $us) {
-                $userSkillName = $us->getSkill()->getName();
+                $userSkillName = $us->getSkill()->getName(); //El arreglo funciona sólo con nombres de skill
                 array_push($skillsArray, $userSkillName);
             }
 
-        /**************** INICIO PROCESOS CON SKILLS ************************************/
-        if (!empty($skillsRequest)) {
-            $skillsRequestId = [];
+
+        if (!empty($skillsRequest)) { //Si existe una lista de skills en el Request
+            $skillsRequestId = []; //Arreglo de skills en el Request
             foreach ($skillsRequest as $skill) {
-                $name = $skill['name'];
+                $name = $skill['name']; //El arreglo funciona sólo con nombres de skills
                 array_push($skillsRequestId, $name);
             }
-            $addSkill = array_diff($skillsRequestId, $skillsArray);
-            $removeSkills = array_diff($skillsArray, $skillsRequestId);
+            $addSkill = array_diff($skillsRequestId, $skillsArray); //Lista de nombres de skills para agregar
+            $removeSkills = array_diff($skillsArray, $skillsRequestId); //Lista de nombres de skills para eliminar
 
-            foreach ($skillsRequestId as $skill) {
+            foreach ($skillsRequestId as $skill) { //Por cada skill del Request verifica si una skill previamente agregada se quiere insertar nuevamente
                 $skillEntityToManage = $em->getRepository('AppBundle:Skill')->findOneByName($skill)->getSkillId();
                 $foundHiddenSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToManage);
                 if(!empty($foundHiddenSkill)) {
@@ -197,10 +198,10 @@ class UserController extends BaseController
                 }
             }
 
-            if (!empty($addSkill)) {
+            if (!empty($addSkill)) {//Si hay skills para agregar se establece una nueva relación de usuarios con skills
                 foreach ($addSkill as $add) {
                     $skillEntityByName = $em->getRepository('AppBundle:Skill')->findOneByName($add);
-                    if (is_null($skillEntityByName)) {
+                    if (is_null($skillEntityByName)) { //Si la skill es nueva se agrega a la base de datos y posteriormente se crea la relación
                         $s = new Skill();
                         $s ->setName($add);
                         $em->persist($s);
@@ -213,7 +214,7 @@ class UserController extends BaseController
                         $em->persist($userSkill);
                         $em->flush();
                     }
-                    else{
+                    else{ //Si la skill existe, sólo se establece la nueva relación
                         $userSkill = new UserSkill();
                         $userSkill->setSkill($skillEntityByName);
                         $userSkill->setUser($user);
@@ -223,18 +224,18 @@ class UserController extends BaseController
                     }
                 }
             }
-            if (!empty($removeSkills)) {
+            if (!empty($removeSkills)) { //Si existen skills para eliminar se actualiza la relación
                 foreach ($removeSkills as $remove) {
                     $skillEntityToRemove = $em->getRepository('AppBundle:Skill')->findOneByName($remove)->getSkillId();
                     $foundUserSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToRemove);
                     $userSkill = $foundUserSkill[0];
-                    $userSkill->setIsActive(0);
+                    $userSkill->setIsActive(0); //Realmente no se elimina la skill, sólo se oculta
                     $em->persist($userSkill);
                     $em->flush();
                 }
             }
         }
-        else {
+        else { //Si no existe una lista de skills en el Request se ocultan todas las relaciones
             foreach ($skillsArray as $skill) {
                 $skillEntityToRemove = $em->getRepository('AppBundle:Skill')->findOneByName($skill)->getSkillId();
                 $foundUserSkill = $em->getRepository('AppBundle:UserSkill')->findIdToManage($id, $skillEntityToRemove);
