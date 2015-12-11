@@ -29,7 +29,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
-                                                <th class="hidden-xs">Descripcion de la tecnología</th>
+                                                <th class="hidden-xs">Tecnología</th>
                                                 <th class="hidden-xs">Nombre del Líder</th>
                                                 <th style="background:none; cursor:default; width:64px"></th>
                                             </tr>
@@ -37,7 +37,7 @@
                                         <tbody>
                                             {% for account in accounts %}
                                                 <tr>
-                                                    <td><a href="{{ path('account_show', { 'id': account.accountId }) }}">{{ account.name }}</a></td>
+                                                    <td>{{ account.name }}</td>
                                                     <td class="hidden-xs">{{ account.technologyDescription }}</td>
                                                     <td class="hidden-xs">{{ account.leaderName }}</td>
                                                     <td style="text-align:center">
