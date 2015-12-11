@@ -92,7 +92,11 @@
                             <li><a href="{{ path('team') }}"><i class="fa fa-group fa-fw"></i> Equipos</a></li>
                             <li><a href="{{ path('skills') }}"><i class="glyphicon glyphicon-check fa-fw"></i> Skills</a></li>
                             <li><a href="{{ path('position') }}"><i class="glyphicon glyphicon-transfer"></i> Puestos</a></li>
-                            <li><a href="{{ path('account') }}"><i class="glyphicon glyphicon-folder-open"></i> Cuentas</a></li>               
+                            <li><a href="{{ path('account') }}"><i class="glyphicon glyphicon-folder-open"></i> Cuentas</a></li> 
+                            <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{ app.user.userId }}/edit"><i class="fa fa-gear fa-fw"></i> Editar perfil</a>
+                            </li>
+                            <li class="hidden-sm hidden-md hidden-lg"><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                            </li>              
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->
